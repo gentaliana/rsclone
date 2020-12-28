@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose, AnyAction } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { defaultState } from '@store';
 import { langReducer } from './reducers';

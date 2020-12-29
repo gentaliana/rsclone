@@ -17,13 +17,7 @@ export interface IAppState {
     };
   };
 
-  settings: {
-    lang: string;
-    isSoundOn: boolean;
-    gamerName: string;
-    secondGamerName: string;
-    currentTheme: string | null;
-  };
+  settings: ISettingsState;
 
   rating: {
     field: number;
@@ -31,6 +25,14 @@ export interface IAppState {
     withBot: boolean;
     top: IRatingItem[];
   };
+}
+
+export interface ISettingsState {
+  lang: string;
+  isSoundOn: boolean;
+  gamerName: string;
+  secondGamerName: string;
+  currentTheme: string | null;
 }
 
 export interface IRatingItem {

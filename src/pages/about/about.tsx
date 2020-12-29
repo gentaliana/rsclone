@@ -1,5 +1,4 @@
+import * as React from 'react';
 import './about.css';
 
-export const About = () => {
-  return <div>About</div>;
-};
+export const About = () => <div>About</div>;

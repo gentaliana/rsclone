@@ -11,12 +11,8 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const AppStore = createStore(
-  rootReducer,
-  defaultState,
-  composeEnhancers(applyMiddleware(thunk))
-);
+export const AppStore = createStore(rootReducer, defaultState, composeEnhancers(applyMiddleware(thunk)));
 
 export * from './default-state';
 export * from './reducers';
-export * from './actions/';
+export * from './actions';

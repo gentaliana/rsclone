@@ -1,4 +1,4 @@
-import { AnyAction, combineReducers } from 'redux';
+import { AnyAction } from 'redux';
 import { SettingActions } from '@constants';
 import { ISettingsState } from '@types';
 import { defaultState } from '../default-state';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu } from '@components';
-import './header.css';
+import './header.scss';
 
 export const Header = (): JSX.Element => (
   <header className="header">

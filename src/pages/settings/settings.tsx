@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { setLanguage } from '@store';
-import './settings.css';
+import './settings.scss';
 
 export const Settings = (): JSX.Element => {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '@constants';
-import './main.css';
+import './main.scss';
 
 export const Main = (): JSX.Element => (
   <ul>

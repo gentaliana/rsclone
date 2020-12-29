@@ -1,4 +1,4 @@
 import * as React from 'react';
-import './about.css';
+import './about.scss';
 
 export const About = (): JSX.Element => <div>About</div>;

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setLanguage } from '@store';
 import './settings.css';
 
-export const Settings = () => {
+export const Settings = (): JSX.Element => {
   const dispatch = useDispatch();
   const setLang = (lang: string) => dispatch(setLanguage(lang));
 

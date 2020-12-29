@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { routes } from '@constants';
 import './menu.css';
 
-export const Menu = () => (
+export const Menu = (): JSX.Element => (
   <nav>
     <ul className="menu">
       <li className="menu__item">

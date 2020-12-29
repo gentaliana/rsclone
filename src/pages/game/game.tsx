@@ -1,4 +1,4 @@
 import React from 'react';
 import './game.css';
 
-export const Game = () => <div>Game</div>;
+export const Game = (): JSX.Element => <div>Game</div>;

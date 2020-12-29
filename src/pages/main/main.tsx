@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { routes } from '@constants';
 import './main.css';
 
-export const Main = () => (
+export const Main = (): JSX.Element => (
   <ul>
     <li>
       <Link to={routes.SET_GAME}>New Game</Link>

@@ -5,7 +5,7 @@ import { Header, Footer } from '@components';
 import { routes } from '@constants';
 import './App.css';
 
-function App() {
+function App(): JSX.Element {
   return (
     <>
       <Header />

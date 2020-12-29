@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { defaultState } from '@store';
-import { langReducer } from './reducers';
+import { defaultState } from './default-state';
+import { rootReducer } from './rootReducer';
 
 declare global {
   interface Window {
@@ -12,11 +12,11 @@ declare global {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const AppStore = createStore(
-  langReducer,
+  rootReducer,
   defaultState,
   composeEnhancers(applyMiddleware(thunk))
 );
 
 export * from './default-state';
 export * from './reducers';
-export { AppActions } from './actions';
+export * from './actions/';

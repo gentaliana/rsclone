@@ -1,5 +1,11 @@
+import React from 'react';
+import { Menu } from '@components';
 import './header.css';
 
 export const Header = () => {
-  return <div>Header</div>;
+  return (
+    <header className="header">
+      <Menu />
+    </header>
+  );
 };

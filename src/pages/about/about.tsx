@@ -1,5 +1,4 @@
-import './about.css';
+import * as React from 'react';
+import './about.scss';
 
-export const About = () => {
-  return <div>About</div>;
-};
+export const About = (): JSX.Element => <div>About</div>;

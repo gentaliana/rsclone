@@ -1,5 +1,4 @@
-import './not-found.css';
+import * as React from 'react';
+import './not-found.scss';
 
-export const NotFound = () => {
-  return <div>404</div>;
-};
+export const NotFound = (): JSX.Element => <div>404</div>;

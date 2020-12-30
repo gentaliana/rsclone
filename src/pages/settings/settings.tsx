@@ -1,8 +1,9 @@
+import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { setLanguage } from '@store';
-import './settings.css';
+import './settings.scss';
 
-export const Settings = () => {
+export const Settings = (): JSX.Element => {
   const dispatch = useDispatch();
   const setLang = (lang: string) => dispatch(setLanguage(lang));
 
@@ -10,8 +11,12 @@ export const Settings = () => {
     <div>
       <div>
         <span>Select language: </span>
-        <button onClick={() => setLang('ru')}>ru</button>
-        <button onClick={() => setLang('en')}>en</button>
+        <button type="button" onClick={() => setLang('ru')}>
+          ru
+        </button>
+        <button type="button" onClick={() => setLang('en')}>
+          en
+        </button>
       </div>
     </div>
   );

@@ -26,5 +26,5 @@
       "@api": ["src/api"]
     }
   },
-  "include": ["src"]
+  "include": ["src", ".eslintrc.js"]
 }

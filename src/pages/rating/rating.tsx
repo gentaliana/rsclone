@@ -1,5 +1,4 @@
-import './rating.css';
+import * as React from 'react';
+import './rating.scss';
 
-export const Rating = () => {
-  return <div>Rating</div>;
-};
+export const Rating = (): JSX.Element => <div>Rating</div>;

@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 import { Main, NotFound, SetGame, Game, Rating, Settings, About } from '@pages';
 import { Header, Footer } from '@components';
 import { routes } from '@constants';
-import './App.scss';
 
 function App(): JSX.Element {
   return (

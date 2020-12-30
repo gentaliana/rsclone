@@ -14,7 +14,6 @@
     "@types/node": "^12.19.11",
     "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",
-    "D": "^1.0.0",
     "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.0",
@@ -22,6 +21,7 @@
     "babel-plugin-named-asset-import": "^0.3.7",
     "babel-preset-react-app": "^10.0.0",
     "bfj": "^7.0.2",
+    "bootstrap": "^4.5.3",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "commit-message-validator": "^1.0.0",
@@ -59,6 +59,7 @@
     "prompts": "2.4.0",
     "react": "^17.0.1",
     "react-app-polyfill": "^2.0.0",
+    "react-bootstrap": "^1.4.0",
     "react-dev-utils": "^11.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
@@ -85,7 +86,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "clean:dist": "rimraf dist"
+    "clean:dist": "rimraf dist",
+    "lint": "eslint ./ --ext ts,tsx"
   },
   "browserslist": {
     "production": [
@@ -107,6 +109,8 @@
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-import-resolver-alias": "^1.1.2",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
     "stylelint": "^13.7.2",
     "stylelint-config-recess-order": "^2.1.0",
     "stylelint-config-standard": "^19.0.0",
@@ -178,8 +182,13 @@
   },
   "husky": {
     "hooks": {
+      "pre-commit": "lint-staged",
       "commit-msg": "commit-message-validator",
       "pre-push": "npm run build"
     }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,md,scss}": "prettier --write",
+    "*.{js,jsx,ts,tsx}": "npm run lint"
   }
 }

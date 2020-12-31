@@ -17,6 +17,9 @@ export const Settings = (): JSX.Element => {
         <button type="button" onClick={() => setLang('en')}>
           en
         </button>
+        <button type="button" onClick={() => setLang('be')}>
+          be
+        </button>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ type FieldProps = {
 
 export const Field = ({ currentLetter, handleIsKeyboardHidden }: FieldProps): JSX.Element => (
   <div
-    className ="game-field"
+    className="game-field"
     role="button"
     tabIndex={0}
     onClick={handleIsKeyboardHidden}

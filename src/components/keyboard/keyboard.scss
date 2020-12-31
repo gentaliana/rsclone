@@ -1,0 +1,69 @@
+.keyboard {
+  z-index: 1000;
+  width: 80vw;
+  padding: 15px 0;
+  border-radius: 14px;
+  margin-left: -40vw;
+  left: 50%;
+  position: fixed;
+  text-align: center;
+  bottom: 10px;
+  background: #393e46;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  transition: bottom 0.8s;
+}
+
+.keyboard-hidden {
+  bottom: -100%;
+}
+
+.keyboard__row {
+  display: flex;
+  justify-content: center;
+}
+
+.keyboard__key {
+  width: 6.5%;
+  height: 60px;
+  margin: 3px;
+  max-width: 90px;
+  font-size: 20px;
+  font-weight: bold;
+  background-size: 200% 100%;
+  background-image: linear-gradient(to bottom, #25a9e1d0, #4481ebc9, #04c0fec4, #3f85edcb);
+  border-radius: 7px;
+  border: 1px black solid;
+  /* background: rgba(255, 255, 255, 0.2); */
+  box-shadow: 0 4px 1px 0 #25a9e1d0;
+  color: white;
+  position: relative;
+  display: inline-flex;
+  outline: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  vertical-align: top;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.04s ease;
+}
+
+@media (max-width: 899px) {
+  .keyboard {
+    width: 90vw;
+    margin-left: -45vw;
+  }
+  .keyboard__key {
+    width: 7.5%;
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 535px) {
+  .keyboard__key {
+    height: 40px;
+    width: 8.5%;
+  }
+}

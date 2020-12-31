@@ -1,4 +1,4 @@
-export const ruLetters = [
+export const RU_LETTERS = [
   [
     {
       name: 'Ё',
@@ -105,4 +105,3 @@ export const ruLetters = [
     },
   ],
 ];
-

@@ -87,7 +87,11 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "clean:dist": "rimraf dist",
+<<<<<<< HEAD
     "lint": "eslint ./ --ext ts,tsx"
+=======
+    "lint": "eslint --fix --ext .ts,.tsx ."
+>>>>>>> 767a6e0... RC-26 feat(all): add eng language
   },
   "browserslist": {
     "production": [

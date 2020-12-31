@@ -3,4 +3,4 @@ export * from './languages';
 export * from './fields';
 export * from './gamers';
 export * from './actions';
-export * from './ruLetters';
+export { getLangLetters } from './languagesLetters/index';

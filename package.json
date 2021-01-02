@@ -49,6 +49,7 @@
     "jest-circus": "26.6.0",
     "jest-resolve": "26.6.0",
     "jest-watch-typeahead": "0.6.1",
+    "lodash": "^4.17.20",
     "mini-css-extract-plugin": "0.11.3",
     "node-sass": "^4.14.1",
     "optimize-css-assets-webpack-plugin": "5.0.4",
@@ -106,6 +107,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.167",
     "@types/react-redux": "^7.1.14",
     "@types/react-router-dom": "^5.1.6",
     "@typescript-eslint/eslint-plugin": "^4.11.1",

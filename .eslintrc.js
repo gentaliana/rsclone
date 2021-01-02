@@ -27,6 +27,7 @@ module.exports = {
       },
     ],
     'import/prefer-default-export': 'off',
+    'jsx-a11y/click-events-have-key-events': 0,
   },
   plugins: ['react', '@typescript-eslint'],
   settings: {

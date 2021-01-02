@@ -4,26 +4,26 @@ import { Keyboard, Field } from '@components';
 import Button from 'react-bootstrap/Button';
 
 export const Game = (): JSX.Element => {
-  const [currentLetter, setCurrentLetter] = useState('');
+  const [enteredLetter, setEnteredLetter] = useState('');
   const [isKeyboardHidden, setIsKeyboardHidden] = useState(true);
-  const [selectedCell, setSelectedCell] = useState('');
+  const [selectedCell, setSelectedCell] = useState<number | null>(null);
 
   const handleCurrentLetter = (letter: string) => {
     setIsKeyboardHidden(true);
-    setCurrentLetter(letter);
+    setEnteredLetter(letter);
   };
 
   const handleIsKeyboardHidden = (event: React.MouseEvent) => {
-    if ((event.target as HTMLTextAreaElement).classList.contains('cell') && !currentLetter) {
-      setIsKeyboardHidden(false);
+    if ((event.target as HTMLTextAreaElement).classList.contains('cell') && !enteredLetter) {
+      if (isKeyboardHidden) setIsKeyboardHidden(false);
     } else {
       setIsKeyboardHidden(true);
     }
   };
 
   const handleClearButton = () => {
-    setCurrentLetter('');
-    setSelectedCell('');
+    setEnteredLetter('');
+    setSelectedCell(null);
   };
 
   return (
@@ -34,7 +34,7 @@ export const Game = (): JSX.Element => {
         handleIsKeyboardHidden={handleIsKeyboardHidden}
       />
       <Field
-        currentLetter={currentLetter}
+        enteredLetter={enteredLetter}
         handleIsKeyboardHidden={handleIsKeyboardHidden}
         selectedCell={selectedCell}
         setSelectedCell={setSelectedCell}

@@ -4,19 +4,20 @@ import './field.scss';
 type CellProps = {
   isActiveCell: boolean;
   letter: string;
-  currentLetter: string;
-  setSelectedCell: () => void;
+  enteredLetter: string;
+  handleSelectedCell: () => void;
 };
 
-export const Cell = ({ isActiveCell, letter, currentLetter, setSelectedCell }: CellProps): JSX.Element => {
+export const Cell = ({ isActiveCell, letter, enteredLetter, handleSelectedCell }: CellProps): JSX.Element => {
   const displayLetter = () => {
     if (letter) {
       return letter;
     }
-    return currentLetter && isActiveCell ? currentLetter : '';
+    return enteredLetter && isActiveCell ? enteredLetter : '';
   };
+
   return (
-    <div className={isActiveCell ? 'cell active' : 'cell'} onClick={setSelectedCell} role="button" tabIndex={0}>
+    <div className={isActiveCell ? 'cell active' : 'cell'} onClick={handleSelectedCell} role="button" tabIndex={0}>
       {displayLetter()}
     </div>
   );

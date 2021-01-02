@@ -28,6 +28,7 @@ module.exports = {
     ],
     'import/prefer-default-export': 'off',
     'jsx-a11y/click-events-have-key-events': 0,
+    'react/jsx-one-expression-per-line': 'off',
   },
   plugins: ['react', '@typescript-eslint'],
   settings: {

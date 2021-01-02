@@ -92,7 +92,8 @@
     "test": "node scripts/test.js",
     "clean:dist": "rimraf dist",
     "lint": "eslint ./ --ext ts,tsx",
-    "lintFix": "eslint --fix --ext .ts,.tsx ."
+    "lintFix": "eslint --fix --ext .ts,.tsx .",
+    "stylelintFix": "npx stylelint **/*.scss --fix"
   },
   "browserslist": {
     "production": [

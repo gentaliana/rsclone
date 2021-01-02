@@ -39,7 +39,10 @@ export const Game = (): JSX.Element => {
         selectedCell={selectedCell}
         setSelectedCell={setSelectedCell}
       />
-      <Button onClick={handleClearButton}> Clear </Button>
+      <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
+        {' '}
+        Clear{' '}
+      </Button>
     </div>
   );
 };

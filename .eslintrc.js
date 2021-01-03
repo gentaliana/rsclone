@@ -9,6 +9,8 @@ module.exports = {
     project: './tsconfig.json',
   },
   rules: {
+    'implicit-arrow-linebreak': 'off',
+    'react/jsx-curly-newline': 'off',
     'no-plusplus': 'off',
     'no-continue': 'off',
     'linebreak-style': ['error', 'windows'],

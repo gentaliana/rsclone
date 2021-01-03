@@ -16,6 +16,8 @@
 
 .keyboard-hidden {
   bottom: -100%;
+  visibility: hidden;
+  transition: all 1s ease;
 }
 
 .keyboard__row {
@@ -46,7 +48,7 @@
   /* background: rgba(255, 255, 255, 0.2); */
   outline: none;
   box-shadow: 0 4px 1px 0 #25a9e1d0;
-  transition: all 0.04s ease;
+  transition: all 1s ease;
   -webkit-tap-highlight-color: transparent;
 }
 

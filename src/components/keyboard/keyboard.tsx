@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 
 type KeyboardProps = {
   setCurrentLetter: (letter: string) => void;
-  handleIsKeyboardHidden: () => void;
+  handleIsKeyboardHidden: (event: React.MouseEvent) => void;
   isKeyboardHidden: boolean;
 };
 

@@ -1,0 +1,12 @@
+.wrapper {
+  display: grid;
+  grid-template-areas: 'header' 'main' 'footer';
+  grid-template-rows: 50px 1fr 50px;
+  max-width: 1280px;
+  height: 100vh;
+  margin: 0 auto;
+}
+
+.main {
+  grid-area: main;
+}

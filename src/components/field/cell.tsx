@@ -6,16 +6,9 @@ type CellProps = {
   letter: string;
   enteredLetter: string;
   handleSelectedCell: () => void;
-  onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => void;
 };
 
-export const Cell = ({
-  isActiveCell,
-  letter,
-  enteredLetter,
-  handleSelectedCell,
-  onKeyDown,
-}: CellProps): JSX.Element => {
+export const Cell = ({ isActiveCell, letter, enteredLetter, handleSelectedCell }: CellProps): JSX.Element => {
   const displayLetter = () => {
     if (letter) {
       return letter;
@@ -24,14 +17,7 @@ export const Cell = ({
   };
 
   return (
-    <div
-      className={isActiveCell ? 'cell active' : 'cell'}
-      onKeyDown={onKeyDown}
-      onClick={handleSelectedCell}
-      role="button"
-      // eslint-disable-next-line jsx-a11y/tabindex-no-positive
-      tabIndex={1}
-    >
+    <div className={isActiveCell ? 'cell active' : 'cell'} onClick={handleSelectedCell} role="button" tabIndex={0}>
       {displayLetter()}
     </div>
   );

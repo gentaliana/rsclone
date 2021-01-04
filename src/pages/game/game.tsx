@@ -18,7 +18,7 @@ export const Game = (): JSX.Element => {
 
   const lang = useSelector((state: IAppState) => state.settings.lang);
 
-  const handleKeyPressLetter = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyPressLetter = (event: KeyboardEvent) => {
     const currLetters = getLangLetters(lang);
     const letters = currLetters.flat().map((el) => el.name.toUpperCase());
     if (letters.includes(event.key.toUpperCase())) handleCurrentLetter(event.key.toUpperCase());
@@ -32,11 +32,10 @@ export const Game = (): JSX.Element => {
     }
   };
   useEffect(() => {
-    // document.addEventListener('keydown', handleKeyPressLetter, false);
+    document.addEventListener('keydown', handleKeyPressLetter, false);
   }, []);
 
   const handleKeyPressKeyboard = (event: React.KeyboardEvent) => {
-    console.log(event);
     if (event.key === ' ') {
       setIsKeyboardHidden(!isKeyboardHidden);
     }
@@ -59,7 +58,6 @@ export const Game = (): JSX.Element => {
         handleIsKeyboardHidden={handleIsKeyboardHidden}
         selectedCell={selectedCell}
         setSelectedCell={setSelectedCell}
-        handleKeyPressLetter={handleKeyPressLetter}
       />
       <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
         {' '}

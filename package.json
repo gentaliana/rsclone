@@ -62,7 +62,6 @@
     "prompts": "2.4.0",
     "react": "^17.0.1",
     "react-app-polyfill": "^2.0.0",
-    "react-arrow-navigation": "^1.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dev-utils": "^11.0.1",
     "react-dom": "^17.0.1",

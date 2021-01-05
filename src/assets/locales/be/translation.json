@@ -11,5 +11,9 @@
       "language": "Language",
       "reset": "Reset filters"
     }
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "close": "Close"
   }
 }

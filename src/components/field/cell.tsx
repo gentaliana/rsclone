@@ -17,7 +17,7 @@ export const Cell = ({ isActiveCell, letter, enteredLetter, handleSelectedCell }
   };
 
   return (
-    <div className={isActiveCell ? 'cell active' : 'cell'} onClick={handleSelectedCell} role="button" tabIndex={0}>
+    <div className={isActiveCell ? 'cell active' : 'cell'} onClick={handleSelectedCell} role="button" tabIndex={-1}>
       {displayLetter()}
     </div>
   );

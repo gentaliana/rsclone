@@ -7,15 +7,18 @@
   padding: 15px 0;
   margin-left: -40vw;
   text-align: center;
+  visibility: visible;
   user-select: none;
   background: #393e46;
   border-radius: 14px;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-  transition: bottom 0.8s;
+  transition: bottom 0.4s;
 }
 
 .keyboard-hidden {
   bottom: -100%;
+  visibility: hidden;
+  transition: all 0.4s linear;
 }
 
 .keyboard__row {

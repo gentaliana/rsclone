@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '@constants';
 import { useTranslation } from 'react-i18next';
-import './main.scss';
+import './home.scss';
 
-export const Main = (): JSX.Element => {
+export const Home = (): JSX.Element => {
   const { t } = useTranslation();
   return (
-    <ul>
+    <ul className="main">
       <li>
         <Link to={routes.SET_GAME}>{t('links.new-game')}</Link>
       </li>

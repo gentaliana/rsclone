@@ -1,7 +1,7 @@
 export enum Languages {
-  RU = 'ru',
-  EN = 'en',
-  BE = 'be',
+  ru = 'Русский',
+  en = 'English',
+  be = 'Беларускі',
 }
 
-export const DEFAULT_LANG = Languages.RU;
+export const DEFAULT_LANG = Languages.en;

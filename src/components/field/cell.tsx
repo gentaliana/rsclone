@@ -2,22 +2,34 @@ import React from 'react';
 import './field.scss';
 
 type CellProps = {
-  isActiveCell: boolean;
+  isActive: boolean;
+  isSelected: boolean;
   letter: string;
   enteredLetter: string;
-  handleSelectedCell: () => void;
+  handleSelectedCell: (event: React.MouseEvent) => void;
 };
 
-export const Cell = ({ isActiveCell, letter, enteredLetter, handleSelectedCell }: CellProps): JSX.Element => {
+export const Cell = ({ isActive, isSelected, letter, enteredLetter, handleSelectedCell }: CellProps): JSX.Element => {
   const displayLetter = () => {
     if (letter) {
       return letter;
     }
-    return enteredLetter && isActiveCell ? enteredLetter : '';
+    return enteredLetter && isActive ? enteredLetter : '';
+  };
+
+  const getClassName = () => {
+    const classes = ['cell'];
+    if (isActive) {
+      classes.push('active');
+    }
+    if (isSelected) {
+      classes.push('selected');
+    }
+    return classes.join(' ');
   };
 
   return (
-    <div className={isActiveCell ? 'cell active' : 'cell'} onClick={handleSelectedCell} role="button" tabIndex={-1}>
+    <div className={getClassName()} onClick={handleSelectedCell} role="button" tabIndex={-1}>
       {displayLetter()}
     </div>
   );

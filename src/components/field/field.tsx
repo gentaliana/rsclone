@@ -10,6 +10,7 @@ type FieldProps = {
   handleIsKeyboardHidden: (event: React.MouseEvent) => void;
   selectedCell: number | null;
   setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>;
+  setCurrWord: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const Field = ({
@@ -17,10 +18,25 @@ export const Field = ({
   handleIsKeyboardHidden,
   selectedCell,
   setSelectedCell,
+  setCurrWord,
 }: FieldProps): JSX.Element => {
   // TODO брать из redux после начальных настроек
   const fieldSize = 5;
-  const [cells] = useState(new Array(fieldSize * fieldSize).fill({ currLetter: null }));
+  let [cells] = useState(new Array(fieldSize * fieldSize).fill({ currLetter: null }));
+  const [idsOfChosenLetters, setIdsOfChosenLetters] = useState<Array<number>>([]);
+
+  const addInitialWord = (array: any) => {
+    const start = Math.floor(fieldSize / 2) * fieldSize - 1;
+    const end = start + fieldSize + 1;
+    return array.map((el: ICell, idx: number) => {
+      if (idx > start && idx < end) {
+        return { ...el, currLetter: 'A' };
+      }
+      return el;
+    });
+  };
+
+  cells = addInitialWord(cells);
 
   const downPress = useKeyPress('ArrowDown');
   const upPress = useKeyPress('ArrowUp');
@@ -62,7 +78,7 @@ export const Field = ({
   }, [downPress, upPress, leftPress, rightPress]);
 
   return (
-    <div className="game-field" role="button" tabIndex={0} onClick={handleIsKeyboardHidden}>
+    <div className="game-field" role="button" tabIndex={0}>
       {chunk(cells, fieldSize).map((item: Array<ICell>, rowIndex: number) => (
         /* eslint-disable  react/no-array-index-key */
         <div key={`cellRow${rowIndex}`} className="cellRow">
@@ -71,14 +87,27 @@ export const Field = ({
             return (
               <Cell
                 key={id}
-                isActiveCell={id === selectedCell}
+                isActive={id === selectedCell}
+                isSelected={idsOfChosenLetters.includes(id)}
                 enteredLetter={enteredLetter}
-                handleSelectedCell={() => {
-                  if (!enteredLetter) {
+                handleSelectedCell={(event: React.MouseEvent) => {
+                  if (!enteredLetter && !cell.currLetter) {
                     setSelectedCell(id);
+                    handleIsKeyboardHidden(event);
                   } else {
-                    // TODO в этом случае буква уже выбрана, у cell после клика
-                    // другая подсветка и уже набираем по буквам слово
+                    if (idsOfChosenLetters.includes(id)) return;
+                    const joined = [...idsOfChosenLetters].concat(id);
+                    setIdsOfChosenLetters(joined);
+                    // console.log(idsOfChosenLetters);
+                    setCurrWord((prevState: string) => {
+                      let word;
+                      if (cell.currLetter) {
+                        word = prevState + cell.currLetter;
+                      } else if (id === selectedCell) {
+                        word = prevState + enteredLetter;
+                      }
+                      return word || prevState;
+                    });
                   }
                 }}
                 letter={cell.currLetter}

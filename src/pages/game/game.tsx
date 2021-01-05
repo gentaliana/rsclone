@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './game.scss';
-import { Keyboard, Field } from '@components';
+import { Keyboard, Field, WordField } from '@components';
 import Button from 'react-bootstrap/Button';
 import { getLangLetters } from '@constants';
 import { useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
   const [isKeyboardHidden, setIsKeyboardHidden] = useState(true);
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
+  const [currWord, setCurrWord] = useState<string>('');
 
   const escPress = useKeyPress('Escape');
   const spacePress = useKeyPress(' ');
@@ -68,7 +69,9 @@ export const Game = (): JSX.Element => {
         handleIsKeyboardHidden={handleIsKeyboardHidden}
         selectedCell={selectedCell}
         setSelectedCell={setSelectedCell}
+        setCurrWord={setCurrWord}
       />
+      <WordField currWord={currWord} />
       <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
         {t('buttons.cancel')}
       </Button>

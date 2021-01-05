@@ -3,3 +3,4 @@ export * from './menu';
 export * from './footer';
 export * from './keyboard';
 export * from './field';
+export * from './wordField';

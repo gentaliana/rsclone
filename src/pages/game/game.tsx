@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './game.scss';
-import { Keyboard, Field } from '@components';
+import { Keyboard, Field, Scores } from '@components';
 import Button from 'react-bootstrap/Button';
 import { getLangLetters } from '@constants';
 import { useSelector } from 'react-redux';
@@ -63,12 +63,16 @@ export const Game = (): JSX.Element => {
         isKeyboardHidden={isKeyboardHidden}
         handleIsKeyboardHidden={handleIsKeyboardHidden}
       />
-      <Field
-        enteredLetter={enteredLetter}
-        handleIsKeyboardHidden={handleIsKeyboardHidden}
-        selectedCell={selectedCell}
-        setSelectedCell={setSelectedCell}
-      />
+      <div className="game-main">
+        <Scores />
+        <Field
+          enteredLetter={enteredLetter}
+          handleIsKeyboardHidden={handleIsKeyboardHidden}
+          selectedCell={selectedCell}
+          setSelectedCell={setSelectedCell}
+        />
+      </div>
+
       <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
         {t('buttons.cancel')}
       </Button>

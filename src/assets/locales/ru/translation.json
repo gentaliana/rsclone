@@ -5,8 +5,15 @@
     "settings": "Настройки",
     "about": "О приложении"
   },
-  "buttons": {
-    "cancel": "Отмена",
-    "close": "Закрыть"
+  "dropdown": {
+    "titles": {
+      "options": "Варианты отображения",
+      "language": "Язык",
+      "reset": "Сбросить"
+    },
+    "buttons": {
+      "cancel": "Отмена",
+      "close": "Закрыть"
+    }
   }
 }

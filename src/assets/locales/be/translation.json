@@ -10,10 +10,10 @@
       "options": "Variants for Display",
       "language": "Language",
       "reset": "Reset filters"
-    },
-    "buttons": {
-      "cancel": "Cancel",
-      "close": "Close"
     }
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "close": "Close"
   }
 }

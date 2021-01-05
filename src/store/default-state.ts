@@ -1,27 +1,22 @@
-import {
-  DEFAULT_FIELD_SIZE,
-  DEFAULT_GAMER_NAME,
-  DEFAULT_LANG,
-  DEFAULT_SECOND_GAMER_NAME,
-} from '@constants';
+import { DEFAULT_FIELD_SIZE, DEFAULT_GAMER_NAME, DEFAULT_LANG, DEFAULT_SECOND_GAMER_NAME } from '@constants';
 import { IAppState } from '@types';
 
 export const defaultState: IAppState = {
-  currentGame: {
+  game: {
     isOnline: false,
     fieldSize: DEFAULT_FIELD_SIZE,
-    time: null,
-    isBotEnemy: false,
-    firstWord: null,
-    currentWord: null,
-    isGamerTurn: true,
-    words: {
-      gamer: [],
-      enemy: [],
+    time: 0,
+    isBot: false,
+    firstWord: '',
+    currentWord: '',
+    isPlayer1Turn: true,
+    player1: {
+      points: 0,
+      words: [],
     },
-    points: {
-      gamer: 0,
-      enemy: 0,
+    player2: {
+      points: 0,
+      words: [],
     },
   },
 

@@ -4,6 +4,7 @@ import { getLangLetters } from '@constants';
 import { IKeyboardLang, IAppState } from '@types';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 
 type KeyboardProps = {
   setCurrentLetter: (letter: string) => void;
@@ -18,6 +19,8 @@ export const Keyboard = ({
 }: KeyboardProps): JSX.Element => {
   const lang = useSelector((state: IAppState) => state.settings.lang);
   const currLetters = getLangLetters(lang);
+
+  const { t } = useTranslation();
 
   const handleClick = (event: React.MouseEvent) => {
     setCurrentLetter((event.target as HTMLTextAreaElement).value);
@@ -43,7 +46,7 @@ export const Keyboard = ({
     <div className={isKeyboardHidden ? 'keyboard keyboard-hidden' : 'keyboard'}>
       {renderLetters()}
       <Button className="mt-2" onClick={handleIsKeyboardHidden}>
-        Close
+        {t('buttons.close')}
       </Button>
     </div>
   );

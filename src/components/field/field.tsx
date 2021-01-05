@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './field.scss';
 import chunk from 'lodash/chunk';
-import { ICell } from '@types';
+import { IAppState } from '@types';
 import { Cell } from '@components';
 import { useKeyPress } from '@hooks';
+import { initCells } from '@utils';
+import { useSelector } from 'react-redux';
 
 type FieldProps = {
   enteredLetter: string;
@@ -18,9 +20,9 @@ export const Field = ({
   selectedCell,
   setSelectedCell,
 }: FieldProps): JSX.Element => {
-  // TODO брать из redux после начальных настроек
-  const fieldSize = 5;
-  const [cells] = useState(new Array(fieldSize * fieldSize).fill({ currLetter: null }));
+  const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
+  const firstWord = useSelector((state: IAppState) => state.game.firstWord);
+  const [cells, setCells] = useState(initCells(fieldSize, firstWord));
 
   const downPress = useKeyPress('ArrowDown');
   const upPress = useKeyPress('ArrowUp');
@@ -61,12 +63,46 @@ export const Field = ({
     }
   }, [downPress, upPress, leftPress, rightPress]);
 
+  const [selecting, setSelecting] = useState(false);
+  const [selected, setSelected] = useState<number[]>([]);
+  const [currentWord, setCurrentWord] = useState<string>('');
+
+  const updateSelection = (event: React.SyntheticEvent, id: number, letter: string | null) => {
+    if (selecting && !selected.includes(id)) {
+      const word = !letter ? currentWord : currentWord + letter;
+      setSelected([...selected, id]);
+      setCurrentWord(word);
+      event.currentTarget.classList.add('selected');
+    }
+  };
+
+  const beginSelection = (event: React.SyntheticEvent, id: number, letter: string | null) => {
+    if (selectedCell && enteredLetter) {
+      setSelecting(true);
+      updateSelection(event, id, letter);
+    }
+  };
+
+  const endSelection = (event: React.SyntheticEvent, id: number, letter: string | null) => {
+    if (selectedCell && enteredLetter) {
+      setSelecting(false);
+      updateSelection(event, id, letter);
+      const field = cells.slice();
+      field[selectedCell] = enteredLetter;
+
+      setCells(field);
+
+      setCurrentWord('');
+      setSelected([]);
+    }
+  };
+
   return (
     <div className="game-field" role="button" tabIndex={0} onClick={handleIsKeyboardHidden}>
-      {chunk(cells, fieldSize).map((item: Array<ICell>, rowIndex: number) => (
+      {chunk(cells, fieldSize).map((item: string[], rowIndex: number) => (
         /* eslint-disable  react/no-array-index-key */
         <div key={`cellRow${rowIndex}`} className="cellRow">
-          {item.map((cell: ICell, index: number) => {
+          {item.map((cell: string, index: number) => {
             const id = rowIndex * fieldSize + index;
             return (
               <Cell
@@ -81,7 +117,10 @@ export const Field = ({
                     // другая подсветка и уже набираем по буквам слово
                   }
                 }}
-                letter={cell.currLetter}
+                letter={cell}
+                onMouseDown={(event) => beginSelection(event, id, cell)}
+                onMouseUp={(event) => endSelection(event, id, cell)}
+                onMouseMove={(event) => updateSelection(event, id, cell)}
               />
             );
           })}

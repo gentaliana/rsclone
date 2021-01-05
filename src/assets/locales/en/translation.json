@@ -4,5 +4,9 @@
     "rating": "Rating",
     "settings": "Settings",
     "about": "About"
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "close": "Close"
   }
 }

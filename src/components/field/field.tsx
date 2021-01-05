@@ -10,7 +10,6 @@ type FieldProps = {
   handleIsKeyboardHidden: (event: React.MouseEvent) => void;
   selectedCell: number | null;
   setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>;
-  //   handleKeyPressLetter: (event: React.KeyboardEvent<HTMLDivElement>) => void;
 };
 
 export const Field = ({
@@ -18,8 +17,7 @@ export const Field = ({
   handleIsKeyboardHidden,
   selectedCell,
   setSelectedCell,
-}: //   handleKeyPressLetter,
-FieldProps): JSX.Element => {
+}: FieldProps): JSX.Element => {
   // TODO брать из redux после начальных настроек
   const fieldSize = 5;
   const [cells] = useState(new Array(fieldSize * fieldSize).fill({ currLetter: null }));

@@ -13,6 +13,7 @@ export const useKeyPress = (targetKey: string): boolean => {
 
   // If released key is our target key then set to false
   const upHandler = ({ key }: { key: string }) => {
+    console.log(key);
     if (key === targetKey) {
       setKeyPressed(false);
     }

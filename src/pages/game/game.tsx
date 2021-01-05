@@ -5,16 +5,36 @@ import Button from 'react-bootstrap/Button';
 import { getLangLetters } from '@constants';
 import { useSelector } from 'react-redux';
 import { IAppState } from '@types';
+import { useKeyPress } from '@hooks';
+import { useTranslation } from 'react-i18next';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
   const [isKeyboardHidden, setIsKeyboardHidden] = useState(true);
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
 
+  const escPress = useKeyPress('Escape');
+  const spacePress = useKeyPress(' ');
+
+  const { t } = useTranslation();
+
+  const handleClearButton = () => {
+    setEnteredLetter('');
+    setSelectedCell(null);
+    setIsKeyboardHidden(true);
+  };
+
   const handleCurrentLetter = (letter: string) => {
     setIsKeyboardHidden(true);
     setEnteredLetter(letter);
   };
+
+  useEffect(() => {
+    if (escPress) handleClearButton();
+    if (spacePress && !enteredLetter && selectedCell) {
+      setIsKeyboardHidden(!isKeyboardHidden);
+    }
+  }, [escPress, spacePress]);
 
   const lang = useSelector((state: IAppState) => state.settings.lang);
 
@@ -35,19 +55,8 @@ export const Game = (): JSX.Element => {
     document.addEventListener('keydown', handleKeyPressLetter, false);
   }, []);
 
-  const handleKeyPressKeyboard = (event: React.KeyboardEvent) => {
-    if (event.key === ' ') {
-      setIsKeyboardHidden(!isKeyboardHidden);
-    }
-  };
-
-  const handleClearButton = () => {
-    setEnteredLetter('');
-    setSelectedCell(null);
-  };
-
   return (
-    <div onKeyDown={(event) => handleKeyPressKeyboard(event)} role="button" tabIndex={0}>
+    <div role="button" tabIndex={0}>
       <Keyboard
         setCurrentLetter={handleCurrentLetter}
         isKeyboardHidden={isKeyboardHidden}
@@ -60,8 +69,7 @@ export const Game = (): JSX.Element => {
         setSelectedCell={setSelectedCell}
       />
       <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
-        {' '}
-        Clear{' '}
+        {t('buttons.cancel')}
       </Button>
     </div>
   );

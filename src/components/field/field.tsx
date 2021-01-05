@@ -28,7 +28,7 @@ export const Field = ({
   const rightPress = useKeyPress('ArrowRight');
 
   useEffect(() => {
-    if (downPress) {
+    if (downPress || upPress || leftPress || rightPress) {
       setSelectedCell((prevState: number | null) => {
         if (enteredLetter) {
           return prevState;
@@ -36,68 +36,30 @@ export const Field = ({
         if (prevState === null) {
           return 0;
         }
-        if (prevState + fieldSize < cells.length) {
-          console.log(prevState + fieldSize);
+
+        const moveDownIsPossible = prevState + fieldSize < cells.length;
+        const moveUpIsPossible = prevState - fieldSize >= 0;
+        const moveLeftIsPossible = prevState - 1 >= 0;
+        const moveRightIsPossible = prevState + 1 < cells.length;
+
+        if (downPress && moveDownIsPossible) {
           return prevState + fieldSize;
         }
-        return prevState;
-      });
-    }
-  }, [downPress]);
 
-  useEffect(() => {
-    if (upPress) {
-      setSelectedCell((prevState: number | null) => {
-        if (enteredLetter) {
-          return prevState;
-        }
-        if (prevState === null) {
-          return 0;
-        }
-        if (prevState - fieldSize >= 0) {
-          console.log(prevState - fieldSize);
+        if (upPress && moveUpIsPossible) {
           return prevState - fieldSize;
         }
-        return prevState;
-      });
-    }
-  }, [upPress]);
 
-  useEffect(() => {
-    if (leftPress) {
-      setSelectedCell((prevState: number | null) => {
-        if (enteredLetter) {
-          return prevState;
-        }
-        if (prevState === null) {
-          return 0;
-        }
-        if (prevState - 1 >= 0) {
-          console.log(prevState - 1);
+        if (leftPress && moveLeftIsPossible) {
           return prevState - 1;
         }
-        return prevState;
-      });
-    }
-  }, [leftPress]);
-
-  useEffect(() => {
-    if (rightPress) {
-      setSelectedCell((prevState: number | null) => {
-        if (enteredLetter) {
-          return prevState;
-        }
-        if (prevState === null) {
-          return 0;
-        }
-        if (prevState + 1 < cells.length) {
-          console.log(prevState - 1);
+        if (rightPress && moveRightIsPossible) {
           return prevState + 1;
         }
         return prevState;
       });
     }
-  }, [rightPress]);
+  }, [downPress, upPress, leftPress, rightPress]);
 
   return (
     <div className="game-field" role="button" tabIndex={0} onClick={handleIsKeyboardHidden}>

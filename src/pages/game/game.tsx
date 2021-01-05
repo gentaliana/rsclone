@@ -31,7 +31,8 @@ export const Game = (): JSX.Element => {
 
   useEffect(() => {
     if (escPress) handleClearButton();
-    if (spacePress && !enteredLetter && selectedCell) {
+    const isSelectedCellWithoutLetter = !enteredLetter && selectedCell != null;
+    if (spacePress && isSelectedCellWithoutLetter) {
       setIsKeyboardHidden(!isKeyboardHidden);
     }
   }, [escPress, spacePress]);

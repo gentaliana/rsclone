@@ -1,0 +1,25 @@
+.player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &--current::before {
+    content: '>';
+  }
+}
+
+.player__name {
+  margin: 10px 20px;
+}
+
+.player__points {
+  margin: 10px;
+}
+
+.player--enemy {
+  color: red;
+
+  & .player__points {
+    order: -1;
+  }
+}

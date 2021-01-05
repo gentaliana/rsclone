@@ -1,3 +1,4 @@
 ### Features
 
 - Добавлен i18n для перевода на ru и другие возможные языки (https://github.com/gentaliana/rsclone/issues/27)
+- Добавлен компонент selectOptions и добавлена для примера функция перевода с использованием этого компонента (https://github.com/gentaliana/rsclone/issues/54, https://github.com/gentaliana/rsclone/issues/62)

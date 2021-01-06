@@ -1,5 +1,5 @@
-import { SettingActions, GameActions } from '@constants';
-import { ISettingsState, IGameState } from '@types';
+import { SettingActions, GameActions, AlertActions } from '@constants';
+import { ISettingsState, IGameState, INotify } from '@types';
 
 export interface ISetSettingsAction {
   type: typeof SettingActions.SET_SETTINGS;
@@ -19,4 +19,13 @@ export interface ISetFieldSizeAction {
 export interface ISetGameAction {
   type: typeof GameActions.SET_GAME;
   payload: IGameState;
+}
+
+export interface ISetAlertAction {
+  type: typeof AlertActions.SET_NOTIFY;
+  payload: INotify;
+}
+
+export interface IRemoveAlertAction {
+  type: typeof AlertActions.REMOVE_NOTIFY;
 }

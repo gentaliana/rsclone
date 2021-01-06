@@ -1,7 +1,13 @@
-.game-main {
+.scores {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.players {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -3,6 +3,9 @@ import './wordField.scss';
 
 type WordFieldProps = {
   currWord: string;
+  infoMessage: string;
 };
 
-export const WordField = ({ currWord }: WordFieldProps): JSX.Element => <div className="word-field">{currWord}</div>;
+export const WordField = ({ currWord, infoMessage }: WordFieldProps): JSX.Element => (
+  <div className="word-field">{currWord || infoMessage}</div>
+);

@@ -19,6 +19,7 @@ export const Game = (): JSX.Element => {
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
   const [cells, setCells] = useState(initCells(fieldSize, firstWord));
+  const [infoMessage, setInfoMessage] = useState('Please, enter the letter');
 
   const escPress = useKeyPress('Escape');
   const spacePress = useKeyPress(' ');
@@ -38,10 +39,24 @@ export const Game = (): JSX.Element => {
   };
 
   const handleSubmitButton = () => {
-    if (currWord.length <= 1) return;
+    if (currWord.length === 0) {
+      setInfoMessage('You did not choose any letters');
+      return;
+    }
+    if (currWord.length === 1) {
+      handleClearButton();
+      setInfoMessage('Word is too short!');
+      return;
+    }
     // TODO currWord проверка в словаре
     const updatedCells = [...cells];
     if (selectedCell !== null) {
+      if (!idsOfChosenLetters.includes(selectedCell)) {
+        handleClearButton();
+        setInfoMessage('Word must contain selected cell!');
+        return;
+      }
+      setInfoMessage(`Accepted: ${currWord}`);
       updatedCells[selectedCell] = enteredLetter;
     }
     setCells(updatedCells);
@@ -138,7 +153,7 @@ export const Game = (): JSX.Element => {
             setIdsOfChosenLetters={setIdsOfChosenLetters}
             cells={cells}
           />
-          <WordField currWord={currWord} />
+          <WordField currWord={currWord} infoMessage={infoMessage} />
           <div className="buttons">
             <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
               {t('buttons.cancel')}

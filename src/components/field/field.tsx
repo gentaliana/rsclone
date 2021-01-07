@@ -46,15 +46,15 @@ export const Field = ({
     if (typeof lastLetterId === 'undefined') return true;
 
     const isLetterNextDown = id === lastLetterId + fieldSize;
-    const isLetterNexUp = id === lastLetterId - fieldSize;
-    const isLetterNexRight = id === lastLetterId + 1;
-    const isLetterNexLet = id === lastLetterId - 1;
+    const isLetterNextUp = id === lastLetterId - fieldSize;
+    const isLetterNextRight = id === lastLetterId + 1;
+    const isLetterNextLeft = id === lastLetterId - 1;
     const isLastLetterInSameRow = Math.floor(id / fieldSize) === Math.floor(lastLetterId / fieldSize);
 
     return (
-      (isLetterNexRight && isLastLetterInSameRow) ||
-      (isLetterNexLet && isLastLetterInSameRow) ||
-      isLetterNexUp ||
+      (isLetterNextRight && isLastLetterInSameRow) ||
+      (isLetterNextLeft && isLastLetterInSameRow) ||
+      isLetterNextUp ||
       isLetterNextDown
     );
   };

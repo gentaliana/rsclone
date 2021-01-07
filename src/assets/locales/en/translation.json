@@ -26,5 +26,8 @@
   },
   "game": {
     "start": "Start"
+  },
+  "footer": {
+    "by": "by"
   }
 }

@@ -28,6 +28,19 @@
   "game": {
     "start": "Start"
   },
+  "setting": {
+    "sound": "Sound",
+    "soundOn": "sound on",
+    "soundOff": "sound off",
+    "firstUser": "First user name",
+    "secondUser": "Second user name",
+    "theme": "Theme",
+    "language": "Language",
+    "light": "light",
+    "dark": "dark",
+    "save": "save settings",
+    "unsave": "don't save settings"
+  },
   "footer": {
     "by": "by"
   }

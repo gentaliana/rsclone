@@ -1,5 +1,9 @@
+.field-area {
+  margin: 0 auto;
+}
+
 .game-field {
-  width: 500px;
+  width: 100%;
   height: 500px;
   border: solid 1px black;
 }
@@ -11,12 +15,12 @@
   border: 2px solid black;
 }
 
-.active {
-  background-color: lightblue;
+.cell.selected {
+  background-color: yellow;
 }
 
-.selected {
-  background-color: yellow;
+.active {
+  background-color: lightblue;
 }
 
 .cellRow {

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './field.scss';
 import chunk from 'lodash/chunk';
 import { ICell } from '@types';
 import { Cell } from '@components';
-import { useKeyPress } from '@hooks';
 
 type FieldProps = {
   enteredLetter: string;
@@ -11,6 +10,9 @@ type FieldProps = {
   selectedCell: number | null;
   setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>;
   setCurrWord: React.Dispatch<React.SetStateAction<string>>;
+  idsOfChosenLetters: Array<number>;
+  setIdsOfChosenLetters: (array: Array<number>) => void;
+  cells: Array<ICell>;
 };
 
 export const Field = ({
@@ -19,63 +21,27 @@ export const Field = ({
   selectedCell,
   setSelectedCell,
   setCurrWord,
+  idsOfChosenLetters,
+  setIdsOfChosenLetters,
+  cells,
 }: FieldProps): JSX.Element => {
-  // TODO брать из redux после начальных настроек
+  // TODO брать из redux после начальных настроек + cells
   const fieldSize = 5;
-  let [cells] = useState(new Array(fieldSize * fieldSize).fill({ currLetter: null }));
-  const [idsOfChosenLetters, setIdsOfChosenLetters] = useState<Array<number>>([]);
 
-  const addInitialWord = (array: any) => {
-    const start = Math.floor(fieldSize / 2) * fieldSize - 1;
-    const end = start + fieldSize + 1;
-    return array.map((el: ICell, idx: number) => {
-      if (idx > start && idx < end) {
-        return { ...el, currLetter: 'A' };
-      }
-      return el;
-    });
-  };
-
-  cells = addInitialWord(cells);
-
-  const downPress = useKeyPress('ArrowDown');
-  const upPress = useKeyPress('ArrowUp');
-  const leftPress = useKeyPress('ArrowLeft');
-  const rightPress = useKeyPress('ArrowRight');
-
-  useEffect(() => {
-    if (downPress || upPress || leftPress || rightPress) {
-      setSelectedCell((prevState: number | null) => {
-        if (enteredLetter) {
-          return prevState;
-        }
-        if (prevState === null) {
-          return 0;
-        }
-
-        const moveDownIsPossible = prevState + fieldSize < cells.length;
-        const moveUpIsPossible = prevState - fieldSize >= 0;
-        const moveLeftIsPossible = prevState - 1 >= 0;
-        const moveRightIsPossible = prevState + 1 < cells.length;
-
-        if (downPress && moveDownIsPossible) {
-          return prevState + fieldSize;
-        }
-
-        if (upPress && moveUpIsPossible) {
-          return prevState - fieldSize;
-        }
-
-        if (leftPress && moveLeftIsPossible) {
-          return prevState - 1;
-        }
-        if (rightPress && moveRightIsPossible) {
-          return prevState + 1;
-        }
-        return prevState;
-      });
+  const isRightPosition = (id: number) => {
+    if (!enteredLetter) return false;
+    const lastLetterId = idsOfChosenLetters[idsOfChosenLetters.length - 1];
+    if (typeof lastLetterId === 'undefined') return true;
+    if (
+      (id === lastLetterId + 1 && Math.floor(id / fieldSize) === Math.floor(lastLetterId / fieldSize)) ||
+      (id === lastLetterId - 1 && Math.floor(id / fieldSize) === Math.floor(lastLetterId / fieldSize)) ||
+      id === lastLetterId - fieldSize ||
+      id === lastLetterId + fieldSize
+    ) {
+      return true;
     }
-  }, [downPress, upPress, leftPress, rightPress]);
+    return false;
+  };
 
   return (
     <div className="game-field" role="button" tabIndex={0}>
@@ -95,7 +61,14 @@ export const Field = ({
                     setSelectedCell(id);
                     handleIsKeyboardHidden(event);
                   } else {
-                    if (idsOfChosenLetters.includes(id)) return;
+                    if (
+                      !(
+                        isRightPosition(id) &&
+                        (cell.currLetter || id === selectedCell) &&
+                        !idsOfChosenLetters.includes(id)
+                      )
+                    )
+                      return;
                     const joined = [...idsOfChosenLetters].concat(id);
                     setIdsOfChosenLetters(joined);
                     // console.log(idsOfChosenLetters);

@@ -10,7 +10,10 @@ module.exports = {
   },
   rules: {
     'no-plusplus': 'off',
+    'operator-linebreak': 'off',
     'no-continue': 'off',
+    'nonblock-statement-body-position': 'off',
+    curly: 'off',
     'linebreak-style': ['error', 'windows'],
     indent: ['error', 2, { SwitchCase: 1, MemberExpression: 'off' }],
     'max-len': ['error', { code: 120 }],

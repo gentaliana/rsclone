@@ -14,7 +14,8 @@
   },
   "buttons": {
     "cancel": "Отмена",
-    "close": "Закрыть"
+    "close": "Закрыть",
+    "submit": "Отправить"
   },
   "settings": {
     "field-size": "Размер поля",

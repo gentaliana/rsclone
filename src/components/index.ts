@@ -7,3 +7,5 @@ export * from './player';
 export * from './timer';
 export * from './scores';
 export * from './alerts';
+export * from './textInput';
+export * from './buttonToggle';

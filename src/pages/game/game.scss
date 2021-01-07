@@ -2,3 +2,9 @@
   display: flex;
   justify-content: space-around;
 }
+
+.main-game {
+  display: grid;
+  grid-area: main;
+  grid-template-columns: 150px 1fr 150px;
+}

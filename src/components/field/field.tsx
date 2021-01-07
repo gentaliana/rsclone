@@ -1,8 +1,10 @@
 import React from 'react';
 import './field.scss';
 import chunk from 'lodash/chunk';
-import { ICell } from '@types';
 import { Cell } from '@components';
+// import { useKeyPress } from '@hooks';
+import { IAppState } from '@types';
+import { useSelector } from 'react-redux';
 
 type FieldProps = {
   enteredLetter: string;
@@ -11,8 +13,8 @@ type FieldProps = {
   setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>;
   setCurrWord: React.Dispatch<React.SetStateAction<string>>;
   idsOfChosenLetters: Array<number>;
+  cells: Array<string>;
   setIdsOfChosenLetters: (array: Array<number>) => void;
-  cells: Array<ICell>;
 };
 
 export const Field = ({
@@ -25,8 +27,7 @@ export const Field = ({
   setIdsOfChosenLetters,
   cells,
 }: FieldProps): JSX.Element => {
-  // TODO брать из redux после начальных настроек + cells
-  const fieldSize = 5;
+  const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
 
   const isRightPosition = (id: number) => {
     if (!enteredLetter) return false;
@@ -45,10 +46,10 @@ export const Field = ({
 
   return (
     <div className="game-field" role="button" tabIndex={0}>
-      {chunk(cells, fieldSize).map((item: Array<ICell>, rowIndex: number) => (
+      {chunk(cells, fieldSize).map((item: string[], rowIndex: number) => (
         /* eslint-disable  react/no-array-index-key */
         <div key={`cellRow${rowIndex}`} className="cellRow">
-          {item.map((cell: ICell, index: number) => {
+          {item.map((cell: string, index: number) => {
             const id = rowIndex * fieldSize + index;
             return (
               <Cell
@@ -57,25 +58,18 @@ export const Field = ({
                 isSelected={idsOfChosenLetters.includes(id)}
                 enteredLetter={enteredLetter}
                 handleSelectedCell={(event: React.MouseEvent) => {
-                  if (!enteredLetter && !cell.currLetter) {
+                  if (!enteredLetter && !cell) {
                     setSelectedCell(id);
                     handleIsKeyboardHidden(event);
                   } else {
-                    if (
-                      !(
-                        isRightPosition(id) &&
-                        (cell.currLetter || id === selectedCell) &&
-                        !idsOfChosenLetters.includes(id)
-                      )
-                    )
+                    if (!(isRightPosition(id) && (cell || id === selectedCell) && !idsOfChosenLetters.includes(id)))
                       return;
                     const joined = [...idsOfChosenLetters].concat(id);
                     setIdsOfChosenLetters(joined);
-                    // console.log(idsOfChosenLetters);
                     setCurrWord((prevState: string) => {
                       let word;
-                      if (cell.currLetter) {
-                        word = prevState + cell.currLetter;
+                      if (cell) {
+                        word = prevState + cell;
                       } else if (id === selectedCell) {
                         word = prevState + enteredLetter;
                       }
@@ -83,7 +77,7 @@ export const Field = ({
                     });
                   }
                 }}
-                letter={cell.currLetter}
+                letter={cell}
               />
             );
           })}

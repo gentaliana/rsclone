@@ -14,8 +14,7 @@
   },
   "buttons": {
     "cancel": "Cancel",
-    "close": "Close",
-    "submit": "Submit"
+    "close": "Close"
   },
   "settings": {
     "field-size": "Field Size",

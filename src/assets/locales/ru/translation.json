@@ -5,9 +5,27 @@
     "settings": "Настройки",
     "about": "О приложении"
   },
+  "dropdown": {
+    "titles": {
+      "options": "Варианты отображения",
+      "language": "Язык",
+      "reset": "Сбросить"
+    }
+  },
   "buttons": {
     "cancel": "Отмена",
     "close": "Закрыть",
     "submit": "Отправить"
+  },
+  "settings": {
+    "field-size": "Размер поля",
+    "second-player": "Второй игрок",
+    "first-word": "Первое слово",
+    "time": "Время",
+    "bot": "Бот",
+    "human": "Человек"
+  },
+  "game": {
+    "start": "Начать"
   }
 }

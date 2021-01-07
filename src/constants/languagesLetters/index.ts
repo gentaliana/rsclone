@@ -9,13 +9,13 @@ type KeyboardKey = {
 
 export const getLangLetters = (language: string): KeyboardKey[][] => {
   switch (language) {
-    case Languages.RU:
+    case Languages.ru:
       return RU_LETTERS;
 
-    case Languages.EN:
+    case Languages.en:
       return EN_LETTERS;
 
-    case Languages.BE:
+    case Languages.be:
       return BE_LETTERS;
 
     default:

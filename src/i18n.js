@@ -4,6 +4,7 @@ import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-http-backend';
 import translationEN from './assets/locales/en/translation.json';
 import translationRU from './assets/locales/ru/translation.json';
+import translationBE from './assets/locales/be/translation.json';
 
 const resources = {
   en: {
@@ -11,6 +12,9 @@ const resources = {
   },
   ru: {
     translation: translationRU,
+  },
+  be: {
+    translation: translationBE,
   },
 };
 
@@ -24,7 +28,7 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    supportedLngs: ['en', 'ru'],
+    supportedLngs: ['en', 'ru', 'be'],
   });
 
 export default i18n;

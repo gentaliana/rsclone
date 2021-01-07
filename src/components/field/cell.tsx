@@ -6,9 +6,20 @@ type CellProps = {
   letter: string;
   enteredLetter: string;
   handleSelectedCell: () => void;
+  onMouseDown: (event: React.SyntheticEvent) => void;
+  onMouseUp: (event: React.SyntheticEvent) => void;
+  onMouseMove: (event: React.SyntheticEvent) => void;
 };
 
-export const Cell = ({ isActiveCell, letter, enteredLetter, handleSelectedCell }: CellProps): JSX.Element => {
+export const Cell = ({
+  isActiveCell,
+  letter,
+  enteredLetter,
+  handleSelectedCell,
+  onMouseDown,
+  onMouseUp,
+  onMouseMove,
+}: CellProps): JSX.Element => {
   const displayLetter = () => {
     if (letter) {
       return letter;
@@ -17,7 +28,15 @@ export const Cell = ({ isActiveCell, letter, enteredLetter, handleSelectedCell }
   };
 
   return (
-    <div className={isActiveCell ? 'cell active' : 'cell'} onClick={handleSelectedCell} role="button" tabIndex={0}>
+    <div
+      className={isActiveCell ? 'cell active' : 'cell'}
+      onClick={handleSelectedCell}
+      role="button"
+      tabIndex={-1}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onMouseMove={onMouseMove}
+    >
       {displayLetter()}
     </div>
   );

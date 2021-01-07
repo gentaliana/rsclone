@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormControl } from 'react-bootstrap';
+import { TextInput } from '@components';
 
 type UserProps = {
   userName: string;
@@ -9,12 +9,11 @@ type UserProps = {
 export const User = ({ userName, setUserName, userText }: UserProps): JSX.Element => (
   <div className="user">
     <div className="userText">{userText}</div>
-    <FormControl
+    <TextInput
       placeholder={userText}
-      aria-label="Username"
-      aria-describedby="basic-addon1"
       value={userName}
-      onInput={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
+      classInput="user-inp"
+      onChange={setUserName}
     />
   </div>
 );

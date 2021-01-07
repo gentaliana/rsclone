@@ -1,21 +1,6 @@
 export interface IAppState {
-  currentGame: {
-    isOnline: boolean;
-    fieldSize: number;
-    time: number | null;
-    isBotEnemy: boolean;
-    firstWord: string | null;
-    currentWord: string | null;
-    isGamerTurn: boolean;
-    words: {
-      gamer: string[];
-      enemy: string[];
-    };
-    points: {
-      gamer: number;
-      enemy: number;
-    };
-  };
+  notify: INotify | null;
+  game: IGameState;
 
   settings: ISettingsState;
 
@@ -35,10 +20,32 @@ export interface ISettingsState {
   currentTheme: string | null;
 }
 
+export interface IGameState {
+  isOnline: boolean;
+  fieldSize: number;
+  time: number;
+  isBot: boolean;
+  firstWord: string;
+  currentWord: string;
+  isPlayer1Turn: boolean;
+  player1: IPlayerState;
+  player2: IPlayerState;
+}
+
+export interface IPlayerState {
+  points: number;
+  words: string[];
+}
+
 export interface IRatingItem {
   position: number;
   name: string;
   points: number;
   word: string;
   date: Date;
+}
+
+export interface INotify {
+  headerText: string;
+  contentText: string;
 }

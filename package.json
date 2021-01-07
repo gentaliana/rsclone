@@ -93,7 +93,7 @@
     "clean:dist": "rimraf dist",
     "lint": "eslint ./ --ext ts,tsx",
     "lintFix": "eslint --fix --ext .ts,.tsx .",
-    "stylelintFix": "npx stylelint **/*.scss --fix"
+    "styleFix": "npx stylelint **/*.scss --fix"
   },
   "browserslist": {
     "production": [
@@ -189,7 +189,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit": "lint-staged --no-stash",
       "commit-msg": "commit-message-validator",
       "pre-push": "npm run build"
     }

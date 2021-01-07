@@ -4,5 +4,40 @@
     "rating": "Rating",
     "settings": "Settings",
     "about": "About"
+  },
+  "dropdown": {
+    "titles": {
+      "options": "Variants for Display",
+      "language": "Language",
+      "reset": "Reset filters"
+    }
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "close": "Close"
+  },
+  "settings": {
+    "field-size": "Field Size",
+    "second-player": "Second Player",
+    "first-word": "First Word",
+    "time": "Time",
+    "bot": "Bot",
+    "human": "Human"
+  },
+  "game": {
+    "start": "Start"
+  },
+  "setting": {
+    "sound": "Sound",
+    "soundOn": "sound on",
+    "soundOff": "sound off",
+    "firstUser": "First user name",
+    "secondUser": "Second user name",
+    "theme": "Theme",
+    "language": "Language",
+    "light": "light",
+    "dark": "dark",
+    "save": "save settings",
+    "unsave": "don't save settings"
   }
 }

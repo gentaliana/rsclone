@@ -1,4 +1,4 @@
 import * as React from 'react';
 import './footer.scss';
 
-export const Footer = (): JSX.Element => <div>Footer</div>;
+export const Footer = (): JSX.Element => <div className="footer">Footer</div>;

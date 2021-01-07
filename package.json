@@ -189,7 +189,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit": "lint-staged --no-stash",
       "commit-msg": "commit-message-validator",
       "pre-push": "npm run build"
     }

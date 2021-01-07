@@ -34,4 +34,6 @@ export const defaultState: IAppState = {
     withBot: false,
     top: [],
   },
+
+  notify: null,
 };

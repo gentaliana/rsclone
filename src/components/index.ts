@@ -6,3 +6,4 @@ export * from './field';
 export * from './player';
 export * from './timer';
 export * from './scores';
+export * from './alerts';

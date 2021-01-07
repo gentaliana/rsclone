@@ -12,3 +12,8 @@ export enum GameActions {
   ADD_POINTS = 'ADD_POINTS',
   SET_FIELD = 'SET_FIELD',
 }
+
+export enum AlertActions {
+  SET_NOTIFY = 'SET_NOTIFY',
+  REMOVE_NOTIFY = 'REMOVE_NOTIFY',
+}

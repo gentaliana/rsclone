@@ -1,4 +1,5 @@
 export interface IAppState {
+  notify: INotify | null;
   game: IGameState;
 
   settings: ISettingsState;
@@ -42,4 +43,9 @@ export interface IRatingItem {
   points: number;
   word: string;
   date: Date;
+}
+
+export interface INotify {
+  headerText: string;
+  contentText: string;
 }

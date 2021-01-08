@@ -13,6 +13,7 @@ export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
   const [isKeyboardHidden, setIsKeyboardHidden] = useState(true);
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
+  const [cellFromKeyboard, setCellFromKeyboard] = useState<number | null>(null);
   const [currWord, setCurrWord] = useState<string>('');
   const [idsOfChosenLetters, setIdsOfChosenLetters] = useState<Array<number>>([]);
 
@@ -27,6 +28,7 @@ export const Game = (): JSX.Element => {
   const upPress = useKeyPress('ArrowUp');
   const leftPress = useKeyPress('ArrowLeft');
   const rightPress = useKeyPress('ArrowRight');
+  //   const enterPress = useKeyPress('Enter');
 
   const { t } = useTranslation();
 
@@ -70,10 +72,10 @@ export const Game = (): JSX.Element => {
 
   useEffect(() => {
     if (downPress || upPress || leftPress || rightPress) {
-      setSelectedCell((prevState: number | null) => {
-        if (enteredLetter) {
-          return prevState;
-        }
+      setCellFromKeyboard((prevState: number | null) => {
+        // if (enteredLetter) {
+        //   return prevState;
+        // }
         if (prevState === null) {
           return 0;
         }
@@ -113,7 +115,7 @@ export const Game = (): JSX.Element => {
   const lang = useSelector((state: IAppState) => state.settings.lang);
 
   const handleKeyPressLetter = (event: KeyboardEvent) => {
-    if (selectedCell != null && cells[selectedCell]) {
+    if ((selectedCell !== null && cells[selectedCell]) || enteredLetter || selectedCell !== null) {
       return;
     }
     const currLetters = getLangLetters(lang);
@@ -128,9 +130,13 @@ export const Game = (): JSX.Element => {
       setIsKeyboardHidden(true);
     }
   };
+
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyPressLetter, false);
-  }, []);
+    document.addEventListener('keyup', handleKeyPressLetter, false);
+    return () => {
+      document.removeEventListener('keyup', handleKeyPressLetter);
+    };
+  }, [downPress, upPress, leftPress, rightPress]);
 
   return (
     <div className="main-game">
@@ -147,11 +153,13 @@ export const Game = (): JSX.Element => {
             enteredLetter={enteredLetter}
             handleIsKeyboardHidden={handleIsKeyboardHidden}
             selectedCell={selectedCell}
+            cellFromKeyboard={cellFromKeyboard}
             setSelectedCell={setSelectedCell}
             setCurrWord={setCurrWord}
             idsOfChosenLetters={idsOfChosenLetters}
             setIdsOfChosenLetters={setIdsOfChosenLetters}
             cells={cells}
+            // checkAndSetCellLetter={checkAndSetCellLetter}
           />
           <WordField currWord={currWord} infoMessage={infoMessage} />
           <div className="buttons">

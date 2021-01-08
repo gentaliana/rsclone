@@ -6,10 +6,18 @@ type CellProps = {
   isSelected: boolean;
   letter: string;
   enteredLetter: string;
+  cellFromKeyboard: boolean;
   handleSelectedCell: (event: React.MouseEvent) => void;
 };
 
-export const Cell = ({ isActive, isSelected, letter, enteredLetter, handleSelectedCell }: CellProps): JSX.Element => {
+export const Cell = ({
+  isActive,
+  isSelected,
+  letter,
+  enteredLetter,
+  handleSelectedCell,
+  cellFromKeyboard,
+}: CellProps): JSX.Element => {
   const displayLetter = () => {
     if (letter) {
       return letter;
@@ -24,6 +32,9 @@ export const Cell = ({ isActive, isSelected, letter, enteredLetter, handleSelect
     }
     if (isSelected) {
       classes.push('selected');
+    }
+    if (cellFromKeyboard) {
+      classes.push('selected-keyboard');
     }
     return classes.join(' ');
   };

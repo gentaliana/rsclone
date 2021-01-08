@@ -10,3 +10,4 @@
 - Добавлен компонент player (https://github.com/gentaliana/rsclone/issues/8)
 - Добавлен компонент scores (https://github.com/gentaliana/rsclone/issues/8)
 - Добавлен компонент timer (https://github.com/gentaliana/rsclone/issues/8)
+- Добавлен компонент radio-group (https://github.com/gentaliana/rsclone/issues/87)

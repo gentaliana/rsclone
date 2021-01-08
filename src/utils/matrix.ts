@@ -7,7 +7,7 @@ export const initCells = (fieldSize: number, firstWord: string): string[] => {
       let letter = '';
 
       if (wordRowIndex === i) {
-        letter = firstWord.charAt(j);
+        letter = firstWord.charAt(j).toUpperCase();
       }
 
       cells[id] = letter;

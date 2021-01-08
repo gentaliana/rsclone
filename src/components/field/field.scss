@@ -1,5 +1,9 @@
+.field-area {
+  margin: 0 auto;
+}
+
 .game-field {
-  width: 500px;
+  width: 100%;
   height: 500px;
   border: solid 1px black;
 }
@@ -15,6 +19,10 @@
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
   border: 2px solid black;
+}
+
+.cell.selected {
+  background-color: yellow;
 }
 
 .active {

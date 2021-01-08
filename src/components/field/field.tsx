@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './field.scss';
 import chunk from 'lodash/chunk';
-import { IAppState } from '@types';
 import { Cell } from '@components';
-import { useKeyPress } from '@hooks';
-import { initCells } from '@utils';
+import { IAppState } from '@types';
 import { useSelector } from 'react-redux';
 
 type FieldProps = {
@@ -12,6 +10,10 @@ type FieldProps = {
   handleIsKeyboardHidden: (event: React.MouseEvent) => void;
   selectedCell: number | null;
   setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>;
+  setCurrWord: React.Dispatch<React.SetStateAction<string>>;
+  idsOfChosenLetters: Array<number>;
+  cells: Array<string>;
+  setIdsOfChosenLetters: (array: Array<number>) => void;
 };
 
 export const Field = ({
@@ -19,108 +21,75 @@ export const Field = ({
   handleIsKeyboardHidden,
   selectedCell,
   setSelectedCell,
+  setCurrWord,
+  idsOfChosenLetters,
+  setIdsOfChosenLetters,
+  cells,
 }: FieldProps): JSX.Element => {
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
-  const firstWord = useSelector((state: IAppState) => state.game.firstWord);
-  const [cells, setCells] = useState(initCells(fieldSize, firstWord));
 
-  const downPress = useKeyPress('ArrowDown');
-  const upPress = useKeyPress('ArrowUp');
-  const leftPress = useKeyPress('ArrowLeft');
-  const rightPress = useKeyPress('ArrowRight');
-
-  useEffect(() => {
-    if (downPress || upPress || leftPress || rightPress) {
-      setSelectedCell((prevState: number | null) => {
-        if (enteredLetter) {
-          return prevState;
-        }
-        if (prevState === null) {
-          return 0;
-        }
-
-        const moveDownIsPossible = prevState + fieldSize < cells.length;
-        const moveUpIsPossible = prevState - fieldSize >= 0;
-        const moveLeftIsPossible = prevState - 1 >= 0;
-        const moveRightIsPossible = prevState + 1 < cells.length;
-
-        if (downPress && moveDownIsPossible) {
-          return prevState + fieldSize;
-        }
-
-        if (upPress && moveUpIsPossible) {
-          return prevState - fieldSize;
-        }
-
-        if (leftPress && moveLeftIsPossible) {
-          return prevState - 1;
-        }
-        if (rightPress && moveRightIsPossible) {
-          return prevState + 1;
-        }
-        return prevState;
-      });
-    }
-  }, [downPress, upPress, leftPress, rightPress]);
-
-  const [selecting, setSelecting] = useState(false);
-  const [selected, setSelected] = useState<number[]>([]);
-  const [currentWord, setCurrentWord] = useState<string>('');
-
-  const updateSelection = (event: React.SyntheticEvent, id: number, letter: string | null) => {
-    if (selecting && !selected.includes(id)) {
-      const word = !letter ? currentWord : currentWord + letter;
-      setSelected([...selected, id]);
-      setCurrentWord(word);
-      event.currentTarget.classList.add('selected');
-    }
+  const updateCurrWord = (cellLetter: string, id: number) => {
+    setCurrWord((prevState: string) => {
+      let word;
+      if (cellLetter) {
+        word = prevState + cellLetter;
+      } else if (id === selectedCell) {
+        word = prevState + enteredLetter;
+      }
+      return word || prevState;
+    });
   };
 
-  const beginSelection = (event: React.SyntheticEvent, id: number, letter: string | null) => {
-    if (selectedCell && enteredLetter) {
-      setSelecting(true);
-      updateSelection(event, id, letter);
-    }
-  };
+  const isRightPosition = (id: number) => {
+    if (!enteredLetter) return false;
+    const lastLetterId = idsOfChosenLetters[idsOfChosenLetters.length - 1];
+    if (typeof lastLetterId === 'undefined') return true;
 
-  const endSelection = (event: React.SyntheticEvent, id: number, letter: string | null) => {
-    if (selectedCell && enteredLetter) {
-      setSelecting(false);
-      updateSelection(event, id, letter);
-      const field = cells.slice();
-      field[selectedCell] = enteredLetter;
+    const isLetterNextDown = id === lastLetterId + fieldSize;
+    const isLetterNextUp = id === lastLetterId - fieldSize;
+    const isLetterNextRight = id === lastLetterId + 1;
+    const isLetterNextLeft = id === lastLetterId - 1;
+    const isLastLetterInSameRow = Math.floor(id / fieldSize) === Math.floor(lastLetterId / fieldSize);
 
-      setCells(field);
-
-      setCurrentWord('');
-      setSelected([]);
-    }
+    return (
+      (isLetterNextRight && isLastLetterInSameRow) ||
+      (isLetterNextLeft && isLastLetterInSameRow) ||
+      isLetterNextUp ||
+      isLetterNextDown
+    );
   };
 
   return (
-    <div className="game-field" role="button" tabIndex={0} onClick={handleIsKeyboardHidden}>
+    <div className="game-field" role="button" tabIndex={0}>
       {chunk(cells, fieldSize).map((item: string[], rowIndex: number) => (
         /* eslint-disable  react/no-array-index-key */
         <div key={`cellRow${rowIndex}`} className="cellRow">
-          {item.map((cell: string, index: number) => {
+          {item.map((cellLetter: string, index: number) => {
             const id = rowIndex * fieldSize + index;
             return (
               <Cell
                 key={id}
-                isActiveCell={id === selectedCell}
+                isActive={id === selectedCell}
+                isSelected={idsOfChosenLetters.includes(id)}
                 enteredLetter={enteredLetter}
-                handleSelectedCell={() => {
-                  if (!enteredLetter) {
+                handleSelectedCell={(event: React.MouseEvent) => {
+                  if (!enteredLetter && !cellLetter) {
                     setSelectedCell(id);
+                    handleIsKeyboardHidden(event);
                   } else {
-                    // TODO в этом случае буква уже выбрана, у cell после клика
-                    // другая подсветка и уже набираем по буквам слово
+                    const cellHasLetter = cellLetter || id === selectedCell;
+                    const wrongSelectedLetter = !(
+                      isRightPosition(id) &&
+                      cellHasLetter &&
+                      !idsOfChosenLetters.includes(id)
+                    );
+                    if (wrongSelectedLetter) return;
+                    const joined = [...idsOfChosenLetters].concat(id);
+                    setIdsOfChosenLetters(joined);
+                    updateCurrWord(cellLetter, id);
                   }
                 }}
-                letter={cell}
-                onMouseDown={(event) => beginSelection(event, id, cell)}
-                onMouseUp={(event) => endSelection(event, id, cell)}
-                onMouseMove={(event) => updateSelection(event, id, cell)}
+                letter={cellLetter}
               />
             );
           })}

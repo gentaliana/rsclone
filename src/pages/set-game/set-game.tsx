@@ -2,13 +2,13 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/esm/Form';
-import './set-game.scss';
-import Col from 'react-bootstrap/esm/Col';
 import { useSelector, useDispatch } from 'react-redux';
 import { IAppState, IGameState } from '@types';
 import { Redirect } from 'react-router-dom';
 import { routes } from '@constants';
 import { setGame } from '@store';
+import { RadioGroup } from '@components';
+import './set-game.scss';
 
 export const SetGame = (): JSX.Element => {
   const { t } = useTranslation();
@@ -43,42 +43,40 @@ export const SetGame = (): JSX.Element => {
     <div className="set-game">
       {isFormSubmit && <Redirect to={routes.GAME} />}
       <Form onSubmit={(event) => handleSubmit(event)}>
-        <Form.Group controlId="fieldSize">
-          <Form.Label>{t('settings.field-size')}</Form.Label>
-          <Col>
-            {sizes.map((size) => {
-              const isCurrentSize = game.fieldSize === size;
-              return (
-                <Form.Check
-                  key={size}
-                  inline
-                  label={size}
-                  type="radio"
-                  value={size}
-                  name="fieldSize"
-                  defaultChecked={isCurrentSize}
-                  id={`fieldSize-${size}`}
-                />
-              );
-            })}
-          </Col>
-        </Form.Group>
+        <RadioGroup
+          controlId="fieldSize"
+          groupLabel={t('settings.field-size')}
+          name="fieldSize"
+          items={sizes.map((size) => {
+            const isCurrentSize = game.fieldSize === size;
+            return {
+              id: `fieldSize-${size}`,
+              label: `${size}`,
+              value: `${size}`,
+              defaultChecked: isCurrentSize,
+            };
+          })}
+        />
 
-        <Form.Group controlId="secondPlayer">
-          <Form.Label>{t('settings.second-player')}</Form.Label>
-          <Col>
-            <Form.Check inline label="Bot" type="radio" value="bot" name="secondPlayer" id="secondPlayer-bot" />
-            <Form.Check
-              inline
-              label="Human"
-              type="radio"
-              value="human"
-              name="secondPlayer"
-              id="secondPlayer-human"
-              defaultChecked
-            />
-          </Col>
-        </Form.Group>
+        <RadioGroup
+          controlId="secondPlayer"
+          groupLabel={t('settings.second-player')}
+          name="secondPlayer"
+          items={[
+            {
+              id: 'secondPlayer-bot',
+              label: t('settings.bot'),
+              value: 'bot',
+              defaultChecked: false,
+            },
+            {
+              id: 'secondPlayer-human',
+              label: t('settings.human'),
+              value: 'human',
+              defaultChecked: true,
+            },
+          ]}
+        />
         <Form.Group controlId="firstWord">
           <Form.Label>{t('settings.first-word')}</Form.Label>
           <Form.Control type="text" value="balda" name="firstWord" readOnly />

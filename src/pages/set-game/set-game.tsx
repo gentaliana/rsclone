@@ -57,6 +57,7 @@ export const SetGame = (): JSX.Element => {
                   value={size}
                   name="fieldSize"
                   defaultChecked={isCurrentSize}
+                  id={`fieldSize-${size}`}
                 />
               );
             })}
@@ -66,8 +67,16 @@ export const SetGame = (): JSX.Element => {
         <Form.Group controlId="secondPlayer">
           <Form.Label>{t('settings.second-player')}</Form.Label>
           <Col>
-            <Form.Check inline label="Bot" type="radio" value="bot" name="secondPlayer" />
-            <Form.Check inline label="Human" type="radio" value="human" name="secondPlayer" defaultChecked />
+            <Form.Check inline label="Bot" type="radio" value="bot" name="secondPlayer" id="secondPlayer-bot" />
+            <Form.Check
+              inline
+              label="Human"
+              type="radio"
+              value="human"
+              name="secondPlayer"
+              id="secondPlayer-human"
+              defaultChecked
+            />
           </Col>
         </Form.Group>
         <Form.Group controlId="firstWord">

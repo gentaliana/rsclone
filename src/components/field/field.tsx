@@ -5,6 +5,7 @@ import { Cell } from '@components';
 import { IAppState } from '@types';
 import { useSelector } from 'react-redux';
 import { useKeyPress } from '@hooks';
+import { DEFAULT_FIELD_SIDE_SIZE } from '@constants';
 
 type FieldProps = {
   handleMouseSelectCell: (index: number) => void;
@@ -86,6 +87,8 @@ export const Field = ({
     addLastLetterCurrWord(id);
   };
 
+  const style = { height: DEFAULT_FIELD_SIDE_SIZE };
+
   useEffect(() => {
     if (spacePress && canSelect) {
       if (focusedCell != null && cells[focusedCell]) {
@@ -95,7 +98,7 @@ export const Field = ({
   }, [spacePress]);
 
   return (
-    <div className="game-field" role="button" tabIndex={0}>
+    <div className="game-field" style={style}>
       {chunk(cells, fieldSize).map((item: string[], rowIndex: number) => (
         /* eslint-disable  react/no-array-index-key */
         <div key={`cellRow${rowIndex}`} className="cellRow">

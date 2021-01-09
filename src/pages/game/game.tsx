@@ -43,7 +43,7 @@ export const Game = (): JSX.Element => {
   };
 
   const resetState = (skipLetterClean?: boolean | null) => {
-    if (!skipLetterClean && enteredLetter && selectedCell) {
+    if (!skipLetterClean && enteredLetter && selectedCell !== null) {
       setLetterInCells('', selectedCell);
     }
     setEnteredLetter('');
@@ -79,7 +79,7 @@ export const Game = (): JSX.Element => {
   };
 
   const handleCurrentLetter = (letter: string) => {
-    if (focusedCell) {
+    if (focusedCell !== null) {
       setSelectedCell(focusedCell);
       setIsKeyboardHidden(true);
       setEnteredLetter(letter);
@@ -142,7 +142,7 @@ export const Game = (): JSX.Element => {
 
   useEffect(() => {
     if (escPress) resetState();
-    const isSelectedCellWithoutLetter = !enteredLetter && focusedCell != null;
+    const isSelectedCellWithoutLetter = !enteredLetter && focusedCell !== null;
     if (shiftPress && isSelectedCellWithoutLetter) {
       setIsKeyboardHidden(!isKeyboardHidden);
     }

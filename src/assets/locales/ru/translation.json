@@ -1,4 +1,9 @@
 {
+  "auth": {
+    "entry": "Вход",
+    "login": "Логин",
+    "password": "Пароль"
+  },
   "links": {
     "new-game": "Новая игра",
     "rating": "Рейтинг",

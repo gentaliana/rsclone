@@ -1,4 +1,9 @@
 {
+  "auth": {
+    "entry": "Entry",
+    "login": "Login",
+    "password": "Passord"
+  },
   "links": {
     "new-game": "New Game",
     "rating": "Rating",

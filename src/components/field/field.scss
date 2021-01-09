@@ -4,14 +4,13 @@
 
 .game-field {
   width: 100%;
-  height: 500px;
   border: solid 1px black;
 }
 
 .cell {
-  width: 100px;
-  height: 100px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Chrome/Safari/Opera */
   -khtml-user-select: none; /* Konqueror */
@@ -29,8 +28,8 @@
   background-color: lightblue;
 }
 
-.selected {
-  background-color: lightgreen;
+.focused {
+  border: 3px solid lightgreen;
 }
 
 .cellRow {

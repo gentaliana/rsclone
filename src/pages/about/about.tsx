@@ -21,6 +21,14 @@ export const About = (): JSX.Element => {
         <li>{t('help.move.two')}</li>
         <li>{t('help.move.tree')}</li>
       </ul>
+      <h3>{t('help.keyboardMove.header')}</h3>
+      <ul>
+        <li>{t('help.keyboardMove.one')}</li>
+        <li>{t('help.keyboardMove.two')}</li>
+        <li>{t('help.keyboardMove.tree')}</li>
+        <li>{t('help.keyboardMove.four')}</li>
+        <li>{t('help.keyboardMove.five')}</li>
+      </ul>
       <h3>{t('help.additionally')}</h3>
       <span>{t('help.start')}</span>
       <span>{t('help.points')}</span>

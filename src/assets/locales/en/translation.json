@@ -1,4 +1,11 @@
 {
+  "auth": {
+    "entry": "Login",
+    "login": "Login",
+    "password": "Password",
+    "register": "Register",
+    "confirm": "Repeat password"
+  },
   "links": {
     "new-game": "New Game",
     "rating": "Rating",

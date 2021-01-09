@@ -31,8 +31,6 @@ export const Field = ({
 
   const spacePress = useKeyPress(' ');
 
-  const checkCellLetter = (cellLetter: string) => canSelect && !cellLetter;
-
   const addLastLetterCurrWord = (id: number) => {
     setCurrWord((prevState: string) => {
       let word;
@@ -90,11 +88,8 @@ export const Field = ({
 
   useEffect(() => {
     if (spacePress && canSelect) {
-      if (focusedCell != null) {
-        const isSetLetter = checkCellLetter(cells[focusedCell]);
-        if (!isSetLetter) {
-          checkNextCell(focusedCell);
-        }
+      if (focusedCell != null && cells[focusedCell]) {
+        checkNextCell(focusedCell);
       }
     }
   }, [spacePress]);

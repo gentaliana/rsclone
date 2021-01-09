@@ -9,9 +9,9 @@
 }
 
 .cell {
-  width: 100px;
-  height: 100px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Chrome/Safari/Opera */
   -khtml-user-select: none; /* Konqueror */

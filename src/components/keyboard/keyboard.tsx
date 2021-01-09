@@ -8,15 +8,11 @@ import { useTranslation } from 'react-i18next';
 
 type KeyboardProps = {
   setCurrentLetter: (letter: string) => void;
-  handleIsKeyboardHidden: (event: React.MouseEvent) => void;
+  handleHideKeyboard: () => void;
   isKeyboardHidden: boolean;
 };
 
-export const Keyboard = ({
-  setCurrentLetter,
-  isKeyboardHidden,
-  handleIsKeyboardHidden,
-}: KeyboardProps): JSX.Element => {
+export const Keyboard = ({ setCurrentLetter, isKeyboardHidden, handleHideKeyboard }: KeyboardProps): JSX.Element => {
   const lang = useSelector((state: IAppState) => state.settings.lang);
   const currLetters = getLangLetters(lang);
 
@@ -45,7 +41,7 @@ export const Keyboard = ({
   return (
     <div className={isKeyboardHidden ? 'keyboard keyboard-hidden' : 'keyboard'}>
       {renderLetters()}
-      <Button className="mt-2" onClick={handleIsKeyboardHidden}>
+      <Button className="mt-2" onClick={handleHideKeyboard}>
         {t('buttons.close')}
       </Button>
     </div>

@@ -7,52 +7,44 @@ import { useSelector } from 'react-redux';
 import { useKeyPress } from '@hooks';
 
 type FieldProps = {
-  enteredLetter: string;
-  handleIsKeyboardHidden: (event: React.MouseEvent) => void;
+  handleMouseSelectCell: (index: number) => void;
   selectedCell: number | null;
-  cellFromKeyboard: number | null;
-  setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>;
+  focusedCell: number | null;
   setCurrWord: React.Dispatch<React.SetStateAction<string>>;
   idsOfChosenLetters: Array<number>;
+  canSelect: boolean;
   cells: Array<string>;
   setIdsOfChosenLetters: (array: Array<number>) => void;
-  //   checkAndSetCellLetter: (cellLetter: string, id: number) => boolean;
 };
 
 export const Field = ({
-  enteredLetter,
-  handleIsKeyboardHidden,
+  handleMouseSelectCell,
   selectedCell,
-  setSelectedCell,
   setCurrWord,
   idsOfChosenLetters,
   setIdsOfChosenLetters,
+  canSelect,
   cells,
-  cellFromKeyboard,
-}: //   checkAndSetCellLetter,
-FieldProps): JSX.Element => {
+  focusedCell,
+}: FieldProps): JSX.Element => {
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
 
-  const enterPress = useKeyPress('Control');
+  const spacePress = useKeyPress(' ');
 
-  const checkAndSetCellLetter = (cellLetter: string, id: number) => {
-    if (!enteredLetter && !cellLetter) {
-      setSelectedCell(id);
-      return true;
-    }
-    return false;
-  };
+  const checkCellLetter = (cellLetter: string) => canSelect && !cellLetter;
 
-  const updateCurrWord = (id: number) => {
+  const addLastLetterCurrWord = (id: number) => {
     setCurrWord((prevState: string) => {
       let word;
       if (cells[id]) {
         word = prevState + cells[id];
-      } else if (id === selectedCell) {
-        word = prevState + enteredLetter;
       }
       return word || prevState;
     });
+  };
+
+  const deleteLastLetterCurrWord = () => {
+    setCurrWord((prevState: string) => prevState.substring(0, prevState.length - 1));
   };
 
   const isRightPosition = (id: number) => {
@@ -74,24 +66,38 @@ FieldProps): JSX.Element => {
   };
 
   const isWrongSelectedLetter = (id: number) => {
-    if (!enteredLetter) return false;
     const cellHasLetter = cells[id] || id === selectedCell;
     const wrongSelectedLetter = !(isRightPosition(id) && cellHasLetter && !idsOfChosenLetters.includes(id));
     return wrongSelectedLetter;
   };
 
+  const isClickOnLastLetter = (id: number) => {
+    const lastHighlightedLetter = id === idsOfChosenLetters[idsOfChosenLetters.length - 1];
+    if (lastHighlightedLetter) {
+      setIdsOfChosenLetters(idsOfChosenLetters.slice(0, -1));
+      deleteLastLetterCurrWord();
+      return true;
+    }
+    return false;
+  };
+
+  const checkNextCell = (id: number) => {
+    if (isClickOnLastLetter(id)) return;
+    if (isWrongSelectedLetter(id)) return;
+    setIdsOfChosenLetters([...idsOfChosenLetters].concat(id));
+    addLastLetterCurrWord(id);
+  };
+
   useEffect(() => {
-    if (enterPress) {
-      if (cellFromKeyboard != null) {
-        const isSetLetter = checkAndSetCellLetter(cells[cellFromKeyboard], cellFromKeyboard);
+    if (spacePress && canSelect) {
+      if (focusedCell != null) {
+        const isSetLetter = checkCellLetter(cells[focusedCell]);
         if (!isSetLetter) {
-          if (isWrongSelectedLetter(cellFromKeyboard)) return;
-          setIdsOfChosenLetters([...idsOfChosenLetters].concat(cellFromKeyboard));
-          updateCurrWord(cellFromKeyboard);
+          checkNextCell(focusedCell);
         }
       }
     }
-  }, [enterPress]);
+  }, [spacePress]);
 
   return (
     <div className="game-field" role="button" tabIndex={0}>
@@ -104,28 +110,16 @@ FieldProps): JSX.Element => {
               <Cell
                 key={id}
                 isActive={id === selectedCell}
-                cellFromKeyboard={id === cellFromKeyboard}
+                isFocused={id === focusedCell}
                 isSelected={idsOfChosenLetters.includes(id)}
-                enteredLetter={enteredLetter}
-                handleSelectedCell={(event: React.MouseEvent) => {
-                  if (checkAndSetCellLetter(cellLetter, id)) {
-                    handleIsKeyboardHidden(event);
-                  } else {
-                    //   if (!enteredLetter && !cellLetter) {
-                    //     setSelectedCell(id);
-                    //     handleIsKeyboardHidden(event);
-                    // const cellHasLetter = cellLetter || id === selectedCell;
-                    // const wrongSelectedLetter = !(
-                    //   isRightPosition(id) &&
-                    //   cellHasLetter &&
-                    //   !idsOfChosenLetters.includes(id)
-                    // );
-                    if (isWrongSelectedLetter(id)) return;
-                    setIdsOfChosenLetters([...idsOfChosenLetters].concat(id));
-                    updateCurrWord(id);
+                letter={cellLetter}
+                handleSelectedCell={() => {
+                  if (canSelect) {
+                    checkNextCell(id);
+                  } else if (cellLetter === '') {
+                    handleMouseSelectCell(id);
                   }
                 }}
-                letter={cellLetter}
               />
             );
           })}

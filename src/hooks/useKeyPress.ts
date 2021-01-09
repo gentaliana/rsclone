@@ -14,13 +14,35 @@ export const useKeyPress = (targetKey: string): boolean => {
 
   const upHandler = useCallback(
     ({ key }: { key: string }) => {
-      console.log(key);
       if (key === targetKey) {
         setKeyPressed(false);
       }
     },
     [targetKey],
   );
+
+  useEffect(() => {
+    window.addEventListener('keydown', downHandler);
+    window.addEventListener('keyup', upHandler);
+    return () => {
+      window.removeEventListener('keydown', downHandler);
+      window.removeEventListener('keyup', upHandler);
+    };
+  }, []);
+
+  return keyPressed;
+};
+
+export const useSymbolKeyPress = (): string => {
+  const [keyPressed, setKeyPressed] = useState('');
+
+  const downHandler = () => setKeyPressed('');
+
+  const upHandler = (e: KeyboardEvent) => {
+    if (e.key.length === 1) {
+      setKeyPressed(e.key);
+    }
+  };
 
   useEffect(() => {
     window.addEventListener('keydown', downHandler);

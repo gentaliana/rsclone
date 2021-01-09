@@ -5,15 +5,17 @@ import Button from 'react-bootstrap/Button';
 import { getLangLetters } from '@constants';
 import { useSelector } from 'react-redux';
 import { IAppState } from '@types';
-import { useKeyPress } from '@hooks';
+import { useKeyPress, useSymbolKeyPress } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
   const [isKeyboardHidden, setIsKeyboardHidden] = useState(true);
+  // current focused cell by keyboard / mouse
+  const [focusedCell, setFocusedCell] = useState<number | null>(null);
+  // a cell with selected new letter
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
-  const [cellFromKeyboard, setCellFromKeyboard] = useState<number | null>(null);
   const [currWord, setCurrWord] = useState<string>('');
   const [idsOfChosenLetters, setIdsOfChosenLetters] = useState<Array<number>>([]);
 
@@ -23,16 +25,27 @@ export const Game = (): JSX.Element => {
   const [infoMessage, setInfoMessage] = useState('Please, enter the letter');
 
   const escPress = useKeyPress('Escape');
-  const spacePress = useKeyPress(' ');
   const downPress = useKeyPress('ArrowDown');
   const upPress = useKeyPress('ArrowUp');
   const leftPress = useKeyPress('ArrowLeft');
   const rightPress = useKeyPress('ArrowRight');
-  //   const enterPress = useKeyPress('Enter');
+  const enterPress = useKeyPress('Enter');
+  const shiftPress = useKeyPress('Shift');
+  const symbolPressed = useSymbolKeyPress();
 
   const { t } = useTranslation();
+  const lang = useSelector((state: IAppState) => state.settings.lang);
 
-  const handleClearButton = () => {
+  const setLetterInCells = (letter: string, pos: number) => {
+    const newCells = [...cells];
+    newCells[pos] = letter;
+    setCells(newCells);
+  };
+
+  const resetState = (skipLetterClean?: boolean | null) => {
+    if (!skipLetterClean && enteredLetter && selectedCell) {
+      setLetterInCells('', selectedCell);
+    }
     setEnteredLetter('');
     setSelectedCell(null);
     setIsKeyboardHidden(true);
@@ -40,42 +53,65 @@ export const Game = (): JSX.Element => {
     setCurrWord('');
   };
 
+  const handleClearButton = () => resetState(false);
+
   const handleSubmitButton = () => {
     if (currWord.length === 0) {
       setInfoMessage('You did not choose any letters');
       return;
     }
     if (currWord.length === 1) {
-      handleClearButton();
+      resetState();
       setInfoMessage('Word is too short!');
       return;
     }
     // TODO currWord проверка в словаре
-    const updatedCells = [...cells];
     if (selectedCell !== null) {
       if (!idsOfChosenLetters.includes(selectedCell)) {
-        handleClearButton();
+        resetState();
         setInfoMessage('Word must contain selected cell!');
         return;
       }
       setInfoMessage(`Accepted: ${currWord}`);
-      updatedCells[selectedCell] = enteredLetter;
     }
-    setCells(updatedCells);
-    handleClearButton();
+    // Важно! не очищаем выбранную букву, т.к. она была принята
+    resetState(true);
   };
 
   const handleCurrentLetter = (letter: string) => {
-    setIsKeyboardHidden(true);
-    setEnteredLetter(letter);
+    if (focusedCell) {
+      setSelectedCell(focusedCell);
+      setIsKeyboardHidden(true);
+      setEnteredLetter(letter);
+      setLetterInCells(letter, focusedCell);
+    }
   };
+
+  const handleKeyPressLetter = () => {
+    if (focusedCell == null || cells[focusedCell] !== '' || enteredLetter) {
+      return;
+    }
+    const currLetters = getLangLetters(lang);
+    const letters = currLetters.flat().map((el) => el.name.toUpperCase());
+    if (letters.includes(symbolPressed.toUpperCase())) {
+      handleCurrentLetter(symbolPressed.toUpperCase());
+    }
+  };
+
+  const handleMouseSelectCell = (index: number) => {
+    if (!enteredLetter) {
+      setFocusedCell(index);
+      if (isKeyboardHidden) setIsKeyboardHidden(false);
+    } else {
+      setIsKeyboardHidden(true);
+    }
+  };
+
+  const handleHideKeyboard = () => setIsKeyboardHidden(true);
 
   useEffect(() => {
     if (downPress || upPress || leftPress || rightPress) {
-      setCellFromKeyboard((prevState: number | null) => {
-        // if (enteredLetter) {
-        //   return prevState;
-        // }
+      setFocusedCell((prevState: number | null) => {
         if (prevState === null) {
           return 0;
         }
@@ -105,38 +141,19 @@ export const Game = (): JSX.Element => {
   }, [downPress, upPress, leftPress, rightPress]);
 
   useEffect(() => {
-    if (escPress) handleClearButton();
-    const isSelectedCellWithoutLetter = !enteredLetter && selectedCell != null;
-    if (spacePress && isSelectedCellWithoutLetter) {
+    if (escPress) resetState();
+    const isSelectedCellWithoutLetter = !enteredLetter && focusedCell != null;
+    if (shiftPress && isSelectedCellWithoutLetter) {
       setIsKeyboardHidden(!isKeyboardHidden);
     }
-  }, [escPress, spacePress]);
-
-  const lang = useSelector((state: IAppState) => state.settings.lang);
-
-  const handleKeyPressLetter = (event: KeyboardEvent) => {
-    if ((selectedCell !== null && cells[selectedCell]) || enteredLetter || selectedCell !== null) {
-      return;
+    if (enterPress) {
+      handleSubmitButton();
     }
-    const currLetters = getLangLetters(lang);
-    const letters = currLetters.flat().map((el) => el.name.toUpperCase());
-    if (letters.includes(event.key.toUpperCase())) handleCurrentLetter(event.key.toUpperCase());
-  };
-
-  const handleIsKeyboardHidden = (event: React.MouseEvent) => {
-    if ((event.target as HTMLTextAreaElement).classList.contains('cell') && !enteredLetter) {
-      if (isKeyboardHidden) setIsKeyboardHidden(false);
-    } else {
-      setIsKeyboardHidden(true);
-    }
-  };
+  }, [escPress, enterPress, shiftPress]);
 
   useEffect(() => {
-    document.addEventListener('keyup', handleKeyPressLetter, false);
-    return () => {
-      document.removeEventListener('keyup', handleKeyPressLetter);
-    };
-  }, [downPress, upPress, leftPress, rightPress]);
+    handleKeyPressLetter();
+  }, [symbolPressed]);
 
   return (
     <div className="main-game">
@@ -145,21 +162,19 @@ export const Game = (): JSX.Element => {
         <Keyboard
           setCurrentLetter={handleCurrentLetter}
           isKeyboardHidden={isKeyboardHidden}
-          handleIsKeyboardHidden={handleIsKeyboardHidden}
+          handleHideKeyboard={handleHideKeyboard}
         />
         <div className="game-main">
           <Scores />
           <Field
-            enteredLetter={enteredLetter}
-            handleIsKeyboardHidden={handleIsKeyboardHidden}
+            handleMouseSelectCell={handleMouseSelectCell}
             selectedCell={selectedCell}
-            cellFromKeyboard={cellFromKeyboard}
-            setSelectedCell={setSelectedCell}
+            focusedCell={focusedCell}
             setCurrWord={setCurrWord}
             idsOfChosenLetters={idsOfChosenLetters}
             setIdsOfChosenLetters={setIdsOfChosenLetters}
+            canSelect={enteredLetter !== ''}
             cells={cells}
-            // checkAndSetCellLetter={checkAndSetCellLetter}
           />
           <WordField currWord={currWord} infoMessage={infoMessage} />
           <div className="buttons">

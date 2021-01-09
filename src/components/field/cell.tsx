@@ -4,27 +4,12 @@ import './field.scss';
 type CellProps = {
   isActive: boolean;
   isSelected: boolean;
+  isFocused: boolean;
   letter: string;
-  enteredLetter: string;
-  cellFromKeyboard: boolean;
-  handleSelectedCell: (event: React.MouseEvent) => void;
+  handleSelectedCell: () => void;
 };
 
-export const Cell = ({
-  isActive,
-  isSelected,
-  letter,
-  enteredLetter,
-  handleSelectedCell,
-  cellFromKeyboard,
-}: CellProps): JSX.Element => {
-  const displayLetter = () => {
-    if (letter) {
-      return letter;
-    }
-    return enteredLetter && isActive ? enteredLetter : '';
-  };
-
+export const Cell = ({ isActive, isSelected, isFocused, letter, handleSelectedCell }: CellProps): JSX.Element => {
   const getClassName = () => {
     const classes = ['cell'];
     if (isActive) {
@@ -33,15 +18,15 @@ export const Cell = ({
     if (isSelected) {
       classes.push('selected');
     }
-    if (cellFromKeyboard) {
-      classes.push('selected-keyboard');
+    if (isFocused) {
+      classes.push('focused');
     }
     return classes.join(' ');
   };
 
   return (
     <div className={getClassName()} onClick={handleSelectedCell} role="button" tabIndex={-1}>
-      {displayLetter()}
+      {letter}
     </div>
   );
 };

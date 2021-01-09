@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './game.scss';
-import { Keyboard, Field, WordField, Scores } from '@components';
+import { Keyboard, Field, WordField, Scores, PlayerWords } from '@components';
 import Button from 'react-bootstrap/Button';
 import { getLangLetters } from '@constants';
-import { useSelector } from 'react-redux';
-import { IAppState } from '@types';
+import { useSelector, useDispatch } from 'react-redux';
 import { useKeyPress, useSymbolKeyPress } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
+import { IAppState, IGameState } from '@types';
+import { setGame } from '@store';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -23,6 +24,11 @@ export const Game = (): JSX.Element => {
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
   const [cells, setCells] = useState(initCells(fieldSize, firstWord));
   const [infoMessage, setInfoMessage] = useState('Please, enter the letter');
+
+  const dispatch = useDispatch();
+  const game = useSelector((state: IAppState) => state.game);
+  const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
+  const isPlayer1Turn = useSelector((state: IAppState) => state.game.isPlayer1Turn);
 
   const escPress = useKeyPress('Escape');
   const downPress = useKeyPress('ArrowDown');
@@ -65,15 +71,39 @@ export const Game = (): JSX.Element => {
       setInfoMessage('Word is too short!');
       return;
     }
-    // TODO currWord проверка в словаре
+
     if (selectedCell !== null) {
       if (!idsOfChosenLetters.includes(selectedCell)) {
         resetState();
         setInfoMessage('Word must contain selected cell!');
         return;
       }
-      setInfoMessage(`Accepted: ${currWord}`);
     }
+
+    if (game.player1.words.includes(currWord) || game.player2.words.includes(currWord)) {
+      resetState();
+      setInfoMessage('This word was already used in game!');
+      return;
+    }
+    // TODO currWord проверка в словаре
+    setInfoMessage(`Accepted: ${currWord}`);
+
+    const numberOfPoints = currWord.length;
+
+    if (isPlayer1Turn) {
+      setGameSettings({
+        ...game,
+        isPlayer1Turn: !game.isPlayer1Turn,
+        player1: { points: game.player1.points + numberOfPoints, words: [...game.player1.words, currWord] },
+      });
+    } else {
+      setGameSettings({
+        ...game,
+        isPlayer1Turn: !game.isPlayer1Turn,
+        player2: { points: game.player2.points + numberOfPoints, words: [...game.player2.words, currWord] },
+      });
+    }
+
     // Важно! не очищаем выбранную букву, т.к. она была принята
     resetState(true);
   };
@@ -157,7 +187,7 @@ export const Game = (): JSX.Element => {
 
   return (
     <div className="main-game">
-      <div />
+      <PlayerWords />
       <div className="field-area">
         <Keyboard
           setCurrentLetter={handleCurrentLetter}
@@ -188,7 +218,7 @@ export const Game = (): JSX.Element => {
           </div>
         </div>
       </div>
-      <div />
+      <PlayerWords isEnemy />
     </div>
   );
 };

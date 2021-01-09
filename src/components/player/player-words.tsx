@@ -1,11 +1,29 @@
 import React from 'react';
 import './player.scss';
+import { IAppState } from '@types';
+import { useSelector } from 'react-redux';
 
-export const PlayerWords = (): JSX.Element => {
-  const isCurrent = true;
-  // isEnemy
-  // isCurrent
-  // points
-  // points
-  return <div>Player {isCurrent}</div>;
+type PlayerWordsProps = {
+  isEnemy?: boolean;
+};
+
+export const PlayerWords = ({ isEnemy = false }: PlayerWordsProps): JSX.Element => {
+  const player1 = useSelector((state: IAppState) => state.game.player1);
+  const player2 = useSelector((state: IAppState) => state.game.player2);
+
+  const displayedWords = isEnemy ? player2.words : player1.words;
+
+  return (
+    <div className="player-words">
+      <ul>
+        {displayedWords.map((word) => (
+          <li key={word}>{word}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+PlayerWords.defaultProps = {
+  isEnemy: false,
 };

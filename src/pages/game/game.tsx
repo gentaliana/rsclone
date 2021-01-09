@@ -158,7 +158,7 @@ export const Game = (): JSX.Element => {
   return (
     <div className="main-game">
       <div />
-      <div className="field-area" role="button" tabIndex={0}>
+      <div className="field-area">
         <Keyboard
           setCurrentLetter={handleCurrentLetter}
           isKeyboardHidden={isKeyboardHidden}

@@ -15,17 +15,19 @@ export const Footer = (): JSX.Element => {
             <a href="https://github.com/LiliyaSm" target="_blank" rel="noreferrer">
               LiliyaSm
             </a>
-            &nbsp;
+            ,
           </span>
           <span>
+            &nbsp;
             <a href="https://github.com/gentaliana" target="_blank" rel="noreferrer">
               Gentaliana
             </a>
             ,
           </span>
           <span>
+            &nbsp;
             <a href="https://github.com/ryabykhms" target="_blank" rel="noreferrer">
-              &nbsp;Ryabykhms
+              Ryabykhms
             </a>
             ,
           </span>

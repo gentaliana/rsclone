@@ -9,3 +9,4 @@ export enum FieldSizes {
 }
 
 export const DEFAULT_FIELD_SIZE = FieldSizes.FIVE;
+export const DEFAULT_FIELD_SIDE_SIZE = 500;

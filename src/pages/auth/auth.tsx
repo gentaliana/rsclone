@@ -63,5 +63,5 @@ export const Auth = (props: IAuthProps): JSX.Element => {
 };
 
 Auth.defaultProps = {
-  isRegister: true,
+  isRegister: false,
 };

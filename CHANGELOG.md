@@ -16,6 +16,7 @@
 - Удаление буквы на поле если пользователь передумал вводить слово (https://github.com/gentaliana/rsclone/issues/80)
 - Добавлены хоткеи на ввод (https://github.com/gentaliana/rsclone/issues/85)
 - Добавлена страница аутентификации (https://github.com/gentaliana/rsclone/issues/52)
+- Добавлены поля с введенными словами для каждого игрока (https://github.com/gentaliana/rsclone/issues/86)
 
 ### Fix
 

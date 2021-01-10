@@ -7,7 +7,7 @@ type PlayerWordsProps = {
   isEnemy?: boolean;
 };
 
-export const PlayerWords = ({ isEnemy = false }: PlayerWordsProps): JSX.Element => {
+export const PlayerWords = ({ isEnemy }: PlayerWordsProps): JSX.Element => {
   const player1 = useSelector((state: IAppState) => state.game.player1);
   const player2 = useSelector((state: IAppState) => state.game.player2);
 

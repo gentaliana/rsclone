@@ -3,7 +3,6 @@ import { TableWithPaginator } from '@components';
 import './rating.scss';
 
 export const Rating = (): JSX.Element => {
-  console.log('render');
   const initialRaiting = [
     {
       id: 1,

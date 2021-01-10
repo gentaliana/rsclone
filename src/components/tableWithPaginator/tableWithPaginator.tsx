@@ -33,7 +33,6 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
   }
 
   const sortColumn = (param: string) => {
-    console.log(param);
     switch (param) {
       case ('User Name' || 'Время'): {
         if (alfabetName) {

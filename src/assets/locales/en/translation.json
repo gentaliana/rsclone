@@ -1,4 +1,11 @@
 {
+  "auth": {
+    "entry": "Login",
+    "login": "Login",
+    "password": "Password",
+    "register": "Register",
+    "confirm": "Repeat password"
+  },
   "links": {
     "new-game": "New Game",
     "rating": "Rating",
@@ -49,5 +56,33 @@
   },
   "footer": {
     "by": "by"
+  },
+  "help": {
+    "rulesGame": "Rules of the game:",
+    "listRules": {
+      "one": "The player's task is to compose a new word from existing letters by adding one new one.",
+      "two": "Letters can be selected in any direction, but not diagonally.",
+      "tree": "You cannot reuse the word.",
+      "four": "The same cell cannot be used twice in a word.",
+      "five": "The longer the word, the more points: for each letter, one point.",
+      "six": "The player with the most points wins. The one who cannot come up with a word loses."
+    },
+    "move": {
+      "header": "To make a move:",
+      "one": "Select a cell in the field and insert a new letter into it.",
+      "two": "Create a word by clicking on the letters continuously, in the order they are written. The word must include a new letter.",
+      "tree": "Confirm the word. If a mistake was made, cancel it."
+    },
+    "keyboardMove": {
+      "header": "Keyboard control:",
+      "one": "For the selection of the desired cell use the Up-Down-Right-Left keys from the keyboard.",
+      "two": "Select the desired cell and press the letter either on the keyboard in the layout of the current language or by pressing the Shift key to open the virtual keyboard and select the desired letter using the Tab key.",
+      "tree": "After entering a letter select a letter in a word using the Space key.",
+      "four": "To cancel the entered words and letters use Esc.",
+      "five": "Send selected word  by pressing Enter."
+    },
+    "additionally": "Additionally:",
+    "start": "The game starts with a start word, which is randomly selected by the computer.",
+    "points": "The longer the word, the more points you get. For each letter - one point. When skipping a move, the player does not receive points."
   }
 }

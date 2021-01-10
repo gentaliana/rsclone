@@ -11,3 +11,4 @@ export * from './alerts';
 export * from './textInput';
 export * from './buttonToggle';
 export * from './tableWithPaginator';
+export * from './radio-group';

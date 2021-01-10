@@ -1,0 +1,36 @@
+.field-area {
+  margin: 0 auto;
+}
+
+.game-field {
+  width: 100%;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  border: 2px solid black;
+}
+
+.cell.selected {
+  background-color: yellow;
+}
+
+.active {
+  background-color: lightblue;
+}
+
+.focused {
+  border: 3px solid lightgreen;
+}
+
+.cellRow {
+  display: flex;
+}

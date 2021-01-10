@@ -15,11 +15,11 @@ export const PlayerWords = ({ isEnemy = false }: PlayerWordsProps): JSX.Element 
 
   return (
     <div className="player-words">
-      <ul>
+      <ol>
         {displayedWords.map((word) => (
           <li key={word}>{word}</li>
         ))}
-      </ul>
+      </ol>
     </div>
   );
 };

@@ -3,6 +3,10 @@
   align-items: center;
   justify-content: center;
 
+  &--current {
+    color: red;
+  }
+
   &--current::before {
     content: '>';
   }
@@ -10,23 +14,24 @@
 
 .player__name {
   margin: 10px 20px;
+  font-size: 30px;
 }
 
 .player__points {
   margin: 10px;
-}
-
-.player--enemy {
-  color: red;
-
-  & .player__points {
-    order: -1;
-  }
+  font-size: 30px;
+  text-align: center;
 }
 
 .player-words {
-  width: 100%;
+  padding: 5px;
+  margin: 5px;
   background-color: #eae8e8;
   border-radius: 5px;
-  padding: 5px;
+}
+
+.player-words ol {
+  padding-top: 5px;
+  padding-left: 25px;
+  margin: 0;
 }

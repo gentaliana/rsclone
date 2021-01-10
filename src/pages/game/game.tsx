@@ -29,6 +29,8 @@ export const Game = (): JSX.Element => {
   const game = useSelector((state: IAppState) => state.game);
   const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
   const isPlayer1Turn = useSelector((state: IAppState) => state.game.isPlayer1Turn);
+  const name = useSelector((state: IAppState) => state.settings.gamerName);
+  const secondGamerName = useSelector((state: IAppState) => state.settings.secondGamerName);
 
   const escPress = useKeyPress('Escape');
   const downPress = useKeyPress('ArrowDown');
@@ -72,6 +74,8 @@ export const Game = (): JSX.Element => {
       return;
     }
 
+    const curGamerName = game.isPlayer1Turn ? name : secondGamerName;
+
     if (selectedCell !== null) {
       if (!idsOfChosenLetters.includes(selectedCell)) {
         resetState();
@@ -80,13 +84,20 @@ export const Game = (): JSX.Element => {
       }
     }
 
-    if (game.player1.words.includes(currWord) || game.player2.words.includes(currWord)) {
+    if (game.player1.words.includes(currWord)) {
       resetState();
-      setInfoMessage('This word was already used in game!');
+      setInfoMessage(`${name} has already used this word in game!`);
       return;
     }
+
+    if (game.player2.words.includes(currWord)) {
+      resetState();
+      setInfoMessage(`${secondGamerName} has already used this word in game!`);
+      return;
+    }
+
     // TODO currWord проверка в словаре
-    setInfoMessage(`Accepted: ${currWord}`);
+    setInfoMessage(`Accepted from ${curGamerName}: ${currWord}`);
 
     const numberOfPoints = currWord.length;
 
@@ -187,38 +198,40 @@ export const Game = (): JSX.Element => {
 
   return (
     <div className="main-game">
-      <PlayerWords />
-      <div className="field-area">
-        <Keyboard
-          setCurrentLetter={handleCurrentLetter}
-          isKeyboardHidden={isKeyboardHidden}
-          handleHideKeyboard={handleHideKeyboard}
-        />
-        <div className="game-main">
-          <Scores />
-          <Field
-            handleMouseSelectCell={handleMouseSelectCell}
-            selectedCell={selectedCell}
-            focusedCell={focusedCell}
-            setCurrWord={setCurrWord}
-            idsOfChosenLetters={idsOfChosenLetters}
-            setIdsOfChosenLetters={setIdsOfChosenLetters}
-            canSelect={enteredLetter !== ''}
-            cells={cells}
+      <Scores />
+      <div className="game">
+        <PlayerWords />
+        <div className="field-area">
+          <Keyboard
+            setCurrentLetter={handleCurrentLetter}
+            isKeyboardHidden={isKeyboardHidden}
+            handleHideKeyboard={handleHideKeyboard}
           />
-          <WordField currWord={currWord} infoMessage={infoMessage} />
-          <div className="buttons">
-            <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
-              {t('buttons.cancel')}
-            </Button>
-            <Button disabled={!isKeyboardHidden}>Skip turn</Button>
-            <Button disabled={!isKeyboardHidden} onClick={handleSubmitButton}>
-              {t('buttons.submit')}
-            </Button>
+          <div>
+            <Field
+              handleMouseSelectCell={handleMouseSelectCell}
+              selectedCell={selectedCell}
+              focusedCell={focusedCell}
+              setCurrWord={setCurrWord}
+              idsOfChosenLetters={idsOfChosenLetters}
+              setIdsOfChosenLetters={setIdsOfChosenLetters}
+              canSelect={enteredLetter !== ''}
+              cells={cells}
+            />
+            <WordField currWord={currWord} infoMessage={infoMessage} />
+            <div className="buttons">
+              <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
+                {t('buttons.cancel')}
+              </Button>
+              <Button disabled={!isKeyboardHidden}>Skip turn</Button>
+              <Button disabled={!isKeyboardHidden} onClick={handleSubmitButton}>
+                {t('buttons.submit')}
+              </Button>
+            </div>
           </div>
         </div>
+        <PlayerWords isEnemy />
       </div>
-      <PlayerWords isEnemy />
     </div>
   );
 };

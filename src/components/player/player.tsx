@@ -9,8 +9,6 @@ type PlayerProps = {
 
 export const Player: React.FC<PlayerProps> = ({ isEnemy = false }) => {
   const isPlayer1Turn = useSelector((state: IAppState) => state.game.isPlayer1Turn);
-  const player1 = useSelector((state: IAppState) => state.game.player1);
-  const player2 = useSelector((state: IAppState) => state.game.player2);
 
   const name = useSelector((state: IAppState) => state.settings.gamerName);
   const secondGamerName = useSelector((state: IAppState) => state.settings.secondGamerName);
@@ -18,12 +16,8 @@ export const Player: React.FC<PlayerProps> = ({ isEnemy = false }) => {
   const isGamerCurrent = !isEnemy && isPlayer1Turn;
   const isCurrent = isEnemyCurrent || isGamerCurrent;
   const gamerName = isEnemy ? secondGamerName : name;
-  const points = !isEnemy ? player1.points : player2.points;
 
   const classList = ['player'];
-  if (isEnemy) {
-    classList.push('player--enemy');
-  }
 
   if (isCurrent) {
     classList.push('player--current');
@@ -32,7 +26,6 @@ export const Player: React.FC<PlayerProps> = ({ isEnemy = false }) => {
   return (
     <div className={classList.join(' ')}>
       <span className="player__name">{gamerName}</span>
-      <span className="player__points">{points}</span>
     </div>
   );
 };

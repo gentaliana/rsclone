@@ -1,4 +1,5 @@
 export const routes = {
+  AUTH: '/auth',
   HOME: '/',
   SET_GAME: '/set_game',
   GAME: '/game',

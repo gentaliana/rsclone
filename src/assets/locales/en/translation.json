@@ -48,6 +48,12 @@
     "save": "save settings",
     "unsave": "don't save settings"
   },
+  "raiting": {
+    "place": "Place",
+    "name": "User Name",
+    "score": "Score",
+    "time": "Time"
+  },
   "footer": {
     "by": "by"
   },

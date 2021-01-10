@@ -9,4 +9,21 @@
 
 .main {
   grid-area: main;
+
+  @media screen and (max-width: 1000px) {
+    .players {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .game {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .player-words {
+      display: none;
+    }
+  }
 }

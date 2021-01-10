@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/esm/Form';
 import { useSelector, useDispatch } from 'react-redux';
 import { IAppState, IGameState } from '@types';
 import { Redirect } from 'react-router-dom';
-import { routes } from '@constants';
+import { routes, sizes } from '@constants';
 import { setGame } from '@store';
 import { RadioGroup } from '@components';
 import './set-game.scss';
@@ -17,8 +17,6 @@ export const SetGame = (): JSX.Element => {
 
   const dispatch = useDispatch();
   const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
-
-  const sizes = [3, 4, 5, 6, 7, 8, 9];
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -34,6 +32,9 @@ export const SetGame = (): JSX.Element => {
       isBot: secondPlayer === 'bot',
       fieldSize,
       firstWord,
+      isPlayer1Turn: true,
+      player1: { points: 0, words: [] },
+      player2: { points: 0, words: [] },
     });
 
     setFormSubmit(true);

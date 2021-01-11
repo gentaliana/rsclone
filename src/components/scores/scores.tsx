@@ -10,11 +10,10 @@ export const Scores = (): JSX.Element => {
 
   return (
     <div className="scores">
-      <Timer />
       <div className="players">
         <Player />
         <div className="player__points">
-          <span>{player1.points}</span> : <span>{player2.points}</span>
+          <span>{player1.points}</span> <Timer /> <span>{player2.points}</span>
         </div>
         <Player isEnemy />
       </div>

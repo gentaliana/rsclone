@@ -48,30 +48,24 @@ const renderTime = ({ remainingTime }: any) => {
   );
 };
 
-export const Timer = (): JSX.Element => {
+type TimerProps = {
+  resetState: () => void;
+  timerKey: number;
+};
+
+export const Timer = ({ resetState, timerKey }: TimerProps): JSX.Element => {
   const time = useSelector((state: IAppState) => state.game.time);
-  // console.log(time);
-  // const [counter, setCounter] = useState(time * 60);
-
-  // useEffect(() => {
-  //   const timer = counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
-  //   return () => (typeof timer !== 'boolean' ? clearInterval(timer) : undefined);
-  // });
-
-  // const formatTime = secondsToTime(counter);
-
-  // const renderTime = time > 0 ? `${formatTime.m} : ${formatTime.s}` : null;
-  // return <div className="timer">{renderTime}</div>;
   const game = useSelector((state: IAppState) => state.game);
   const dispatch = useDispatch();
-
   const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
 
   return (
     <CountdownCircleTimer
       isPlaying
+      key={timerKey}
       duration={time * 60}
       onComplete={() => {
+        resetState();
         setGameSettings({
           ...game,
           isPlayer1Turn: !game.isPlayer1Turn,

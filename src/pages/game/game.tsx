@@ -24,6 +24,7 @@ export const Game = (): JSX.Element => {
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
   const [cells, setCells] = useState(initCells(fieldSize, firstWord));
   const [infoMessage, setInfoMessage] = useState('Please, enter the letter');
+  const [timerKey, setTimerKey] = useState(0);
 
   const dispatch = useDispatch();
   const game = useSelector((state: IAppState) => state.game);
@@ -50,6 +51,10 @@ export const Game = (): JSX.Element => {
     setCells(newCells);
   };
 
+  const resetTimer = () => {
+    setTimerKey((prevKey: number) => prevKey + 1);
+  };
+
   const resetState = (skipLetterClean?: boolean | null) => {
     if (!skipLetterClean && enteredLetter && selectedCell !== null) {
       setLetterInCells('', selectedCell);
@@ -58,6 +63,7 @@ export const Game = (): JSX.Element => {
     setSelectedCell(null);
     setIsKeyboardHidden(true);
     setIdsOfChosenLetters([]);
+    resetTimer();
     setCurrWord('');
   };
 
@@ -198,7 +204,7 @@ export const Game = (): JSX.Element => {
 
   return (
     <div className="main-game">
-      <Scores />
+      <Scores resetState={resetState} timerKey={timerKey} />
       <div className="game">
         <PlayerWords />
         <div className="field-area">

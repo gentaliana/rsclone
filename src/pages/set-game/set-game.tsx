@@ -10,19 +10,24 @@ import { setGame } from '@store';
 import { RadioGroup } from '@components';
 import './set-game.scss';
 
+const firstWords = ['bar', 'time', 'board', 'aikido', 'barista', 'bookshop', 'buckboard'];
+
 export const SetGame = (): JSX.Element => {
   const { t } = useTranslation();
   const game = useSelector((state: IAppState) => state.game);
   const [isFormSubmit, setFormSubmit] = React.useState(false);
+  const [fieldSize, setFieldSize] = React.useState(5);
 
   const dispatch = useDispatch();
   const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
+
+  const getFirstWord = React.useMemo(() => firstWords.find((word) => word.length === fieldSize), [fieldSize]);
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     const time = +form.time.value.trim();
-    const fieldSize = +form.fieldSize.value.trim();
+    // const fieldSize = +form.fieldSize.value.trim();
     const firstWord = form.firstWord.value.trim();
     const secondPlayer = form.secondPlayer.value.trim();
 
@@ -57,6 +62,7 @@ export const SetGame = (): JSX.Element => {
               defaultChecked: isCurrentSize,
             };
           })}
+          onChange={setFieldSize}
         />
 
         <RadioGroup
@@ -77,10 +83,11 @@ export const SetGame = (): JSX.Element => {
               defaultChecked: true,
             },
           ]}
+          onChange={setFieldSize}
         />
         <Form.Group controlId="firstWord">
           <Form.Label>{t('settings.first-word')}</Form.Label>
-          <Form.Control type="text" value="balda" name="firstWord" readOnly />
+          <Form.Control type="text" value={getFirstWord} name="firstWord" readOnly />
         </Form.Group>
         <Form.Group controlId="time">
           <Form.Label>{t('settings.time')}</Form.Label>

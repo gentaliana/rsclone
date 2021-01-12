@@ -8,7 +8,7 @@ import { useKeyPress, useSymbolKeyPress } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
-import { setGame } from '@store';
+import { setGame, nextTurn } from '@store';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -66,11 +66,15 @@ export const Game = (): JSX.Element => {
     setSelectedCell(null);
     setIsKeyboardHidden(true);
     setIdsOfChosenLetters([]);
-    resetTimer();
     setCurrWord('');
   };
 
   const handleClearButton = () => resetState(false);
+  const setNextTurn = () => {
+    resetState();
+    resetTimer();
+    dispatch(nextTurn());
+  };
 
   const handleSubmitButton = () => {
     if (currWord.length === 0) {
@@ -107,6 +111,7 @@ export const Game = (): JSX.Element => {
 
     // TODO currWord проверка в словаре
     setInfoMessage(`Accepted from ${curGamerName}: ${currWord}`);
+    resetTimer();
 
     const numberOfPoints = currWord.length;
 
@@ -207,7 +212,7 @@ export const Game = (): JSX.Element => {
 
   return (
     <div className="main-game">
-      <Scores resetState={resetState} timerKey={timerKey} />
+      <Scores onTimerComplete={setNextTurn} timerKey={timerKey} />
       <div className="game">
         <PlayerWords />
         <div className="field-area">
@@ -232,7 +237,9 @@ export const Game = (): JSX.Element => {
               <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
                 {t('buttons.cancel')}
               </Button>
-              <Button disabled={!isKeyboardHidden}>Skip turn</Button>
+              <Button disabled={!isKeyboardHidden} onClick={setNextTurn}>
+                Skip turn
+              </Button>
               <Button disabled={!isKeyboardHidden} onClick={handleSubmitButton}>
                 {t('buttons.submit')}
               </Button>

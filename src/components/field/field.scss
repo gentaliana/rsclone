@@ -19,7 +19,6 @@
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
-  user-select: none;
   border: 1px solid black;
   border-radius: 10px;
   -webkit-touch-callout: none; /* iOS Safari */
@@ -87,9 +86,6 @@
 
 .cell.selected {
   background: yellow;
-  // transform: scale(1.04);
-
-  // border: 2px solid black;
 }
 
 .cellRow {

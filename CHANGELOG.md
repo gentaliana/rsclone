@@ -17,6 +17,7 @@
 - Добавлены хоткеи на ввод (https://github.com/gentaliana/rsclone/issues/85)
 - Добавлена страница аутентификации (https://github.com/gentaliana/rsclone/issues/52)
 - Добавлены поля с введенными словами для каждого игрока (https://github.com/gentaliana/rsclone/issues/86)
+- Добавлена смена слова первого слова в зависимости от выбраного значения поля (https://github.com/gentaliana/rsclone/issues/72)
 
 ### Fix
 

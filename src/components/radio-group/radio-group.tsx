@@ -14,9 +14,10 @@ interface IRadioGroupProps {
   groupLabel: string;
   name: string;
   items: IRadioGroupItem[];
+  onChange: (value: number) => void;
 }
 
-export const RadioGroup = ({ controlId, groupLabel, name, items }: IRadioGroupProps): JSX.Element => (
+export const RadioGroup = ({ controlId, groupLabel, name, items, onChange }: IRadioGroupProps): JSX.Element => (
   <Form.Group controlId={controlId}>
     <Form.Label>{groupLabel}</Form.Label>
     <Col>
@@ -30,6 +31,7 @@ export const RadioGroup = ({ controlId, groupLabel, name, items }: IRadioGroupPr
           name={name}
           defaultChecked={item.defaultChecked}
           id={item.id}
+          onChange={() => onChange(Number(item.value))}
         />
       ))}
     </Col>

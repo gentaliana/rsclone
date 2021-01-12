@@ -39,6 +39,13 @@ export function game(state: IGameState = defaultState.game, action: AnyAction): 
       };
     }
 
+    case GameActions.NEXT_TURN: {
+      return {
+        ...state,
+        isPlayer1Turn: !state.isPlayer1Turn,
+      };
+    }
+
     default:
       return state;
   }

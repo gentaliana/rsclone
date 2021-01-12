@@ -2,8 +2,8 @@ import { secondsToTime } from '@utils';
 import React, { useState, useRef } from 'react';
 import './timer.scss';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import { setGame } from '@store';
-import { IAppState, IGameState } from '@types';
+import { nextTurn } from '@store';
+import { IAppState } from '@types';
 import { useSelector, useDispatch } from 'react-redux';
 
 type RenderTimeProps = {
@@ -58,10 +58,8 @@ type TimerProps = {
 
 export const Timer = ({ resetState, timerKey }: TimerProps): JSX.Element => {
   const time = useSelector((state: IAppState) => state.game.time);
-  const game = useSelector((state: IAppState) => state.game);
-
   const dispatch = useDispatch();
-  const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
+  const setNextTurn = () => dispatch(nextTurn());
 
   return time > 0 ? (
     <div className="timer-wrapper">
@@ -71,11 +69,7 @@ export const Timer = ({ resetState, timerKey }: TimerProps): JSX.Element => {
         duration={time * 60}
         onComplete={() => {
           resetState();
-          setGameSettings({
-            ...game,
-            isPlayer1Turn: !game.isPlayer1Turn,
-          });
-          return [true, 1000]; // repeat animation in 1 second
+          setNextTurn();
         }}
         size={80}
         strokeWidth={6}

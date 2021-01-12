@@ -21,6 +21,10 @@ export interface ISetGameAction {
   payload: IGameState;
 }
 
+export interface INextTurn {
+  type: typeof GameActions.NEXT_TURN;
+}
+
 export interface ISetAlertAction {
   type: typeof AlertActions.SET_NOTIFY;
   payload: INotify;

@@ -11,6 +11,7 @@ export enum GameActions {
   ADD_WORD = 'ADD_WORD',
   ADD_POINTS = 'ADD_POINTS',
   SET_FIELD = 'SET_FIELD',
+  NEXT_TURN = 'NEXT_TURN',
 }
 
 export enum AlertActions {

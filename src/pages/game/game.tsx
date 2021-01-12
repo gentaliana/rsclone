@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
 import { Keyboard, Field, WordField, Scores, PlayerWords } from '@components';
 import Button from 'react-bootstrap/Button';
@@ -33,6 +33,9 @@ export const Game = (): JSX.Element => {
   const name = useSelector((state: IAppState) => state.settings.gamerName);
   const secondGamerName = useSelector((state: IAppState) => state.settings.secondGamerName);
 
+  const selectedCellRef = useRef<number | null>(null);
+  selectedCellRef.current = selectedCell;
+
   const escPress = useKeyPress('Escape');
   const downPress = useKeyPress('ArrowDown');
   const upPress = useKeyPress('ArrowUp');
@@ -56,8 +59,8 @@ export const Game = (): JSX.Element => {
   };
 
   const resetState = (skipLetterClean?: boolean | null) => {
-    if (!skipLetterClean && enteredLetter && selectedCell !== null) {
-      setLetterInCells('', selectedCell);
+    if (!skipLetterClean && selectedCellRef.current !== null) {
+      setLetterInCells('', selectedCellRef.current);
     }
     setEnteredLetter('');
     setSelectedCell(null);

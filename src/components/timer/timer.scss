@@ -1,26 +1,3 @@
-.timer {
-  margin-right: 20px;
-  margin-left: 20px;
-}
-
-.time-wrapper .time.up {
-  opacity: 0;
-  transform: translateY(-100%);
-}
-
-.time-wrapper .time.down {
-  opacity: 0;
-  transform: translateY(100%);
-}
-
-.time-wrapper {
-  position: relative;
-  width: 40px;
-  height: 30px;
-  font-family: 'Montserrat';
-  font-size: 20px;
-}
-
 .time-wrapper .time {
   position: absolute;
   top: 0;
@@ -33,4 +10,36 @@
   opacity: 1;
   transition: all 0.2s;
   transform: translateY(0);
+}
+
+.time-wrapper .time.up {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+.time-wrapper .time.down {
+  opacity: 0;
+  animation: moveTime 0.2s;
+}
+
+.time-wrapper {
+  position: relative;
+  width: 40px;
+  height: 30px;
+  font-size: 20px;
+}
+
+@keyframes moveTime {
+  0% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  40% {
+    opacity: 0.3;
+    transform: translateY(50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
 }

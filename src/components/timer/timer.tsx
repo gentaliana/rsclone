@@ -6,12 +6,22 @@ import { setGame } from '@store';
 import { IAppState, IGameState } from '@types';
 import { useSelector, useDispatch } from 'react-redux';
 
-const renderTime = ({ remainingTime }: any) => {
+type RenderTimeProps = {
+  remainingTime: number;
+};
+
+const renderTime = ({ remainingTime }: RenderTimeProps): JSX.Element => {
   const currentTime = useRef(remainingTime);
-  const prevTime = useRef(null);
+  const prevTime = useRef<number | null>(null);
   const isNewTimeFirstTick = useRef(false);
   const [, setOneLastRerender] = useState(0);
 
+  // force one last re-render when the time is over to trigger the last animation
+  if (remainingTime === 0) {
+    setTimeout(() => {
+      setOneLastRerender((val) => val + 1);
+    }, 20);
+  }
   if (currentTime.current !== remainingTime) {
     isNewTimeFirstTick.current = true;
     prevTime.current = currentTime.current;
@@ -20,16 +30,9 @@ const renderTime = ({ remainingTime }: any) => {
     isNewTimeFirstTick.current = false;
   }
 
-  // force one last re-render when the time is over to tirgger the last animation
-  if (remainingTime === 0) {
-    setTimeout(() => {
-      setOneLastRerender((val) => val + 1);
-    }, 20);
-  }
-
   const isTimeUp = isNewTimeFirstTick.current;
 
-  const children = (time: number | null) => {
+  const timeFormat = (time: number | null) => {
     if (time === null) return '0:00';
     return `${secondsToTime(time).m}:${secondsToTime(time).s}`;
   };
@@ -37,11 +40,11 @@ const renderTime = ({ remainingTime }: any) => {
   return (
     <div className="time-wrapper">
       <div key={remainingTime} className={`time ${isTimeUp ? 'up' : ''}`}>
-        {children(remainingTime)}
+        {timeFormat(remainingTime)}
       </div>
       {prevTime.current !== null && (
         <div key={prevTime.current} className={`time ${!isTimeUp ? 'down' : ''}`}>
-          {children(prevTime.current)}
+          {timeFormat(prevTime.current)}
         </div>
       )}
     </div>
@@ -56,31 +59,36 @@ type TimerProps = {
 export const Timer = ({ resetState, timerKey }: TimerProps): JSX.Element => {
   const time = useSelector((state: IAppState) => state.game.time);
   const game = useSelector((state: IAppState) => state.game);
+
   const dispatch = useDispatch();
   const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
 
-  return (
-    <CountdownCircleTimer
-      isPlaying
-      key={timerKey}
-      duration={time * 60}
-      onComplete={() => {
-        resetState();
-        setGameSettings({
-          ...game,
-          isPlayer1Turn: !game.isPlayer1Turn,
-        });
-        return [true, 1000]; // repeat animation in 1 second
-      }}
-      size={80}
-      strokeWidth={6}
-      colors={[
-        ['#004777', 0.33],
-        ['#F7B801', 0.33],
-        ['#A30000', 0.33],
-      ]}
-    >
-      {renderTime}
-    </CountdownCircleTimer>
+  return time > 0 ? (
+    <div className="timer-wrapper">
+      <CountdownCircleTimer
+        isPlaying
+        key={timerKey}
+        duration={time * 60}
+        onComplete={() => {
+          resetState();
+          setGameSettings({
+            ...game,
+            isPlayer1Turn: !game.isPlayer1Turn,
+          });
+          return [true, 1000]; // repeat animation in 1 second
+        }}
+        size={80}
+        strokeWidth={6}
+        colors={[
+          ['#004777', 0.33],
+          ['#F7B801', 0.33],
+          ['#A30000', 0.33],
+        ]}
+      >
+        {renderTime}
+      </CountdownCircleTimer>
+    </div>
+  ) : (
+    <></>
   );
 };

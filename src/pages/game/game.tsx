@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
 import { Keyboard, Field, WordField, Scores, PlayerWords } from '@components';
 import Button from 'react-bootstrap/Button';
@@ -24,6 +24,7 @@ export const Game = (): JSX.Element => {
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
   const [cells, setCells] = useState(initCells(fieldSize, firstWord));
   const [infoMessage, setInfoMessage] = useState('Please, enter the letter');
+  const [timerKey, setTimerKey] = useState(0);
 
   const dispatch = useDispatch();
   const game = useSelector((state: IAppState) => state.game);
@@ -31,6 +32,9 @@ export const Game = (): JSX.Element => {
   const isPlayer1Turn = useSelector((state: IAppState) => state.game.isPlayer1Turn);
   const name = useSelector((state: IAppState) => state.settings.gamerName);
   const secondGamerName = useSelector((state: IAppState) => state.settings.secondGamerName);
+
+  const selectedCellRef = useRef<number | null>(null);
+  selectedCellRef.current = selectedCell;
 
   const escPress = useKeyPress('Escape');
   const downPress = useKeyPress('ArrowDown');
@@ -50,14 +54,19 @@ export const Game = (): JSX.Element => {
     setCells(newCells);
   };
 
+  const resetTimer = () => {
+    setTimerKey((prevKey: number) => prevKey + 1);
+  };
+
   const resetState = (skipLetterClean?: boolean | null) => {
-    if (!skipLetterClean && enteredLetter && selectedCell !== null) {
-      setLetterInCells('', selectedCell);
+    if (!skipLetterClean && selectedCellRef.current !== null) {
+      setLetterInCells('', selectedCellRef.current);
     }
     setEnteredLetter('');
     setSelectedCell(null);
     setIsKeyboardHidden(true);
     setIdsOfChosenLetters([]);
+    resetTimer();
     setCurrWord('');
   };
 
@@ -198,7 +207,7 @@ export const Game = (): JSX.Element => {
 
   return (
     <div className="main-game">
-      <Scores />
+      <Scores resetState={resetState} timerKey={timerKey} />
       <div className="game">
         <PlayerWords />
         <div className="field-area">

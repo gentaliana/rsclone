@@ -18,6 +18,7 @@
 - Добавлена страница аутентификации (https://github.com/gentaliana/rsclone/issues/52)
 - Добавлены поля с введенными словами для каждого игрока (https://github.com/gentaliana/rsclone/issues/86)
 - Добавлена смена слова первого слова в зависимости от выбраного значения поля (https://github.com/gentaliana/rsclone/issues/72)
+- Добавлен таймер и переход хода к другому игроку после окончания времени хода (https://github.com/gentaliana/rsclone/issues/70)
 
 ### Fix
 

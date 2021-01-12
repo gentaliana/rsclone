@@ -18,6 +18,10 @@
 }
 
 .player__points {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-width: 250px;
   margin: 10px;
   font-size: 30px;
   text-align: center;

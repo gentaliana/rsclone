@@ -20,7 +20,7 @@ export type ApiRequestBody = IAuthBody | string;
 export type ApiRequestHeaders = IHttpHeaders;
 
 export interface IApiAuthData {
-  message?: string;
+  message: string;
   token: string;
   userId: string;
 }

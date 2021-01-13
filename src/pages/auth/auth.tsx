@@ -3,8 +3,10 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextInput } from '@components';
 import { Button } from 'react-bootstrap';
-import { Api } from '@constants';
+import { Api, NOTIFY_TYPES } from '@constants';
 import { useApi, useAuth } from '@hooks';
+import { useDispatch } from 'react-redux';
+import { setNotify } from '@store';
 import './auth.scss';
 
 interface IAuthProps {
@@ -24,13 +26,21 @@ export const Auth = (props: IAuthProps): JSX.Element => {
     clearError();
   }, [error, clearError]);
 
+  const dispatch = useDispatch();
+  const openModal = React.useCallback(
+    (headerText: string, contentText: string, variant: string = NOTIFY_TYPES.success) => {
+      dispatch(setNotify({ headerText, contentText, variant }));
+    },
+    [dispatch],
+  );
+
   const registerHandler = async () => {
     try {
       const { url, method, body } = Api.REGISTER;
       const data = await request(url, method, body(login, password));
-      console.log(data);
+      await openModal('Регистрация', data.message);
     } catch (e) {
-      console.log(e);
+      await openModal('Ошибка регистрации', e.message, NOTIFY_TYPES.error);
     }
   };
 
@@ -39,23 +49,15 @@ export const Auth = (props: IAuthProps): JSX.Element => {
       const { url, method, body } = Api.LOGIN;
       const data = await request(url, method, body(login, password));
       auth.login(data.token, data.userId);
+      await openModal('Вход', data.message);
     } catch (e) {
-      console.log(e);
+      await openModal('Ошибка входа', e.message, NOTIFY_TYPES.error);
     }
   };
 
   return (
     <div className="auth__wrapper">
       <TextInput placeholder={t('auth.login')} classInput="auth__input auth__style" value={login} onChange={setLogin} />
-      {/* <TextInput
-        placeholder={t('auth.password')}
-        classInput="auth__input auth__style"
-        value={password}
-        onChange={setPassword}
-        type="password"
-      /> */}
-      {/* TODO: handle if isAuth */}
-      {auth.isAuth ? 'auth' : 'no'}
       {isRegister ? (
         <>
           <TextInput

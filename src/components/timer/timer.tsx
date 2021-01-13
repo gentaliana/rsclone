@@ -1,10 +1,9 @@
 import { secondsToTime } from '@utils';
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import './timer.scss';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import { nextTurn } from '@store';
 import { IAppState } from '@types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 type RenderTimeProps = {
   remainingTime: number;
@@ -14,14 +13,7 @@ const renderTime = ({ remainingTime }: RenderTimeProps): JSX.Element => {
   const currentTime = useRef(remainingTime);
   const prevTime = useRef<number | null>(null);
   const isNewTimeFirstTick = useRef(false);
-  const [, setOneLastRerender] = useState(0);
 
-  // force one last re-render when the time is over to trigger the last animation
-  if (remainingTime === 0) {
-    setTimeout(() => {
-      setOneLastRerender((val) => val + 1);
-    }, 20);
-  }
   if (currentTime.current !== remainingTime) {
     isNewTimeFirstTick.current = true;
     prevTime.current = currentTime.current;
@@ -52,14 +44,12 @@ const renderTime = ({ remainingTime }: RenderTimeProps): JSX.Element => {
 };
 
 type TimerProps = {
-  resetState: () => void;
+  onComplete: () => void;
   timerKey: number;
 };
 
-export const Timer = ({ resetState, timerKey }: TimerProps): JSX.Element => {
+export const Timer = ({ onComplete, timerKey }: TimerProps): JSX.Element => {
   const time = useSelector((state: IAppState) => state.game.time);
-  const dispatch = useDispatch();
-  const setNextTurn = () => dispatch(nextTurn());
 
   return time > 0 ? (
     <div className="timer-wrapper">
@@ -67,10 +57,7 @@ export const Timer = ({ resetState, timerKey }: TimerProps): JSX.Element => {
         isPlaying
         key={timerKey}
         duration={time * 60}
-        onComplete={() => {
-          resetState();
-          setNextTurn();
-        }}
+        onComplete={onComplete}
         size={80}
         strokeWidth={6}
         colors={[

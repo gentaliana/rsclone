@@ -23,6 +23,7 @@
 - Добавлено изменения внешнего оформления у Alerts для оповещения пользователя (https://github.com/gentaliana/rsclone/issues/60)
 - Добавлены настройки для соединения с бэкэндом, подключенным к базе данных (https://github.com/gentaliana/rsclone/issues/15)
 - Добавлена аутентификация через бэкэнд (https://github.com/gentaliana/rsclone/issues/56)
+- Добавлены эндпоинты для получения слов и информации о них (https://github.com/gentaliana/rsclone/issues/58)
 
 ### Fix
 

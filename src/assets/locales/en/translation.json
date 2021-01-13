@@ -85,5 +85,15 @@
     },
     "additionally": "Additionally:",
     "penalties": "If you do not make a move within the allotted time, the right to move is passed to the opponent. You can also skip a turn without waiting for the allotted time to expire by clicking the Skip turn button. After missing 3 moves, the player is awarded a defeat."
+  },
+  "notify": {
+    "error": {
+      "login": "Login error!",
+      "register": "Register error!"
+    },
+    "success": {
+      "login": "Login successful!",
+      "register": "Register successful!"
+    }
   }
 }

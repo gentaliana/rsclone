@@ -55,7 +55,16 @@
     },
     "additionally": "Additionally:",
     "start": "The game starts with a start word, which is randomly selected by the computer.",
-    "points": "The longer the word, the more points you get. For each letter - one point. When skipping a move, the player does not receive points.",
-    "penalties": "If you do not make a move within 2 minutes, the right to move is passed to the opponent. You can also skip a turn without waiting for the allotted time to expire by clicking the Skip turn button. After missing 3 moves, the player is awarded a defeat."
+    "points": "The longer the word, the more points you get. For each letter - one point. When skipping a move, the player does not receive points."
+  },
+  "notify": {
+    "error": {
+      "login": "Login error!",
+      "register": "Register error!"
+    },
+    "success": {
+      "login": "Login successful!",
+      "register": "Register successful!"
+    }
   }
 }

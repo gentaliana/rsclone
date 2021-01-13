@@ -8,7 +8,7 @@ import { useKeyPress, useSymbolKeyPress } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
-import { setGame, nextTurn } from '@store';
+import { setGame, nextTurn, setNotify } from '@store';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -30,7 +30,7 @@ export const Game = (): JSX.Element => {
   const game = useSelector((state: IAppState) => state.game);
   const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
   const isPlayer1Turn = useSelector((state: IAppState) => state.game.isPlayer1Turn);
-  const name = useSelector((state: IAppState) => state.settings.gamerName);
+  const firstGamerName = useSelector((state: IAppState) => state.settings.gamerName);
   const secondGamerName = useSelector((state: IAppState) => state.settings.secondGamerName);
 
   const selectedCellRef = useRef<number | null>(null);
@@ -87,7 +87,7 @@ export const Game = (): JSX.Element => {
       return;
     }
 
-    const curGamerName = game.isPlayer1Turn ? name : secondGamerName;
+    const curGamerName = game.isPlayer1Turn ? firstGamerName : secondGamerName;
 
     if (selectedCell !== null) {
       if (!idsOfChosenLetters.includes(selectedCell)) {
@@ -99,7 +99,7 @@ export const Game = (): JSX.Element => {
 
     if (game.player1.words.includes(currWord)) {
       resetState();
-      setInfoMessage(`${name} has already used this word in game!`);
+      setInfoMessage(`${firstGamerName} has already used this word in game!`);
       return;
     }
 
@@ -110,27 +110,48 @@ export const Game = (): JSX.Element => {
     }
 
     // TODO currWord проверка в словаре
+
     setInfoMessage(`Accepted from ${curGamerName}: ${currWord}`);
     resetTimer();
 
     const numberOfPoints = currWord.length;
 
+    const prevFirstPlayerPoints = game.player1.points;
+    const currFirstPlayerPoints = prevFirstPlayerPoints + numberOfPoints;
+    const prevSecondPlayerPoints = game.player2.points;
+    const currSecondPlayerPoints = prevSecondPlayerPoints + numberOfPoints;
+
     if (isPlayer1Turn) {
       setGameSettings({
         ...game,
         isPlayer1Turn: !game.isPlayer1Turn,
-        player1: { points: game.player1.points + numberOfPoints, words: [...game.player1.words, currWord] },
+        ...game.player2,
+        player1: {
+          ...game.player1,
+          points: currFirstPlayerPoints,
+          words: [...game.player1.words, currWord],
+        },
       });
     } else {
       setGameSettings({
         ...game,
         isPlayer1Turn: !game.isPlayer1Turn,
-        player2: { points: game.player2.points + numberOfPoints, words: [...game.player2.words, currWord] },
+        player2: {
+          ...game.player2,
+          points: currSecondPlayerPoints,
+          words: [...game.player2.words, currWord],
+        },
       });
     }
-
-    // Важно! не очищаем выбранную букву, т.к. она была принята
     resetState(true);
+
+    if (cells.filter((el) => el === '').length === 0) {
+      if (currFirstPlayerPoints > currSecondPlayerPoints) {
+        setGameSettings({ ...game, player2: { ...game.player2, isLose: true } });
+      } else {
+        setGameSettings({ ...game, player1: { ...game.player1, isLose: true } });
+      }
+    }
   };
 
   const handleCurrentLetter = (letter: string) => {
@@ -209,6 +230,20 @@ export const Game = (): JSX.Element => {
   useEffect(() => {
     handleKeyPressLetter();
   }, [symbolPressed]);
+
+  useEffect(() => {
+    if (game.isOnline) {
+      if (game.player1.isLose) {
+        dispatch(setNotify({ headerText: 'Game ended!', contentText: 'You lose' }));
+      } else if (game.player2.isLose) {
+        dispatch(setNotify({ headerText: 'Game ended!', contentText: 'You won' }));
+      }
+    } else if (game.player1.isLose) {
+      dispatch(setNotify({ headerText: 'Game ended!', contentText: `${secondGamerName} won` }));
+    } else if (game.player2.isLose) {
+      dispatch(setNotify({ headerText: 'Game ended!', contentText: `${firstGamerName} won` }));
+    }
+  }, [game.player1.isLose, game.player2.isLose]);
 
   return (
     <div className="main-game">

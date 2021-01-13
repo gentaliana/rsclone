@@ -50,11 +50,13 @@ type TimerProps = {
 
 export const Timer = ({ onComplete, timerKey }: TimerProps): JSX.Element => {
   const time = useSelector((state: IAppState) => state.game.time);
+  const isFirstPlayerLose = useSelector((state: IAppState) => state.game.player1.isLose);
+  const isSecondPlayerLose = useSelector((state: IAppState) => state.game.player2.isLose);
 
   return time > 0 ? (
     <div className="timer-wrapper">
       <CountdownCircleTimer
-        isPlaying
+        isPlaying={!isFirstPlayerLose && !isSecondPlayerLose}
         key={timerKey}
         duration={time * 60}
         onComplete={onComplete}

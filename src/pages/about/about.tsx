@@ -14,6 +14,7 @@ export const About = (): JSX.Element => {
         <li>{t('help.listRules.four')} </li>
         <li>{t('help.listRules.five')} </li>
         <li>{t('help.listRules.six')}</li>
+        <li>{t('help.listRules.seven')}</li>
       </ul>
       <h3>{t('help.move.header')}</h3>
       <ul>
@@ -30,8 +31,7 @@ export const About = (): JSX.Element => {
         <li>{t('help.keyboardMove.five')}</li>
       </ul>
       <h3>{t('help.additionally')}</h3>
-      <span>{t('help.start')}</span>
-      <span>{t('help.points')}</span>
+      <span>{t('help.penalties')}</span>
       {/* TODO добавить еще правил */}
     </div>
   );

@@ -38,8 +38,8 @@ export const SetGame = (): JSX.Element => {
       fieldSize,
       firstWord,
       isPlayer1Turn: true,
-      player1: { points: 0, words: [] },
-      player2: { points: 0, words: [] },
+      player1: { points: 0, words: [], penalties: 0, isLose: false },
+      player2: { points: 0, words: [], penalties: 0, isLose: false },
     });
 
     setFormSubmit(true);

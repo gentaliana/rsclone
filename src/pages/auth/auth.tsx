@@ -22,7 +22,6 @@ export const Auth = (props: IAuthProps): JSX.Element => {
   const auth = useAuth();
 
   useEffect(() => {
-    // TODO add popup/toast for message about error
     clearError();
   }, [error, clearError]);
 
@@ -38,9 +37,9 @@ export const Auth = (props: IAuthProps): JSX.Element => {
     try {
       const { url, method, body } = Api.REGISTER;
       const data = await request(url, method, body(login, password));
-      await openModal('Регистрация', data.message);
+      await openModal(t('notify.success.register'), data.message);
     } catch (e) {
-      await openModal('Ошибка регистрации', e.message, NOTIFY_TYPES.error);
+      await openModal(t('notify.error.register'), e.message, NOTIFY_TYPES.error);
     }
   };
 
@@ -49,9 +48,9 @@ export const Auth = (props: IAuthProps): JSX.Element => {
       const { url, method, body } = Api.LOGIN;
       const data = await request(url, method, body(login, password));
       auth.login(data.token, data.userId);
-      await openModal('Вход', data.message);
+      await openModal(t('notify.success.login'), data.message);
     } catch (e) {
-      await openModal('Ошибка входа', e.message, NOTIFY_TYPES.error);
+      await openModal(t('notify.error.login'), e.message, NOTIFY_TYPES.error);
     }
   };
 

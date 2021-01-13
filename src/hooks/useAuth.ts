@@ -1,12 +1,13 @@
+import { IAuthData } from '@types';
 import { useState, useCallback, useEffect } from 'react';
 
 const storageName = 'lvma_user_data';
 
-export const useAuth = () => {
-  const [token, setToken] = useState(null);
-  const [userId, setUserId] = useState(null);
+export const useAuth = (): IAuthData => {
+  const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const login = useCallback((jwtToken, id) => {
+  const login = useCallback((jwtToken: string | null, id: string | null) => {
     setToken(jwtToken);
     setUserId(id);
 

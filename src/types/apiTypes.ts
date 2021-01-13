@@ -25,6 +25,18 @@ export interface IApiAuthData {
   userId: string;
 }
 
+export interface IApiWordData {
+  message: string;
+  word: string;
+  definition: string;
+  lang: string;
+  length: string;
+}
+
+export interface IApiData {
+  [key: string]: string;
+}
+
 export interface IApi {
   loading: boolean;
   request: (
@@ -32,7 +44,7 @@ export interface IApi {
     method?: string,
     requestBody?: ApiRequestBody | null,
     requestHeaders?: ApiRequestHeaders,
-  ) => Promise<IApiAuthData>;
+  ) => Promise<IApiData>;
   error: string | null;
   clearError: () => void;
 }

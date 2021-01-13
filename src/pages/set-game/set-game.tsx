@@ -5,23 +5,47 @@ import Form from 'react-bootstrap/esm/Form';
 import { useSelector, useDispatch } from 'react-redux';
 import { IAppState, IGameState } from '@types';
 import { Redirect } from 'react-router-dom';
-import { routes, sizes } from '@constants';
-import { setGame } from '@store';
+import { Api, Languages, NOTIFY_TYPES, routes, sizes } from '@constants';
+import { setGame, setNotify } from '@store';
 import { RadioGroup } from '@components';
+import { useApi } from '@hooks';
 import './set-game.scss';
 
 const firstWords = ['bar', 'time', 'board', 'aikido', 'barista', 'bookshop', 'buckboard'];
 
 export const SetGame = (): JSX.Element => {
   const { t } = useTranslation();
+  const lang = useSelector((state: IAppState) => state.settings.lang);
   const game = useSelector((state: IAppState) => state.game);
   const [isFormSubmit, setFormSubmit] = React.useState(false);
   const [fieldSize, setFieldSize] = React.useState(5);
+  const [firstGameWord, setFirstGameWord] = React.useState(firstWords[fieldSize]);
+  const { request } = useApi();
 
   const dispatch = useDispatch();
   const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
 
-  const getFirstWord = React.useMemo(() => firstWords.find((word) => word.length === fieldSize), [fieldSize]);
+  const openModal = React.useCallback(
+    (headerText: string, contentText: string, variant: string = NOTIFY_TYPES.success) => {
+      dispatch(setNotify({ headerText, contentText, variant }));
+    },
+    [dispatch],
+  );
+
+  React.useEffect(() => {
+    const getFirstWord = async () => {
+      try {
+        const [language] = Object.keys(Languages).filter((key) => Languages[key as keyof typeof Languages] === lang);
+        const { url, method } = Api.GET_WORD_BY_LENGTH;
+        const data = await request(url(language || lang, fieldSize), method);
+        setFirstGameWord(data.word);
+      } catch (e) {
+        await openModal(t('notify.wordByLength'), e.message, NOTIFY_TYPES.error);
+      }
+    };
+
+    getFirstWord();
+  }, [fieldSize, lang]);
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -87,7 +111,7 @@ export const SetGame = (): JSX.Element => {
         />
         <Form.Group controlId="firstWord">
           <Form.Label>{t('settings.first-word')}</Form.Label>
-          <Form.Control type="text" value={getFirstWord} name="firstWord" readOnly />
+          <Form.Control type="text" value={firstGameWord} name="firstWord" readOnly />
         </Form.Group>
         <Form.Group controlId="time">
           <Form.Label>{t('settings.time')}</Form.Label>

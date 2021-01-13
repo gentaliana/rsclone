@@ -20,6 +20,7 @@
 - Добавлена смена слова первого слова в зависимости от выбраного значения поля (https://github.com/gentaliana/rsclone/issues/72)
 - Добавлен таймер и переход хода к другому игроку после окончания времени хода (https://github.com/gentaliana/rsclone/issues/70)
 - Кнопка пропуск хода (https://github.com/gentaliana/rsclone/issues/110)
+- Завершение игры + если пропустил 3 хода + прописать в правилах (https://github.com/gentaliana/rsclone/issues/91)
 
 ### Fix
 

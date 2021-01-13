@@ -273,7 +273,7 @@ export const Game = (): JSX.Element => {
                 {t('buttons.cancel')}
               </Button>
               <Button disabled={!isKeyboardHidden} onClick={setNextTurn}>
-                Skip turn
+                {t('buttons.skip')}
               </Button>
               <Button disabled={!isKeyboardHidden} onClick={handleSubmitButton}>
                 {t('buttons.submit')}

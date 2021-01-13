@@ -22,7 +22,8 @@
   "buttons": {
     "cancel": "Cancel",
     "close": "Close",
-    "submit": "Submit"
+    "submit": "Submit",
+    "skip": "Skip turn"
   },
   "settings": {
     "field-size": "Field Size",
@@ -61,11 +62,12 @@
     "rulesGame": "Rules of the game:",
     "listRules": {
       "one": "The player's task is to compose a new word from existing letters by adding one new one.",
-      "two": "Letters can be selected in any direction, but not diagonally.",
-      "tree": "You cannot reuse the word.",
-      "four": "The same cell cannot be used twice in a word.",
-      "five": "The longer the word, the more points: for each letter, one point.",
-      "six": "The player with the most points wins. The one who cannot come up with a word loses."
+      "two": "The game starts with a start word, which is randomly selected by the computer.",
+      "tree": "Letters can be selected in any direction, but not diagonally.",
+      "four": "You cannot reuse the word.",
+      "five": "The same cell cannot be used twice in a word.",
+      "six": "The longer the word, the more points: for each letter, one point. When skipping a move, the player does not receive points.",
+      "seven": "The player with the most points wins. The one who cannot come up with a word loses."
     },
     "move": {
       "header": "To make a move:",
@@ -82,7 +84,6 @@
       "five": "Send selected word  by pressing Enter."
     },
     "additionally": "Additionally:",
-    "start": "The game starts with a start word, which is randomly selected by the computer.",
-    "points": "The longer the word, the more points you get. For each letter - one point. When skipping a move, the player does not receive points."
+    "penalties": "If you do not make a move within the allotted time, the right to move is passed to the opponent. You can also skip a turn without waiting for the allotted time to expire by clicking the Skip turn button. After missing 3 moves, the player is awarded a defeat."
   }
 }

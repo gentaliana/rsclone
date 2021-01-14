@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
-import { Keyboard, Field, WordField, Scores, PlayerWords } from '@components';
+import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal } from '@components';
 import Button from 'react-bootstrap/Button';
 import { getLangLetters } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,7 +8,7 @@ import { useKeyPress, useSymbolKeyPress } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
-import { setGame, nextTurn, setNotify, stopGame, startGame } from '@store';
+import { setGame, nextTurn, setModal, stopGame, startGame } from '@store';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -25,6 +25,7 @@ export const Game = (): JSX.Element => {
   const [cells, setCells] = useState(initCells(fieldSize, firstWord));
   const [infoMessage, setInfoMessage] = useState('Please, enter the letter');
   const [timerKey, setTimerKey] = useState(0);
+  const modal = useSelector((state: IAppState) => state.modal);
 
   const dispatch = useDispatch();
   const game = useSelector((state: IAppState) => state.game);
@@ -147,9 +148,9 @@ export const Game = (): JSX.Element => {
 
     if (cells.filter((el) => el === '').length === 0) {
       if (currFirstPlayerPoints > currSecondPlayerPoints) {
-        setGameSettings({ ...game, player2: { ...game.player2, isLose: true } });
+        setGameSettings({ ...game, isWin: firstGamerName });
       } else {
-        setGameSettings({ ...game, player1: { ...game.player1, isLose: true } });
+        setGameSettings({ ...game, isWin: secondGamerName });
       }
     }
   };
@@ -184,6 +185,7 @@ export const Game = (): JSX.Element => {
   };
 
   const handleHideKeyboard = () => setIsKeyboardHidden(true);
+  const disableButtons = !isKeyboardHidden || Boolean(game.isWin);
 
   useEffect(() => {
     if (downPress || upPress || leftPress || rightPress) {
@@ -232,18 +234,24 @@ export const Game = (): JSX.Element => {
   }, [symbolPressed]);
 
   useEffect(() => {
-    if (game.isOnline) {
-      if (game.player1.isLose) {
-        dispatch(setNotify({ headerText: 'Game ended!', contentText: 'You lose' }));
-      } else if (game.player2.isLose) {
-        dispatch(setNotify({ headerText: 'Game ended!', contentText: 'You won' }));
-      }
-    } else if (game.player1.isLose) {
-      dispatch(setNotify({ headerText: 'Game ended!', contentText: `${secondGamerName} won` }));
-    } else if (game.player2.isLose) {
-      dispatch(setNotify({ headerText: 'Game ended!', contentText: `${firstGamerName} won` }));
+    if (game.player2.penalties > 2) {
+      setGameSettings({ ...game, isWin: firstGamerName });
+    } else if (game.player1.penalties > 2) {
+      setGameSettings({ ...game, isWin: secondGamerName });
     }
-  }, [game.player1.isLose, game.player2.isLose]);
+  }, [game.player1.penalties, game.player2.penalties]);
+
+  useEffect(() => {
+    if (game.isOnline) {
+      if (game.isWin === 'bot') {
+        dispatch(setModal({ isWin: false, contentText: 'You lose' }));
+      } else {
+        dispatch(setModal({ isWin: true, contentText: 'You won' }));
+      }
+    } else if (game.isWin) {
+      dispatch(setModal({ isWin: true, contentText: `${game.isWin} won` }));
+    }
+  }, [game.isWin]);
 
   const setGameIsStart = React.useCallback(() => dispatch(startGame()), [dispatch]);
   const setGameIsStop = React.useCallback(() => dispatch(stopGame()), [dispatch]);
@@ -279,13 +287,13 @@ export const Game = (): JSX.Element => {
             />
             <WordField currWord={currWord} infoMessage={infoMessage} />
             <div className="buttons">
-              <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
+              <Button disabled={disableButtons} onClick={handleClearButton}>
                 {t('buttons.cancel')}
               </Button>
-              <Button disabled={!isKeyboardHidden} onClick={setNextTurn}>
+              <Button disabled={disableButtons} onClick={setNextTurn}>
                 {t('buttons.skip')}
               </Button>
-              <Button disabled={!isKeyboardHidden} onClick={handleSubmitButton}>
+              <Button disabled={disableButtons} onClick={handleSubmitButton}>
                 {t('buttons.submit')}
               </Button>
             </div>
@@ -293,6 +301,7 @@ export const Game = (): JSX.Element => {
         </div>
         <PlayerWords isEnemy />
       </div>
+      {modal ? <GameOverModal modal={modal} /> : null}
     </div>
   );
 };

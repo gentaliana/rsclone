@@ -5,6 +5,7 @@ export enum SettingActions {
 
 export enum GameActions {
   SET_GAME = 'SET_GAME',
+  SET_GAME_AGAIN = 'SET_GAME_AGAIN',
   SET_FIELD_SIZE = 'SET_FIELD_SIZE',
   SET_FIRST_WORD = 'SET_FIRST_WORD',
   SET_GAMER_TURN = 'SET_GAMER_TURN',
@@ -19,4 +20,10 @@ export enum GameActions {
 export enum AlertActions {
   SET_NOTIFY = 'SET_NOTIFY',
   REMOVE_NOTIFY = 'REMOVE_NOTIFY',
+}
+
+export enum ModalActions {
+  SET_MODAL = 'SET_MODAL',
+  REMOVE_MODAL = 'REMOVE_MODAL',
+  REDIRECT_MODAL = 'REDIRECT_MODAL',
 }

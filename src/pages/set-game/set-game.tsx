@@ -5,21 +5,19 @@ import Form from 'react-bootstrap/esm/Form';
 import { useSelector, useDispatch } from 'react-redux';
 import { IAppState, IGameState } from '@types';
 import { Redirect } from 'react-router-dom';
-import { Api, Languages, NOTIFY_TYPES, routes, sizes } from '@constants';
+import { Api, Languages, NOTIFY_TYPES, routes, sizes, FIRST_WORDS, DEFAULT_FIELD_SIZE } from '@constants';
 import { setGame, setNotify } from '@store';
 import { RadioGroup } from '@components';
 import { useApi } from '@hooks';
 import './set-game.scss';
-
-const firstWords = ['bar', 'time', 'board', 'aikido', 'barista', 'bookshop', 'buckboard'];
 
 export const SetGame = (): JSX.Element => {
   const { t } = useTranslation();
   const lang = useSelector((state: IAppState) => state.settings.lang);
   const game = useSelector((state: IAppState) => state.game);
   const [isFormSubmit, setFormSubmit] = React.useState(false);
-  const [fieldSize, setFieldSize] = React.useState(5);
-  const [firstGameWord, setFirstGameWord] = React.useState(firstWords[fieldSize]);
+  const [fieldSize, setFieldSize] = React.useState(DEFAULT_FIELD_SIZE);
+  const [firstGameWord, setFirstGameWord] = React.useState(FIRST_WORDS[fieldSize]);
   const { request } = useApi();
 
   const dispatch = useDispatch();
@@ -60,9 +58,10 @@ export const SetGame = (): JSX.Element => {
       isBot: secondPlayer === 'bot',
       fieldSize,
       firstWord,
+      isWin: '',
       isPlayer1Turn: true,
-      player1: { points: 0, words: [], penalties: 0, isLose: false },
-      player2: { points: 0, words: [], penalties: 0, isLose: false },
+      player1: { points: 0, words: [], penalties: 0 },
+      player2: { points: 0, words: [], penalties: 0 },
     });
 
     setFormSubmit(true);

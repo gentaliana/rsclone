@@ -42,7 +42,3 @@ export interface ISetModalAction {
 export interface IRemoveModalAction {
   type: typeof ModalActions.REMOVE_MODAL;
 }
-
-export interface IRedirectModalAction {
-  type: typeof ModalActions.REDIRECT_MODAL;
-}

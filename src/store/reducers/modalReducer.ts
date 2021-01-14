@@ -15,9 +15,6 @@ export function modal(state: IModal | null = defaultState.modal, action: AnyActi
     case ModalActions.REMOVE_MODAL:
       return null;
 
-    case ModalActions.REDIRECT_MODAL:
-      return null;
-
     default:
       return state;
   }

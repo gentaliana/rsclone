@@ -40,8 +40,18 @@ export function game(state: IGameState = defaultState.game, action: AnyAction): 
     }
 
     case GameActions.NEXT_TURN: {
+      if (state.isPlayer1Turn) {
+        const newPenalties = state.player1.penalties + 1;
+        return {
+          ...state,
+          player1: { ...state.player1, penalties: newPenalties, isLose: newPenalties > 2 },
+          isPlayer1Turn: !state.isPlayer1Turn,
+        };
+      }
+      const newPenalties = state.player2.penalties + 1;
       return {
         ...state,
+        player2: { ...state.player2, penalties: newPenalties, isLose: newPenalties > 2 },
         isPlayer1Turn: !state.isPlayer1Turn,
       };
     }

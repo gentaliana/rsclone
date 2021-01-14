@@ -13,10 +13,14 @@ export const defaultState: IAppState = {
     player1: {
       points: 0,
       words: [],
+      penalties: 0,
+      isLose: false,
     },
     player2: {
       points: 0,
       words: [],
+      penalties: 0,
+      isLose: false,
     },
   },
 
@@ -25,7 +29,7 @@ export const defaultState: IAppState = {
     isSoundOn: true,
     gamerName: DEFAULT_GAMER_NAME,
     secondGamerName: DEFAULT_SECOND_GAMER_NAME,
-    currentTheme: null,
+    currentTheme: 'light',
   },
 
   rating: {

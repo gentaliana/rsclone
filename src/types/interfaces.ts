@@ -35,6 +35,8 @@ export interface IGameState {
 export interface IPlayerState {
   points: number;
   words: string[];
+  penalties: number;
+  isLose: boolean;
 }
 
 export interface IRatingItem {
@@ -48,4 +50,5 @@ export interface IRatingItem {
 export interface INotify {
   headerText: string;
   contentText: string;
+  variant?: string;
 }

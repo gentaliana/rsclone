@@ -56,5 +56,15 @@
     "additionally": "Additionally:",
     "start": "The game starts with a start word, which is randomly selected by the computer.",
     "points": "The longer the word, the more points you get. For each letter - one point. When skipping a move, the player does not receive points."
+  },
+  "notify": {
+    "error": {
+      "login": "Login error!",
+      "register": "Register error!"
+    },
+    "success": {
+      "login": "Login successful!",
+      "register": "Register successful!"
+    }
   }
 }

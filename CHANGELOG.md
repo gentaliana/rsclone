@@ -20,6 +20,11 @@
 - Добавлена смена слова первого слова в зависимости от выбраного значения поля (https://github.com/gentaliana/rsclone/issues/72)
 - Добавлен таймер и переход хода к другому игроку после окончания времени хода (https://github.com/gentaliana/rsclone/issues/70)
 - Кнопка пропуск хода (https://github.com/gentaliana/rsclone/issues/110)
+- Завершение игры + если пропустил 3 хода + прописать в правилах (https://github.com/gentaliana/rsclone/issues/91)
+- Добавлено изменения внешнего оформления у Alerts для оповещения пользователя (https://github.com/gentaliana/rsclone/issues/60)
+- Добавлены настройки для соединения с бэкэндом, подключенным к базе данных (https://github.com/gentaliana/rsclone/issues/15)
+- Добавлена аутентификация через бэкэнд (https://github.com/gentaliana/rsclone/issues/56)
+- Добавлены эндпоинты для получения слов и информации о них (https://github.com/gentaliana/rsclone/issues/58)
 
 ### Fix
 

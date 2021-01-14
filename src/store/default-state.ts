@@ -40,4 +40,6 @@ export const defaultState: IAppState = {
   },
 
   notify: null,
+
+  modal: null,
 };

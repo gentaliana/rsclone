@@ -4,23 +4,23 @@ import { IGameState } from '@types';
 import { defaultState } from '../default-state';
 
 /* eslint-disable implicit-arrow-linebreak */
-const initField = (fieldSize: number, firstWord: string) => {
-  const wordRowIndex = Math.round(fieldSize / 2) - 1;
-  const field = [];
-  for (let i = 0; i < fieldSize; i++) {
-    for (let j = 0; j < fieldSize; j++) {
-      const id = i * fieldSize + j;
-      let letter = '';
-      if (i === wordRowIndex) {
-        letter = firstWord.charAt(j);
-      }
+// const initField = (fieldSize: number, firstWord: string) => {
+//   const wordRowIndex = Math.round(fieldSize / 2) - 1;
+//   const field = [];
+//   for (let i = 0; i < fieldSize; i++) {
+//     for (let j = 0; j < fieldSize; j++) {
+//       const id = i * fieldSize + j;
+//       let letter = '';
+//       if (i === wordRowIndex) {
+//         letter = firstWord.charAt(j);
+//       }
 
-      field[id] = letter;
-    }
-  }
+//       field[id] = letter;
+//     }
+//   }
 
-  return field;
-};
+//   return field;
+// };
 
 export function game(state: IGameState = defaultState.game, action: AnyAction): IGameState {
   const { payload, type } = action;
@@ -32,10 +32,20 @@ export function game(state: IGameState = defaultState.game, action: AnyAction): 
       };
 
     case GameActions.SET_GAME: {
-      const field = initField(payload.fieldSize, payload.firstWord);
+      // const field = initField(payload.fieldSize, payload.firstWord);
       return {
         ...payload,
-        field,
+        // field,
+      };
+    }
+
+    case GameActions.SET_GAME_AGAIN: {
+      // const field = initField(state.fieldSize, state.firstWord);
+      return {
+        ...state,
+        player1: { points: 0, words: [], penalties: 0, isLose: false },
+        player2: { points: 0, words: [], penalties: 0, isLose: false },
+        // field,
       };
     }
 

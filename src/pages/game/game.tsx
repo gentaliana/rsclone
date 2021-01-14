@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
-import { Keyboard, Field, WordField, Scores, PlayerWords } from '@components';
+import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal } from '@components';
 import Button from 'react-bootstrap/Button';
 import { getLangLetters } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,7 +8,7 @@ import { useKeyPress, useSymbolKeyPress } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
-import { setGame, nextTurn, setNotify } from '@store';
+import { setGame, nextTurn, setModal } from '@store';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -25,6 +25,7 @@ export const Game = (): JSX.Element => {
   const [cells, setCells] = useState(initCells(fieldSize, firstWord));
   const [infoMessage, setInfoMessage] = useState('Please, enter the letter');
   const [timerKey, setTimerKey] = useState(0);
+  const modal = useSelector((state: IAppState) => state.modal);
 
   const dispatch = useDispatch();
   const game = useSelector((state: IAppState) => state.game);
@@ -234,14 +235,14 @@ export const Game = (): JSX.Element => {
   useEffect(() => {
     if (game.isOnline) {
       if (game.player1.isLose) {
-        dispatch(setNotify({ headerText: 'Game ended!', contentText: 'You lose' }));
+        dispatch(setModal({ isWin: false, contentText: 'You lose' }));
       } else if (game.player2.isLose) {
-        dispatch(setNotify({ headerText: 'Game ended!', contentText: 'You won' }));
+        dispatch(setModal({ isWin: true, contentText: 'You won' }));
       }
     } else if (game.player1.isLose) {
-      dispatch(setNotify({ headerText: 'Game ended!', contentText: `${secondGamerName} won` }));
+      dispatch(setModal({ isWin: true, contentText: `${secondGamerName} won` }));
     } else if (game.player2.isLose) {
-      dispatch(setNotify({ headerText: 'Game ended!', contentText: `${firstGamerName} won` }));
+      dispatch(setModal({ isWin: true, contentText: `${firstGamerName} won` }));
     }
   }, [game.player1.isLose, game.player2.isLose]);
 
@@ -283,6 +284,7 @@ export const Game = (): JSX.Element => {
         </div>
         <PlayerWords isEnemy />
       </div>
+      {modal ? <GameOverModal modal={modal} /> : null}
     </div>
   );
 };

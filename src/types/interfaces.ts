@@ -1,5 +1,6 @@
 export interface IAppState {
   notify: INotify | null;
+  modal: IModal | null;
   game: IGameState;
 
   settings: ISettingsState;
@@ -49,5 +50,10 @@ export interface IRatingItem {
 
 export interface INotify {
   headerText: string;
+  contentText: string;
+}
+
+export interface IModal {
+  isWin: boolean;
   contentText: string;
 }

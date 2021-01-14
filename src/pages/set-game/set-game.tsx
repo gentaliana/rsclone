@@ -5,23 +5,21 @@ import Form from 'react-bootstrap/esm/Form';
 import { useSelector, useDispatch } from 'react-redux';
 import { IAppState, IGameState } from '@types';
 import { Redirect } from 'react-router-dom';
-import { routes, sizes } from '@constants';
+import { routes, sizes, FIRST_WORDS, DEFAULT_FIELD_SIZE } from '@constants';
 import { setGame } from '@store';
 import { RadioGroup } from '@components';
 import './set-game.scss';
-
-const firstWords = ['bar', 'time', 'board', 'aikido', 'barista', 'bookshop', 'buckboard'];
 
 export const SetGame = (): JSX.Element => {
   const { t } = useTranslation();
   const game = useSelector((state: IAppState) => state.game);
   const [isFormSubmit, setFormSubmit] = React.useState(false);
-  const [fieldSize, setFieldSize] = React.useState(5);
+  const [fieldSize, setFieldSize] = React.useState(DEFAULT_FIELD_SIZE);
 
   const dispatch = useDispatch();
   const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
 
-  const getFirstWord = React.useMemo(() => firstWords.find((word) => word.length === fieldSize), [fieldSize]);
+  const getFirstWord = React.useMemo(() => FIRST_WORDS.find((word) => word.length === fieldSize), [fieldSize]);
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();

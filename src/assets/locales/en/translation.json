@@ -36,7 +36,7 @@
   "game": {
     "start": "Start"
   },
-  "setting": {
+  "settingPage": {
     "sound": "Sound",
     "soundOn": "sound on",
     "soundOff": "sound off",
@@ -47,7 +47,7 @@
     "light": "light",
     "dark": "dark",
     "save": "save settings",
-    "unsave": "don't save settings"
+    "unsave": "default settings"
   },
   "raiting": {
     "place": "Place",

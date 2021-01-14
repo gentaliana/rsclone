@@ -29,7 +29,7 @@ export const defaultState: IAppState = {
     isSoundOn: true,
     gamerName: DEFAULT_GAMER_NAME,
     secondGamerName: DEFAULT_SECOND_GAMER_NAME,
-    currentTheme: null,
+    currentTheme: 'light',
   },
 
   rating: {

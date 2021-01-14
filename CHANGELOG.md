@@ -25,6 +25,7 @@
 - Добавлены настройки для соединения с бэкэндом, подключенным к базе данных (https://github.com/gentaliana/rsclone/issues/15)
 - Добавлена аутентификация через бэкэнд (https://github.com/gentaliana/rsclone/issues/56)
 - Добавлены эндпоинты для получения слов и информации о них (https://github.com/gentaliana/rsclone/issues/58)
+- На завершение игры добавлен модальный диалог (https://github.com/gentaliana/rsclone/issues/117)
 
 ### Fix
 

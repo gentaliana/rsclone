@@ -1,5 +1,5 @@
-import { SettingActions, GameActions, AlertActions } from '@constants';
-import { ISettingsState, IGameState, INotify } from '@types';
+import { SettingActions, GameActions, AlertActions, ModalActions } from '@constants';
+import { ISettingsState, IGameState, INotify, IModal } from '@types';
 
 export interface ISetSettingsAction {
   type: typeof SettingActions.SET_SETTINGS;
@@ -32,4 +32,13 @@ export interface ISetAlertAction {
 
 export interface IRemoveAlertAction {
   type: typeof AlertActions.REMOVE_NOTIFY;
+}
+
+export interface ISetModalAction {
+  type: typeof ModalActions.SET_MODAL;
+  payload: IModal;
+}
+
+export interface IRemoveModalAction {
+  type: typeof ModalActions.REMOVE_MODAL;
 }

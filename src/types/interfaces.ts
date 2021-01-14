@@ -1,5 +1,6 @@
 export interface IAppState {
   notify: INotify | null;
+  modal: IModal | null;
   game: IGameState;
 
   settings: ISettingsState;
@@ -28,6 +29,7 @@ export interface IGameState {
   firstWord: string;
   currentWord: string;
   isPlayer1Turn: boolean;
+  isWin: string;
   player1: IPlayerState;
   player2: IPlayerState;
 }
@@ -36,7 +38,6 @@ export interface IPlayerState {
   points: number;
   words: string[];
   penalties: number;
-  isLose: boolean;
 }
 
 export interface IRatingItem {
@@ -51,4 +52,9 @@ export interface INotify {
   headerText: string;
   contentText: string;
   variant?: string;
+}
+
+export interface IModal {
+  isWin: boolean;
+  contentText: string;
 }

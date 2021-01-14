@@ -10,17 +10,16 @@ export const defaultState: IAppState = {
     firstWord: '',
     currentWord: '',
     isPlayer1Turn: true,
+    isWin: '',
     player1: {
       points: 0,
       words: [],
       penalties: 0,
-      isLose: false,
     },
     player2: {
       points: 0,
       words: [],
       penalties: 0,
-      isLose: false,
     },
   },
 
@@ -40,4 +39,6 @@ export const defaultState: IAppState = {
   },
 
   notify: null,
+
+  modal: null,
 };

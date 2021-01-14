@@ -11,7 +11,7 @@ body {
   margin: 0 auto;
 }
 
-.btn {
+.field-area .btn {
   margin-bottom: 10px;
 }
 
@@ -40,5 +40,25 @@ body {
     .player-words {
       display: none;
     }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .ribbon {
+    display: none;
+  }
+
+  .modal-buttons {
+    width: 250px;
+  }
+
+  .cup,
+  .cat {
+    width: 250px;
+    height: 250px;
+  }
+
+  .modal-content p {
+    font-size: 18px;
   }
 }

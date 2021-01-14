@@ -59,9 +59,10 @@ export const SetGame = (): JSX.Element => {
       isBot: secondPlayer === 'bot',
       fieldSize,
       firstWord,
+      isWin: '',
       isPlayer1Turn: true,
-      player1: { points: 0, words: [], penalties: 0, isLose: false },
-      player2: { points: 0, words: [], penalties: 0, isLose: false },
+      player1: { points: 0, words: [], penalties: 0 },
+      player2: { points: 0, words: [], penalties: 0 },
     });
 
     setFormSubmit(true);

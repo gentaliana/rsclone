@@ -148,9 +148,9 @@ export const Game = (): JSX.Element => {
 
     if (cells.filter((el) => el === '').length === 0) {
       if (currFirstPlayerPoints > currSecondPlayerPoints) {
-        setGameSettings({ ...game, player2: { ...game.player2, isLose: true } });
+        setGameSettings({ ...game, isWin: firstGamerName });
       } else {
-        setGameSettings({ ...game, player1: { ...game.player1, isLose: true } });
+        setGameSettings({ ...game, isWin: secondGamerName });
       }
     }
   };
@@ -185,6 +185,7 @@ export const Game = (): JSX.Element => {
   };
 
   const handleHideKeyboard = () => setIsKeyboardHidden(true);
+  const disableButtons = !isKeyboardHidden || Boolean(game.isWin);
 
   useEffect(() => {
     if (downPress || upPress || leftPress || rightPress) {
@@ -233,18 +234,24 @@ export const Game = (): JSX.Element => {
   }, [symbolPressed]);
 
   useEffect(() => {
+    if (game.player2.penalties > 2) {
+      setGameSettings({ ...game, isWin: firstGamerName });
+    } else if (game.player1.penalties > 2) {
+      setGameSettings({ ...game, isWin: secondGamerName });
+    }
+  }, [game.player1.penalties, game.player2.penalties]);
+
+  useEffect(() => {
     if (game.isOnline) {
-      if (game.player1.isLose) {
+      if (game.isWin === 'bot') {
         dispatch(setModal({ isWin: false, contentText: 'You lose' }));
-      } else if (game.player2.isLose) {
+      } else {
         dispatch(setModal({ isWin: true, contentText: 'You won' }));
       }
-    } else if (game.player1.isLose) {
-      dispatch(setModal({ isWin: true, contentText: `${secondGamerName} won` }));
-    } else if (game.player2.isLose) {
-      dispatch(setModal({ isWin: true, contentText: `${firstGamerName} won` }));
+    } else if (game.isWin) {
+      dispatch(setModal({ isWin: true, contentText: `${game.isWin} won` }));
     }
-  }, [game.player1.isLose, game.player2.isLose]);
+  }, [game.isWin]);
 
   return (
     <div className="main-game">
@@ -270,13 +277,13 @@ export const Game = (): JSX.Element => {
             />
             <WordField currWord={currWord} infoMessage={infoMessage} />
             <div className="buttons">
-              <Button disabled={!isKeyboardHidden} onClick={handleClearButton}>
+              <Button disabled={disableButtons} onClick={handleClearButton}>
                 {t('buttons.cancel')}
               </Button>
-              <Button disabled={!isKeyboardHidden} onClick={setNextTurn}>
+              <Button disabled={disableButtons} onClick={setNextTurn}>
                 {t('buttons.skip')}
               </Button>
-              <Button disabled={!isKeyboardHidden} onClick={handleSubmitButton}>
+              <Button disabled={disableButtons} onClick={handleSubmitButton}>
                 {t('buttons.submit')}
               </Button>
             </div>

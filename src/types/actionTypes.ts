@@ -21,10 +21,6 @@ export interface ISetGameAction {
   payload: IGameState;
 }
 
-export interface ISetGameAgainAction {
-  type: typeof GameActions.SET_GAME_AGAIN;
-}
-
 export interface INextTurn {
   type: typeof GameActions.NEXT_TURN;
 }

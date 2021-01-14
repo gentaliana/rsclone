@@ -29,6 +29,7 @@ export interface IGameState {
   firstWord: string;
   currentWord: string;
   isPlayer1Turn: boolean;
+  isWin: string;
   player1: IPlayerState;
   player2: IPlayerState;
 }
@@ -37,7 +38,6 @@ export interface IPlayerState {
   points: number;
   words: string[];
   penalties: number;
-  isLose: boolean;
 }
 
 export interface IRatingItem {

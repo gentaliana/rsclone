@@ -13,6 +13,8 @@ export enum GameActions {
   ADD_POINTS = 'ADD_POINTS',
   SET_FIELD = 'SET_FIELD',
   NEXT_TURN = 'NEXT_TURN',
+  SET_START_GAME = 'SET_START_GAME',
+  SET_STOP_GAME = 'SET_STOP_GAME',
 }
 
 export enum AlertActions {

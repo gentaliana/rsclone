@@ -1,3 +1,7 @@
+body {
+  background-image: url('./assets/img/background.jpg');
+}
+
 .wrapper {
   display: grid;
   grid-template-areas: 'header' 'main' 'footer';

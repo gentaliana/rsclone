@@ -8,7 +8,7 @@ import { useKeyPress, useSymbolKeyPress } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
-import { setGame, nextTurn, setNotify } from '@store';
+import { setGame, nextTurn, setNotify, stopGame, startGame } from '@store';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -244,6 +244,16 @@ export const Game = (): JSX.Element => {
       dispatch(setNotify({ headerText: 'Game ended!', contentText: `${firstGamerName} won` }));
     }
   }, [game.player1.isLose, game.player2.isLose]);
+
+  const setGameIsStart = React.useCallback(() => dispatch(startGame()), [dispatch]);
+  const setGameIsStop = React.useCallback(() => dispatch(stopGame()), [dispatch]);
+  useEffect(() => {
+    setGameIsStart();
+
+    return () => {
+      setGameIsStop();
+    };
+  }, []);
 
   return (
     <div className="main-game">

@@ -28,6 +28,7 @@ export interface IGameState {
   firstWord: string;
   currentWord: string;
   isPlayer1Turn: boolean;
+  isGameStart: boolean;
   player1: IPlayerState;
   player2: IPlayerState;
 }

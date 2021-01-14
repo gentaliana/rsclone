@@ -56,6 +56,20 @@ export function game(state: IGameState = defaultState.game, action: AnyAction): 
       };
     }
 
+    case GameActions.SET_START_GAME: {
+      return {
+        ...state,
+        isGameStart: true,
+      };
+    }
+
+    case GameActions.SET_STOP_GAME: {
+      return {
+        ...state,
+        isGameStart: false,
+      };
+    }
+
     default:
       return state;
   }

@@ -51,7 +51,6 @@ export const SetGame = (): JSX.Element => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     const time = +form.time.value.trim();
-    // const fieldSize = +form.fieldSize.value.trim();
     const firstWord = form.firstWord.value.trim();
     const secondPlayer = form.secondPlayer.value.trim();
 

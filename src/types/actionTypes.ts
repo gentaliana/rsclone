@@ -33,3 +33,10 @@ export interface ISetAlertAction {
 export interface IRemoveAlertAction {
   type: typeof AlertActions.REMOVE_NOTIFY;
 }
+
+export interface IStartGame {
+  type: typeof GameActions.SET_START_GAME;
+}
+export interface IStopGame {
+  type: typeof GameActions.SET_STOP_GAME;
+}

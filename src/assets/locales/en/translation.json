@@ -12,6 +12,13 @@
     "settings": "Settings",
     "about": "About"
   },
+  "menu": {
+    "home": "Home",
+    "newGame": "New Game",
+    "settings": "Settings",
+    "rating": "Rating",
+    "about": "About"
+  },
   "dropdown": {
     "titles": {
       "options": "Variants for Display",

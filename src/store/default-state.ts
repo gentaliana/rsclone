@@ -10,6 +10,7 @@ export const defaultState: IAppState = {
     firstWord: '',
     currentWord: '',
     isPlayer1Turn: true,
+    isGameStart: false,
     isWin: '',
     player1: {
       points: 0,

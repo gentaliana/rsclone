@@ -8,7 +8,7 @@ import { useKeyPress, useSymbolKeyPress } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
-import { setGame, nextTurn, setModal } from '@store';
+import { setGame, nextTurn, setModal, stopGame, startGame } from '@store';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -252,6 +252,16 @@ export const Game = (): JSX.Element => {
       dispatch(setModal({ isWin: true, contentText: `${game.isWin} won` }));
     }
   }, [game.isWin]);
+
+  const setGameIsStart = React.useCallback(() => dispatch(startGame()), [dispatch]);
+  const setGameIsStop = React.useCallback(() => dispatch(stopGame()), [dispatch]);
+  useEffect(() => {
+    setGameIsStart();
+
+    return () => {
+      setGameIsStop();
+    };
+  }, []);
 
   return (
     <div className="main-game">

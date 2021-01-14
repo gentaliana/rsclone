@@ -51,6 +51,7 @@ export interface IRatingItem {
 export interface INotify {
   headerText: string;
   contentText: string;
+  variant?: string;
 }
 
 export interface IModal {

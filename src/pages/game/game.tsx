@@ -85,7 +85,6 @@ export const Game = (): JSX.Element => {
 
   const setWinner = (winnerName: string) => {
     const gameDuration = new Date().getTime() - startTime.getTime();
-    console.log(gameDuration);
     setGameSettings({ ...game, duration: gameDuration, isWin: winnerName });
   };
 
@@ -138,18 +137,14 @@ export const Game = (): JSX.Element => {
 
   const checkInDictionary = async (word: string) => {
     try {
-      const data = await request(url(language || lang, word.toLowerCase()), method);
-      console.log(data);
-      if (data) {
-        console.log(data.status);
-      }
+      // TODO сохранять ответ для тултипа
+      await request(url(language || lang, word.toLowerCase()), method);
       setInfoMessage(`Accepted from ${curGamerName}: ${currWord}`);
       updatePoints(currWord);
       resetTimer();
       resetState(true);
     } catch (e) {
       await openModal('dictionary error', e.message, NOTIFY_TYPES.error);
-      console.log(e);
       resetState();
       setInfoMessage(`${currWord} not found in dictionary!`);
     }

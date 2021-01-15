@@ -27,6 +27,7 @@
 - Добавлены эндпоинты для получения слов и информации о них (https://github.com/gentaliana/rsclone/issues/58)
 - Перенесено переключения языка в меню (https://github.com/gentaliana/rsclone/issues/95)
 - На завершение игры добавлен модальный диалог (https://github.com/gentaliana/rsclone/issues/117)
+- Проверка слова в словаре (https://github.com/gentaliana/rsclone/issues/126)
 
 ### Fix
 

@@ -249,6 +249,7 @@ export const Game = (): JSX.Element => {
   }, [downPress, upPress, leftPress, rightPress]);
 
   useEffect(() => {
+    if (game.isWin) return;
     if (escPress) resetState();
     const isSelectedCellWithoutLetter = !enteredLetter && focusedCell !== null;
     if (shiftPress && isSelectedCellWithoutLetter) {

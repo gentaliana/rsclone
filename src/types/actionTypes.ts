@@ -1,14 +1,24 @@
 import { SettingActions, GameActions, AlertActions, ModalActions } from '@constants';
-import { ISettingsState, IGameState, INotify, IModal } from '@types';
+import { ISettingsPage, IGameState, INotify, IModal } from '@types';
 
 export interface ISetSettingsAction {
   type: typeof SettingActions.SET_SETTINGS;
-  payload: ISettingsState;
+  payload: ISettingsPage;
 }
 
 export interface ISetLanguageAction {
   type: typeof SettingActions.SET_LANGUAGE;
   payload: string;
+}
+
+export interface ISetSoundAction {
+  type: typeof SettingActions.SET_SOUND;
+  payload: boolean;
+}
+
+export interface ISetMusicAction {
+  type: typeof SettingActions.SET_MUSIC;
+  payload: boolean;
 }
 
 export interface ISetFieldSizeAction {

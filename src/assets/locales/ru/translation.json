@@ -17,7 +17,9 @@
     "newGame": "Новая игра",
     "settings": "Настройки",
     "rating": "Рейтинг",
-    "about": "Справка"
+    "about": "Справка",
+    "sound": "Звук",
+    "music": "Музыка"
   },
   "dropdown": {
     "titles": {

@@ -16,6 +16,15 @@ export interface IAppState {
 export interface ISettingsState {
   lang: string;
   isSoundOn: boolean;
+  isMusicOn: boolean;
+  gamerName: string;
+  secondGamerName: string;
+  currentTheme: string | null;
+}
+
+export interface ISettingsPage {
+  lang?: string;
+  isSoundOn?: boolean;
   gamerName: string;
   secondGamerName: string;
   currentTheme: string | null;

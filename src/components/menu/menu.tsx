@@ -4,6 +4,7 @@ import { DEFAULT_LANG, routes, Languages } from '@constants';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { IAppState } from '@types';
+import ReactHowler from 'react-howler';
 import { SelectOption } from '../selectOption';
 import './menu.scss';
 
@@ -20,9 +21,11 @@ export const Menu = (): JSX.Element => {
   );
 
   const isGameStart = useSelector((state: IAppState) => state.game.isGameStart);
+  const isMusicOn = useSelector((state: IAppState) => state.settings.isSoundOn);
 
   return (
     <nav>
+      <ReactHowler src="https://dl2.mp3party.net/online/8526180.mp3" playing={isMusicOn} volume={0.7} loop />
       <ul className="menu">
         <li className="menu__item">
           <NavLink className="menu__link" exact to={routes.HOME} activeClassName="menu__link--active">

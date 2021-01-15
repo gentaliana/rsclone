@@ -31,6 +31,7 @@ export interface IGameState {
   isPlayer1Turn: boolean;
   isGameStart: boolean;
   isWin: string;
+  duration: number;
   player1: IPlayerState;
   player2: IPlayerState;
 }

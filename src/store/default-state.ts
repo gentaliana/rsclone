@@ -11,6 +11,7 @@ export const defaultState: IAppState = {
     currentWord: '',
     isPlayer1Turn: true,
     isGameStart: false,
+    duration: 0,
     isWin: '',
     player1: {
       points: 0,
@@ -27,6 +28,7 @@ export const defaultState: IAppState = {
   settings: {
     lang: DEFAULT_LANG,
     isSoundOn: true,
+    isMusicOn: true,
     gamerName: DEFAULT_GAMER_NAME,
     secondGamerName: DEFAULT_SECOND_GAMER_NAME,
     currentTheme: 'light',

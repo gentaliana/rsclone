@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
+import { setSound, setMusic } from '@store';
 import { DEFAULT_LANG, routes, Languages } from '@constants';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IAppState } from '@types';
+import { BsFillVolumeUpFill, BsFillVolumeMuteFill, BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { SelectOption } from '../selectOption';
 import './menu.scss';
 
@@ -19,7 +21,13 @@ export const Menu = (): JSX.Element => {
     [t],
   );
 
+  const dispatch = useDispatch();
+  const setIsSound = (sound: boolean) => dispatch(setSound(sound));
+  const setIsMusic = (music: boolean) => dispatch(setMusic(music));
+
   const isGameStart = useSelector((state: IAppState) => state.game.isGameStart);
+  const isSoundOn = useSelector((state: IAppState) => state.settings.isSoundOn);
+  const isMusicOn = useSelector((state: IAppState) => state.settings.isMusicOn);
 
   return (
     <nav>
@@ -49,6 +57,7 @@ export const Menu = (): JSX.Element => {
             {t('menu.about')}
           </NavLink>
         </li>
+        <span>Sound</span>
         {!isGameStart && (
           <li className="menu__item">
             <SelectOption
@@ -58,6 +67,22 @@ export const Menu = (): JSX.Element => {
             />
           </li>
         )}
+        <li className="menu__item">
+          <span>{t('menu.sound')}</span>
+          {isSoundOn ? (
+            <BsFillVolumeUpFill style={{ fontSize: '30px' }} onClick={() => setIsSound(!isSoundOn)} />
+          ) : (
+            <BsFillVolumeMuteFill style={{ fontSize: '30px' }} onClick={() => setIsSound(!isSoundOn)} />
+          )}
+        </li>
+        <li className="menu__item">
+          <span>{t('menu.music')}</span>
+          {isMusicOn ? (
+            <BsFillPlayFill style={{ fontSize: '30px' }} onClick={() => setIsMusic(!isMusicOn)} />
+          ) : (
+            <BsFillPauseFill style={{ fontSize: '30px' }} onClick={() => setIsMusic(!isMusicOn)} />
+          )}
+        </li>
       </ul>
     </nav>
   );

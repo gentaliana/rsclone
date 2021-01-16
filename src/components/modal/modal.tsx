@@ -43,16 +43,23 @@ export const GameOverModal = (props: IModalProps): JSX.Element => {
           <h3 className="modal-title">Game ended!</h3>
           {modal?.isWin ? <img alt="cup" className="cup" src={cup} /> : <img alt="cat" className="cat" src={cat} />}
           <p>{modal?.contentText}</p>
-          <p>Ready to play again?</p>
         </Modal.Body>
         <Modal.Footer>
-          <div className="modal-buttons">
-            <Link to={routes.SET_GAME}>
-              <Button color="primary" onClick={() => beginGameAgain()}>
-                Yes!
+          <div className="modal-dialog-wrapper">
+            <div>
+              <p className="modal-question">Ready to play again?</p>
+            </div>
+            <div className="modal-buttons">
+              <Link to={routes.SET_GAME}>
+                <Button variant="danger" size="lg" onClick={() => beginGameAgain()}>
+                  Yes!
+                </Button>
+              </Link>
+              <Button variant="danger" size="lg" onClick={() => stayInGame()}>
+                {' '}
+                No, return to game
               </Button>
-            </Link>
-            <Button onClick={() => stayInGame()}> No, return to game</Button>
+            </div>
           </div>
         </Modal.Footer>
       </div>

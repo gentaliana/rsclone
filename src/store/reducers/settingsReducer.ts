@@ -18,6 +18,17 @@ export function settings(state: ISettingsState = defaultState.settings, action: 
         lang: payload,
       };
 
+    case SettingActions.SET_SOUND:
+      return {
+        ...state,
+        isSoundOn: payload,
+      };
+    case SettingActions.SET_MUSIC:
+      return {
+        ...state,
+        isMusicOn: payload,
+      };
+
     default:
       return state;
   }

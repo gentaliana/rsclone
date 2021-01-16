@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
 import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal } from '@components';
 import Button from 'react-bootstrap/Button';
-import { getLangLetters } from '@constants';
+import { getLangLetters, Languages, Api, NOTIFY_TYPES } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
-import { useKeyPress, useSymbolKeyPress } from '@hooks';
+import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
-import { setGame, nextTurn, setModal, stopGame, startGame } from '@store';
+import { setGame, nextTurn, setModal, stopGame, startGame, setNotify } from '@store';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -19,6 +19,7 @@ export const Game = (): JSX.Element => {
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [currWord, setCurrWord] = useState<string>('');
   const [idsOfChosenLetters, setIdsOfChosenLetters] = useState<Array<number>>([]);
+  const [startTime] = useState<Date>(new Date());
 
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
@@ -33,6 +34,10 @@ export const Game = (): JSX.Element => {
   const isPlayer1Turn = useSelector((state: IAppState) => state.game.isPlayer1Turn);
   const firstGamerName = useSelector((state: IAppState) => state.settings.gamerName);
   const secondGamerName = useSelector((state: IAppState) => state.settings.secondGamerName);
+  const curGamerName = game.isPlayer1Turn ? firstGamerName : secondGamerName;
+
+  const { request } = useApi();
+  const { url, method } = Api.GET_WORD_INFO;
 
   const selectedCellRef = useRef<number | null>(null);
   selectedCellRef.current = selectedCell;
@@ -48,6 +53,7 @@ export const Game = (): JSX.Element => {
 
   const { t } = useTranslation();
   const lang = useSelector((state: IAppState) => state.settings.lang);
+  const [language] = Object.keys(Languages).filter((key) => Languages[key as keyof typeof Languages] === lang);
 
   const setLetterInCells = (letter: string, pos: number) => {
     const newCells = [...cells];
@@ -77,45 +83,13 @@ export const Game = (): JSX.Element => {
     dispatch(nextTurn());
   };
 
-  const handleSubmitButton = () => {
-    if (currWord.length === 0) {
-      setInfoMessage('You did not choose any letters');
-      return;
-    }
-    if (currWord.length === 1) {
-      resetState();
-      setInfoMessage('Word is too short!');
-      return;
-    }
+  const setWinner = (winnerName: string) => {
+    const gameDuration = new Date().getTime() - startTime.getTime();
+    setGameSettings({ ...game, duration: gameDuration, isWin: winnerName });
+  };
 
-    const curGamerName = game.isPlayer1Turn ? firstGamerName : secondGamerName;
-
-    if (selectedCell !== null) {
-      if (!idsOfChosenLetters.includes(selectedCell)) {
-        resetState();
-        setInfoMessage('Word must contain selected cell!');
-        return;
-      }
-    }
-
-    if (game.player1.words.includes(currWord)) {
-      resetState();
-      setInfoMessage(`${firstGamerName} has already used this word in game!`);
-      return;
-    }
-
-    if (game.player2.words.includes(currWord)) {
-      resetState();
-      setInfoMessage(`${secondGamerName} has already used this word in game!`);
-      return;
-    }
-
-    // TODO currWord проверка в словаре
-
-    setInfoMessage(`Accepted from ${curGamerName}: ${currWord}`);
-    resetTimer();
-
-    const numberOfPoints = currWord.length;
+  const updatePoints = (winWord: string) => {
+    const numberOfPoints = winWord.length;
 
     const prevFirstPlayerPoints = game.player1.points;
     const currFirstPlayerPoints = prevFirstPlayerPoints + numberOfPoints;
@@ -144,15 +118,70 @@ export const Game = (): JSX.Element => {
         },
       });
     }
-    resetState(true);
 
     if (cells.filter((el) => el === '').length === 0) {
       if (currFirstPlayerPoints > currSecondPlayerPoints) {
-        setGameSettings({ ...game, isWin: firstGamerName });
+        setWinner(firstGamerName);
       } else {
-        setGameSettings({ ...game, isWin: secondGamerName });
+        setWinner(secondGamerName);
       }
     }
+  };
+
+  const openModal = React.useCallback(
+    (headerText: string, contentText: string, variant: string = NOTIFY_TYPES.success) => {
+      dispatch(setNotify({ headerText, contentText, variant }));
+    },
+    [dispatch],
+  );
+
+  const checkInDictionary = async (word: string) => {
+    try {
+      // TODO сохранять ответ для тултипа
+      await request(url(language || lang, word.toLowerCase()), method);
+      setInfoMessage(`Accepted from ${curGamerName}: ${currWord}`);
+      updatePoints(currWord);
+      resetTimer();
+      resetState(true);
+    } catch (e) {
+      await openModal('dictionary error', e.message, NOTIFY_TYPES.error);
+      resetState();
+      setInfoMessage(`${currWord} not found in dictionary!`);
+    }
+  };
+
+  const handleSubmitButton = () => {
+    if (currWord.length === 0) {
+      setInfoMessage('You did not choose any letters');
+      return;
+    }
+
+    if (currWord.length === 1) {
+      resetState();
+      setInfoMessage('Word is too short!');
+      return;
+    }
+
+    if (selectedCell !== null) {
+      if (!idsOfChosenLetters.includes(selectedCell)) {
+        resetState();
+        setInfoMessage('Word must contain selected cell!');
+        return;
+      }
+    }
+
+    if (game.player1.words.includes(currWord)) {
+      resetState();
+      setInfoMessage(`${firstGamerName} has already used this word in game!`);
+      return;
+    }
+
+    if (game.player2.words.includes(currWord)) {
+      resetState();
+      setInfoMessage(`${secondGamerName} has already used this word in game!`);
+      return;
+    }
+    checkInDictionary(currWord);
   };
 
   const handleCurrentLetter = (letter: string) => {
@@ -176,6 +205,7 @@ export const Game = (): JSX.Element => {
   };
 
   const handleMouseSelectCell = (index: number) => {
+    if (game.isWin) return;
     if (!enteredLetter) {
       setFocusedCell(index);
       if (isKeyboardHidden) setIsKeyboardHidden(false);
@@ -219,6 +249,7 @@ export const Game = (): JSX.Element => {
   }, [downPress, upPress, leftPress, rightPress]);
 
   useEffect(() => {
+    if (game.isWin) return;
     if (escPress) resetState();
     const isSelectedCellWithoutLetter = !enteredLetter && focusedCell !== null;
     if (shiftPress && isSelectedCellWithoutLetter) {
@@ -230,14 +261,15 @@ export const Game = (): JSX.Element => {
   }, [escPress, enterPress, shiftPress]);
 
   useEffect(() => {
+    if (game.isWin) return;
     handleKeyPressLetter();
   }, [symbolPressed]);
 
   useEffect(() => {
     if (game.player2.penalties > 2) {
-      setGameSettings({ ...game, isWin: firstGamerName });
+      setWinner(firstGamerName);
     } else if (game.player1.penalties > 2) {
-      setGameSettings({ ...game, isWin: secondGamerName });
+      setWinner(secondGamerName);
     }
   }, [game.player1.penalties, game.player2.penalties]);
 
@@ -255,6 +287,7 @@ export const Game = (): JSX.Element => {
 
   const setGameIsStart = React.useCallback(() => dispatch(startGame()), [dispatch]);
   const setGameIsStop = React.useCallback(() => dispatch(stopGame()), [dispatch]);
+
   useEffect(() => {
     setGameIsStart();
 

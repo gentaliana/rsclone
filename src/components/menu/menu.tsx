@@ -5,6 +5,7 @@ import { DEFAULT_LANG, routes, Languages } from '@constants';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { IAppState } from '@types';
+import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill, BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { SelectOption } from '../selectOption';
 import './menu.scss';
@@ -30,60 +31,58 @@ export const Menu = (): JSX.Element => {
   const isMusicOn = useSelector((state: IAppState) => state.settings.isMusicOn);
 
   return (
-    <nav>
-      <ul className="menu">
-        <li className="menu__item">
-          <NavLink className="menu__link" exact to={routes.HOME} activeClassName="menu__link--active">
-            {t('menu.home')}
-          </NavLink>
-        </li>
-        <li className="menu__item">
-          <NavLink className="menu__link" to={routes.SET_GAME} activeClassName="menu__link--active">
-            {t('menu.newGame')}
-          </NavLink>
-        </li>
-        <li className="menu__item">
-          <NavLink className="menu__link" to={routes.SETTINGS} activeClassName="menu__link--active">
-            {t('menu.settings')}
-          </NavLink>
-        </li>
-        <li className="menu__item">
-          <NavLink className="menu__link" to={routes.RATING} activeClassName="menu__link--active">
-            {t('menu.rating')}
-          </NavLink>
-        </li>
-        <li className="menu__item">
-          <NavLink className="menu__link" to={routes.ABOUT} activeClassName="menu__link--active">
-            {t('menu.about')}
-          </NavLink>
-        </li>
-        <span>Sound</span>
-        {!isGameStart && (
-          <li className="menu__item">
+    <Navbar bg="light" variant="light" collapseOnSelect expand="md">
+      <Container>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto" variant="pills" justify>
+            <NavLink className="menu__link" exact to={routes.HOME} activeClassName="menu__link--active">
+              {t('menu.home')}
+            </NavLink>
+            <NavDropdown.Divider />
+            <NavLink className="menu__link" to={routes.SET_GAME} activeClassName="menu__link--active">
+              {t('menu.newGame')}
+            </NavLink>
+            <NavDropdown.Divider />
+            <NavLink className="menu__link" to={routes.SETTINGS} activeClassName="menu__link--active">
+              {t('menu.settings')}
+            </NavLink>
+            <NavDropdown.Divider />
+            <NavLink className="menu__link" to={routes.RATING} activeClassName="menu__link--active">
+              {t('menu.rating')}
+            </NavLink>
+            <NavDropdown.Divider />
+            <NavLink className="menu__link" to={routes.ABOUT} activeClassName="menu__link--active">
+              {t('menu.about')}
+            </NavLink>
+          </Nav>
+        </Navbar.Collapse>
+        <Nav.Item className="menu__link">
+          {!isGameStart && (
             <SelectOption
               setCurrShowingData={changeLanguage}
               options={Languages}
               title={DROPDOWN_TITLES.translations}
             />
-          </li>
-        )}
-        <li className="menu__item">
+          )}
+        </Nav.Item>
+        <Nav.Item className="menu__link">
           <span>{t('menu.sound')}</span>
           {isSoundOn ? (
             <BsFillVolumeUpFill style={{ fontSize: '30px' }} onClick={() => setIsSound(!isSoundOn)} />
           ) : (
             <BsFillVolumeMuteFill style={{ fontSize: '30px' }} onClick={() => setIsSound(!isSoundOn)} />
           )}
-        </li>
-        <li className="menu__item">
+        </Nav.Item>
+        <Nav.Item className="menu__link">
           <span>{t('menu.music')}</span>
           {isMusicOn ? (
             <BsFillPlayFill style={{ fontSize: '30px' }} onClick={() => setIsMusic(!isMusicOn)} />
           ) : (
             <BsFillPauseFill style={{ fontSize: '30px' }} onClick={() => setIsMusic(!isMusicOn)} />
           )}
-        </li>
-      </ul>
-    </nav>
+        </Nav.Item>
+      </Container>
+    </Navbar>
   );
 };

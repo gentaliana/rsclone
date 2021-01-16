@@ -59,6 +59,7 @@ export const SetGame = (): JSX.Element => {
       fieldSize,
       firstWord,
       isWin: '',
+      duration: 0,
       isPlayer1Turn: true,
       player1: { points: 0, words: [], penalties: 0 },
       player2: { points: 0, words: [], penalties: 0 },

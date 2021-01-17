@@ -6,8 +6,8 @@ export const About = (): JSX.Element => {
   const { t } = useTranslation();
   return (
     <div className="about__wrapper">
-      <h1>{t('help.rulesGame')}</h1>
-      <ul>
+      <h3>{t('help.rulesGame')}</h3>
+      <ul className="about__rulles-one">
         <li>{t('help.listRules.one')}</li>
         <li>{t('help.listRules.two')}</li>
         <li>{t('help.listRules.tree')}</li>
@@ -17,13 +17,13 @@ export const About = (): JSX.Element => {
         <li>{t('help.listRules.seven')}</li>
       </ul>
       <h3>{t('help.move.header')}</h3>
-      <ul>
+      <ul className="about__rulles-one">
         <li>{t('help.move.one')}</li>
         <li>{t('help.move.two')}</li>
         <li>{t('help.move.tree')}</li>
       </ul>
       <h3>{t('help.keyboardMove.header')}</h3>
-      <ul>
+      <ul className="about__rulles-one">
         <li>{t('help.keyboardMove.one')}</li>
         <li>{t('help.keyboardMove.two')}</li>
         <li>{t('help.keyboardMove.tree')}</li>
@@ -31,7 +31,7 @@ export const About = (): JSX.Element => {
         <li>{t('help.keyboardMove.five')}</li>
       </ul>
       <h3>{t('help.additionally')}</h3>
-      <span>{t('help.penalties')}</span>
+      <span className="about__rulles-one">{t('help.penalties')}</span>
       {/* TODO добавить еще правил */}
     </div>
   );

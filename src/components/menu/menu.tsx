@@ -75,6 +75,7 @@ export const Menu = (): JSX.Element => {
           )}
         </Nav.Item>
         <Nav.Item className="menu__link">
+
           <span>{t('menu.music')}</span>
           {isMusicOn ? (
             <BsFillPlayFill style={{ fontSize: '30px' }} onClick={() => setIsMusic(!isMusicOn)} />

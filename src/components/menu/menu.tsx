@@ -5,6 +5,7 @@ import { DEFAULT_LANG, routes, Languages } from '@constants';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { IAppState } from '@types';
+import ReactHowler from 'react-howler';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill, BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { SelectOption } from '../selectOption';
@@ -32,6 +33,7 @@ export const Menu = (): JSX.Element => {
 
   return (
     <Navbar bg="light" variant="light" collapseOnSelect expand="md">
+      <ReactHowler src="https://dl2.mp3party.net/online/8526180.mp3" playing={isMusicOn} volume={0.7} loop />
       <Container>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -75,7 +77,6 @@ export const Menu = (): JSX.Element => {
           )}
         </Nav.Item>
         <Nav.Item className="menu__link">
-
           <span>{t('menu.music')}</span>
           {isMusicOn ? (
             <BsFillPlayFill style={{ fontSize: '30px' }} onClick={() => setIsMusic(!isMusicOn)} />

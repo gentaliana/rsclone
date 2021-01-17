@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
 import { setGame, nextTurn, setModal, stopGame, startGame, setNotify } from '@store';
+import ReactHowler from 'react-howler';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -38,6 +39,8 @@ export const Game = (): JSX.Element => {
 
   const { request } = useApi();
   const { url, method } = Api.GET_WORD_INFO;
+
+  const isMusicOn = useSelector((state: IAppState) => state.settings.isSoundOn);
 
   const selectedCellRef = useRef<number | null>(null);
   selectedCellRef.current = selectedCell;
@@ -308,6 +311,7 @@ export const Game = (): JSX.Element => {
             handleHideKeyboard={handleHideKeyboard}
           />
           <div>
+            <ReactHowler src="https://noisefx.ru/noise_base/obect/ofis/00171.mp3" playing={isMusicOn} volume={1} />
             <Field
               handleMouseSelectCell={handleMouseSelectCell}
               selectedCell={selectedCell}

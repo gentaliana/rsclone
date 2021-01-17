@@ -17,7 +17,9 @@
     "newGame": "New Game",
     "settings": "Settings",
     "rating": "Rating",
-    "about": "About"
+    "about": "About",
+    "sound": "Sound",
+    "music": "Music"
   },
   "dropdown": {
     "titles": {
@@ -44,7 +46,6 @@
     "start": "Start"
   },
   "settingPage": {
-    "sound": "Sound",
     "soundOn": "sound on",
     "soundOff": "sound off",
     "firstUser": "First user name",

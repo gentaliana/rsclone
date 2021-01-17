@@ -9,8 +9,8 @@
   border-radius: 100px;
 }
 
-.modal-body {
-  padding-top: 0;
+.modal-wrapper .modal-body {
+  padding: 0;
   text-align: center;
 }
 
@@ -67,6 +67,15 @@ h3 {
 .modal-buttons {
   display: flex;
   justify-content: space-between;
-  width: 300px;
+  width: 320px;
   margin: 0 auto;
+}
+
+.modal-dialog-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-question {
+  font-size: 24px;
 }

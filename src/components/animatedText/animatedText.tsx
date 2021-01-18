@@ -1,7 +1,5 @@
 import React from 'react';
 import Animate from 'react-move/Animate';
-// import { easeCircleOut } from 'd3-ease';
-// import { easeSinOut } from 'd3-ease';
 import { easeCubicOut } from 'd3-ease';
 
 type AnimatedTextProps = {
@@ -18,6 +16,7 @@ export const AnimatedText = ({ isShow, setIsShowAnimation, text, colorMsg }: Ani
       opacity: 0,
       fontSize: 0,
     }}
+    // TODO размер поменьше для < 850px
     update={{
       opacity: isShow ? [1] : 0,
       fontSize: isShow ? [65] : 0,
@@ -38,7 +37,7 @@ export const AnimatedText = ({ isShow, setIsShowAnimation, text, colorMsg }: Ani
       <div
         style={{
           position: 'absolute',
-          top: '20%',
+          top: '175px',
           left: '50%',
           color: colorMsg,
           transform: ' translate(-50%, -50%)',

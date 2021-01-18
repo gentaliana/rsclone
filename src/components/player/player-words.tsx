@@ -2,21 +2,19 @@ import React from 'react';
 import './player.scss';
 import { IAppState } from '@types';
 import { useSelector } from 'react-redux';
+import { PLAYERS_ID } from '@constants';
 
 type PlayerWordsProps = {
-  isEnemy?: boolean;
+  playerId: number;
 };
 
-export const PlayerWords = ({ isEnemy }: PlayerWordsProps): JSX.Element => {
+export const PlayerWords = ({ playerId }: PlayerWordsProps): JSX.Element => {
   const player1 = useSelector((state: IAppState) => state.game.player1);
   const player2 = useSelector((state: IAppState) => state.game.player2);
 
-  const displayedWords = isEnemy ? player2.words : player1.words;
-
-  const isPlayer1Turn = useSelector((state: IAppState) => state.game.isPlayer1Turn);
-  const isEnemyCurrent = isEnemy && !isPlayer1Turn;
-  const isGamerCurrent = !isEnemy && isPlayer1Turn;
-  const isCurrent = isEnemyCurrent || isGamerCurrent;
+  const displayedWords = playerId === PLAYERS_ID.SECOND_GAMER_ID ? player2.words : player1.words;
+  const playerTurnId = useSelector((state: IAppState) => state.game.playerTurnId);
+  const isCurrent = playerTurnId === playerId;
 
   const classList = ['player-words'];
 
@@ -33,8 +31,4 @@ export const PlayerWords = ({ isEnemy }: PlayerWordsProps): JSX.Element => {
       </ol>
     </div>
   );
-};
-
-PlayerWords.defaultProps = {
-  isEnemy: false,
 };

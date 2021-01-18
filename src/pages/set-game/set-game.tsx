@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/esm/Form';
 import { useSelector, useDispatch } from 'react-redux';
 import { IAppState, IGameState } from '@types';
 import { Redirect } from 'react-router-dom';
-import { Api, Languages, NOTIFY_TYPES, routes, sizes, FIRST_WORDS, DEFAULT_FIELD_SIZE } from '@constants';
+import { Api, Languages, NOTIFY_TYPES, routes, sizes, FIRST_WORDS, DEFAULT_FIELD_SIZE, PLAYERS_ID } from '@constants';
 import { setGame, setNotify } from '@store';
 import { RadioGroup } from '@components';
 import { useApi } from '@hooks';
@@ -58,9 +58,9 @@ export const SetGame = (): JSX.Element => {
       isBot: secondPlayer === 'bot',
       fieldSize,
       firstWord,
-      isWin: '',
+      isWin: 0,
       duration: 0,
-      isPlayer1Turn: true,
+      playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
       player1: { points: 0, words: [], penalties: 0 },
       player2: { points: 0, words: [], penalties: 0 },
     });

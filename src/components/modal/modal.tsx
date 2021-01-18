@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { removeModal } from '@store';
 import { Link } from 'react-router-dom';
@@ -17,6 +18,7 @@ interface IModalProps {
 
 export const GameOverModal = (props: IModalProps): JSX.Element => {
   const { modal } = props;
+  const { t } = useTranslation();
   const [modalShow, setModalShow] = useState(true);
   const dispatch = useDispatch();
   const beginGameAgain = () => {
@@ -40,25 +42,24 @@ export const GameOverModal = (props: IModalProps): JSX.Element => {
       <div className="modal-wrapper">
         <img alt="ribbon" className="ribbon" src={ribbon} />
         <Modal.Body>
-          <h3 className="modal-title">Game ended!</h3>
+          <h3 className="modal-title">{t('game.gameEnded')}</h3>
           {modal?.isWin ? <img alt="cup" className="cup" src={cup} /> : <img alt="cat" className="cat" src={cat} />}
           <p>{modal?.contentText}</p>
         </Modal.Body>
         <Modal.Footer>
           <div className="modal-dialog-wrapper">
             <div>
-              <p className="modal-question">Ready to play again?</p>
+              <p className="modal-question">{t('game.playAgain')}</p>
             </div>
             <div className="modal-buttons">
+              <Button variant="warning " size="lg" onClick={() => stayInGame()}>
+                {t('game.return')}
+              </Button>
               <Link to={routes.SET_GAME}>
                 <Button variant="danger" size="lg" onClick={() => beginGameAgain()}>
-                  Yes!
+                  {t('game.yes')}
                 </Button>
               </Link>
-              <Button variant="danger" size="lg" onClick={() => stayInGame()}>
-                {' '}
-                No, return to game
-              </Button>
             </div>
           </div>
         </Modal.Footer>

@@ -58,7 +58,7 @@ export const SetGame = (): JSX.Element => {
       isBot: secondPlayer === 'bot',
       fieldSize,
       firstWord,
-      isWin: 0,
+      winnerId: null,
       duration: 0,
       playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
       player1: { points: 0, words: [], penalties: 0 },

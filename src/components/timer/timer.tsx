@@ -50,7 +50,7 @@ type TimerProps = {
 
 export const Timer = ({ onComplete, timerKey }: TimerProps): JSX.Element => {
   const time = useSelector((state: IAppState) => state.game.time);
-  const isGameEnded = !useSelector((state: IAppState) => state.game.isWin);
+  const isGameEnded = useSelector((state: IAppState) => state.game.winnerId !== null);
 
   return time > 0 ? (
     <div className="timer-wrapper">

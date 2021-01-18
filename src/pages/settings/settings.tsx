@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSettings } from '@store';
+import { setSettings, setTheme } from '@store';
 import { Button } from 'react-bootstrap';
 import { ISettingsPage, IAppState } from '@types';
 import { useTranslation } from 'react-i18next';
-import { DEFAULT_GAMER_NAME, DEFAULT_SECOND_GAMER_NAME, NOTIFY_TYPES } from '@constants';
+import { DEFAULT_GAMER_NAME, DEFAULT_SECOND_GAMER_NAME, NOTIFY_TYPES, Theme } from '@constants';
 // import { SelectOption } from 'src/components/selectOption';
 import { ButtonToggle } from '@components';
 import { User } from './User/User';
@@ -26,14 +26,14 @@ export const Settings = (): JSX.Element => {
   // const [sound, setSound] = useState<boolean>(soundInitial);
   const [firstUser, setFirstUser] = useState<string>(firstUserInitial);
   const [secondUser, setSecondUser] = useState<string>(secondUserInitial);
-  const [theme, setTheme] = useState<boolean>(themeInitial === 'light');
+  // const [theme, setTheme] = useState<boolean>(themeInitial === 'light');
   // const [newLang, setNewLang] = useState<string>(langInitial);
 
   useEffect(() => {
     // setSound(soundInitial);
     setFirstUser(firstUserInitial);
     setSecondUser(secondUserInitial);
-    setTheme(themeInitial === 'light');
+    // setTheme(themeInitial === 'light');
     // setNewLang(langInitial);
   }, [
     // soundInitial,
@@ -42,6 +42,16 @@ export const Settings = (): JSX.Element => {
     themeInitial,
     // langInitial,
   ]);
+
+  const onChangeTheme = useCallback(() => {
+    if (themeInitial === Theme.light) {
+      dispatch(setTheme(Theme.dark));
+    } else {
+      dispatch(setTheme(Theme.light));
+    }
+  }, [themeInitial, dispatch]);
+
+  const isLightTheme = useMemo(() => themeInitial === Theme.light, [themeInitial]);
 
   // const changeLanguage = (lng: string | null) => {
   //   setNewLang(lng ?? DEFAULT_LANG);
@@ -73,12 +83,12 @@ export const Settings = (): JSX.Element => {
       <div className="theme">
         <div className="themeText">{t('settingPage.theme')}</div>
         <ButtonToggle
-          param={theme}
+          param={isLightTheme}
           classBtn="theme-btn"
-          variant={theme ? NOTIFY_TYPES.light : NOTIFY_TYPES.dark}
+          variant={isLightTheme ? NOTIFY_TYPES.light : NOTIFY_TYPES.dark}
           first={t('settingPage.light')}
           second={t('settingPage.dark')}
-          onClick={setTheme}
+          onClick={onChangeTheme}
         />
       </div>
 
@@ -95,7 +105,7 @@ export const Settings = (): JSX.Element => {
               // isSoundOn: soundInitial,
               gamerName: firstUser === '' ? DEFAULT_GAMER_NAME : firstUser,
               secondGamerName: secondUser === '' ? DEFAULT_SECOND_GAMER_NAME : secondUser,
-              currentTheme: theme ? t('settingPage.light') : t('settingPage.dark'),
+              currentTheme: isLightTheme ? t('settingPage.light') : t('settingPage.dark'),
             });
             // i18n.changeLanguage(newLang);
           }}
@@ -108,14 +118,14 @@ export const Settings = (): JSX.Element => {
           disabled={
             // newLang === DEFAULT_LANG &&
             // sound &&
-            firstUser === DEFAULT_GAMER_NAME && secondUser === DEFAULT_SECOND_GAMER_NAME && theme
+            firstUser === DEFAULT_GAMER_NAME && secondUser === DEFAULT_SECOND_GAMER_NAME && isLightTheme
           }
           onClick={() => {
-            if (firstUser !== DEFAULT_GAMER_NAME || secondUser !== DEFAULT_SECOND_GAMER_NAME || !theme) {
+            if (firstUser !== DEFAULT_GAMER_NAME || secondUser !== DEFAULT_SECOND_GAMER_NAME || !isLightTheme) {
               // setSound(soundInitial);
               setFirstUser(firstUserInitial);
               setSecondUser(secondUserInitial);
-              setTheme(themeInitial === 'light');
+              // setTheme(themeInitial === 'light');
               // setNewLang(langInitial);
             }
             if (

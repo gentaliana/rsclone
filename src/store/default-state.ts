@@ -1,4 +1,10 @@
-import { DEFAULT_FIELD_SIZE, DEFAULT_GAMER_NAME, DEFAULT_LANG, DEFAULT_SECOND_GAMER_NAME } from '@constants';
+import {
+  DEFAULT_FIELD_SIZE,
+  DEFAULT_GAMER_NAME,
+  DEFAULT_LANG,
+  DEFAULT_SECOND_GAMER_NAME,
+  DEFAULT_THEME,
+} from '@constants';
 import { IAppState } from '@types';
 
 export const defaultState: IAppState = {
@@ -31,7 +37,7 @@ export const defaultState: IAppState = {
     isMusicOn: true,
     gamerName: DEFAULT_GAMER_NAME,
     secondGamerName: DEFAULT_SECOND_GAMER_NAME,
-    currentTheme: 'light',
+    currentTheme: DEFAULT_THEME,
   },
 
   rating: {

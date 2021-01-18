@@ -31,8 +31,10 @@ export const Menu = (): JSX.Element => {
   const isSoundOn = useSelector((state: IAppState) => state.settings.isSoundOn);
   const isMusicOn = useSelector((state: IAppState) => state.settings.isMusicOn);
 
+  const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
+
   return (
-    <Navbar bg="light" variant="light" collapseOnSelect expand="md">
+    <Navbar bg={themeInitial} variant="light" collapseOnSelect expand="md">
       <ReactHowler src="https://dl2.mp3party.net/online/8526180.mp3" playing={isMusicOn} volume={0.7} loop />
       <Container>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

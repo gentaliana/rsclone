@@ -19,7 +19,7 @@ export interface ISettingsState {
   isMusicOn: boolean;
   gamerName: string;
   secondGamerName: string;
-  currentTheme: string | null;
+  currentTheme: string;
 }
 
 export interface ISettingsPage {
@@ -27,7 +27,7 @@ export interface ISettingsPage {
   isSoundOn?: boolean;
   gamerName: string;
   secondGamerName: string;
-  currentTheme: string | null;
+  currentTheme: string;
 }
 
 export interface IGameState {

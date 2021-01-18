@@ -26,6 +26,8 @@
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "commit-message-validator": "^1.0.0",
     "css-loader": "4.3.0",
+    "d3": "^6.3.1",
+    "d3-ease": "^2.0.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
     "eslint": "^7.16.0",
@@ -69,8 +71,10 @@
     "react-howler": "^5.0.0",
     "react-i18next": "^11.8.5",
     "react-icons": "^4.1.0",
+    "react-move": "^6.4.0",
     "react-redux": "^7.2.2",
     "react-refresh": "^0.8.3",
+    "react-reveal": "^1.2.2",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
@@ -111,6 +115,7 @@
     ]
   },
   "devDependencies": {
+    "@types/d3-ease": "^2.0.0",
     "@types/lodash": "^4.14.167",
     "@types/react-howler": "^3.7.2",
     "@types/react-redux": "^7.1.14",

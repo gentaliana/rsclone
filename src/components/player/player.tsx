@@ -4,18 +4,13 @@ import { useSelector } from 'react-redux';
 import './player.scss';
 
 type PlayerProps = {
-  isEnemy?: boolean;
+  playerId: number;
 };
 
-export const Player: React.FC<PlayerProps> = ({ isEnemy = false }) => {
-  const isPlayer1Turn = useSelector((state: IAppState) => state.game.isPlayer1Turn);
-
-  const name = useSelector((state: IAppState) => state.settings.gamerName);
-  const secondGamerName = useSelector((state: IAppState) => state.settings.secondGamerName);
-  const isEnemyCurrent = isEnemy && !isPlayer1Turn;
-  const isGamerCurrent = !isEnemy && isPlayer1Turn;
-  const isCurrent = isEnemyCurrent || isGamerCurrent;
-  const gamerName = isEnemy ? secondGamerName : name;
+export const Player: React.FC<PlayerProps> = ({ playerId }: PlayerProps) => {
+  const gamerName = useSelector((state: IAppState) => state.settings.gamerNames[playerId]);
+  const playerTurnId = useSelector((state: IAppState) => state.game.playerTurnId);
+  const isCurrent = playerTurnId === playerId;
 
   const classList = ['player'];
 

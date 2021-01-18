@@ -28,6 +28,8 @@
 - Перенесено переключения языка в меню (https://github.com/gentaliana/rsclone/issues/95)
 - На завершение игры добавлен модальный диалог (https://github.com/gentaliana/rsclone/issues/117)
 - Проверка слова в словаре (https://github.com/gentaliana/rsclone/issues/126)
+- Добавить анимацию в игру анимированное сообщение (https://github.com/gentaliana/rsclone/issues/25)
+- Подсветка поля у текущего игрока (https://github.com/gentaliana/rsclone/issues/138)
 
 ### Fix
 

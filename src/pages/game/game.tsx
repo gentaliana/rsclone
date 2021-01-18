@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
-import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal } from '@components';
+import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal, AnimatedText } from '@components';
 import Button from 'react-bootstrap/Button';
-import { getLangLetters, Languages, Api, NOTIFY_TYPES } from '@constants';
+import { getLangLetters, Languages, Api, NOTIFY_COLORS, PLAYERS_ID } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
-import { setGame, nextTurn, setModal, stopGame, startGame, setNotify } from '@store';
+import { setGame, nextTurn, setModal, stopGame, startGame } from '@store';
 import ReactHowler from 'react-howler';
 
 export const Game = (): JSX.Element => {
@@ -21,6 +21,9 @@ export const Game = (): JSX.Element => {
   const [currWord, setCurrWord] = useState<string>('');
   const [idsOfChosenLetters, setIdsOfChosenLetters] = useState<Array<number>>([]);
   const [startTime] = useState<Date>(new Date());
+  const [isShowAnimation, setIsShowAnimation] = useState(false);
+  const [animatedText, setAnimatedText] = useState('');
+  const [animatedTextColor, setAnimatedTextColor] = useState('');
 
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
@@ -32,10 +35,11 @@ export const Game = (): JSX.Element => {
   const dispatch = useDispatch();
   const game = useSelector((state: IAppState) => state.game);
   const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
-  const isPlayer1Turn = useSelector((state: IAppState) => state.game.isPlayer1Turn);
-  const firstGamerName = useSelector((state: IAppState) => state.settings.gamerName);
-  const secondGamerName = useSelector((state: IAppState) => state.settings.secondGamerName);
-  const curGamerName = game.isPlayer1Turn ? firstGamerName : secondGamerName;
+  const playerTurnId = useSelector((state: IAppState) => state.game.playerTurnId);
+  const firstGamerName = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.FIRST_GAMER_ID]);
+  const secondGamerName = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.SECOND_GAMER_ID]);
+  const curGamerName = useSelector((state: IAppState) => state.settings.gamerNames[game.playerTurnId]);
+  const winnerName = useSelector((state: IAppState) => state.settings.gamerNames[game.isWin]);
 
   const { request } = useApi();
   const { url, method } = Api.GET_WORD_INFO;
@@ -86,9 +90,9 @@ export const Game = (): JSX.Element => {
     dispatch(nextTurn());
   };
 
-  const setWinner = (winnerName: string) => {
+  const setWinner = (winnerId: number) => {
     const gameDuration = new Date().getTime() - startTime.getTime();
-    setGameSettings({ ...game, duration: gameDuration, isWin: winnerName });
+    setGameSettings({ ...game, duration: gameDuration, isWin: winnerId });
   };
 
   const updatePoints = (winWord: string) => {
@@ -99,10 +103,10 @@ export const Game = (): JSX.Element => {
     const prevSecondPlayerPoints = game.player2.points;
     const currSecondPlayerPoints = prevSecondPlayerPoints + numberOfPoints;
 
-    if (isPlayer1Turn) {
+    if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
       setGameSettings({
         ...game,
-        isPlayer1Turn: !game.isPlayer1Turn,
+        playerTurnId: PLAYERS_ID.SECOND_GAMER_ID,
         ...game.player2,
         player1: {
           ...game.player1,
@@ -113,7 +117,7 @@ export const Game = (): JSX.Element => {
     } else {
       setGameSettings({
         ...game,
-        isPlayer1Turn: !game.isPlayer1Turn,
+        playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
         player2: {
           ...game.player2,
           points: currSecondPlayerPoints,
@@ -124,19 +128,18 @@ export const Game = (): JSX.Element => {
 
     if (cells.filter((el) => el === '').length === 0) {
       if (currFirstPlayerPoints > currSecondPlayerPoints) {
-        setWinner(firstGamerName);
+        setWinner(PLAYERS_ID.FIRST_GAMER_ID);
       } else {
-        setWinner(secondGamerName);
+        setWinner(PLAYERS_ID.SECOND_GAMER_ID);
       }
     }
   };
 
-  const openModal = React.useCallback(
-    (headerText: string, contentText: string, variant: string = NOTIFY_TYPES.success) => {
-      dispatch(setNotify({ headerText, contentText, variant }));
-    },
-    [dispatch],
-  );
+  const showAnimationMsg = (textMsg: string, color: string) => {
+    setAnimatedTextColor(color);
+    setAnimatedText(textMsg);
+    setIsShowAnimation(true);
+  };
 
   const checkInDictionary = async (word: string) => {
     try {
@@ -146,8 +149,9 @@ export const Game = (): JSX.Element => {
       updatePoints(currWord);
       resetTimer();
       resetState(true);
+      showAnimationMsg(`+${currWord.length} points`, NOTIFY_COLORS.info);
     } catch (e) {
-      await openModal('dictionary error', e.message, NOTIFY_TYPES.error);
+      showAnimationMsg('Try again', NOTIFY_COLORS.error);
       resetState();
       setInfoMessage(`${currWord} not found in dictionary!`);
     }
@@ -155,12 +159,14 @@ export const Game = (): JSX.Element => {
 
   const handleSubmitButton = () => {
     if (currWord.length === 0) {
+      showAnimationMsg('Try again', NOTIFY_COLORS.error);
       setInfoMessage('You did not choose any letters');
       return;
     }
 
     if (currWord.length === 1) {
       resetState();
+      showAnimationMsg('Try again', NOTIFY_COLORS.error);
       setInfoMessage('Word is too short!');
       return;
     }
@@ -168,6 +174,7 @@ export const Game = (): JSX.Element => {
     if (selectedCell !== null) {
       if (!idsOfChosenLetters.includes(selectedCell)) {
         resetState();
+        showAnimationMsg('Try again', NOTIFY_COLORS.error);
         setInfoMessage('Word must contain selected cell!');
         return;
       }
@@ -175,12 +182,14 @@ export const Game = (): JSX.Element => {
 
     if (game.player1.words.includes(currWord)) {
       resetState();
+      showAnimationMsg('Try again', NOTIFY_COLORS.error);
       setInfoMessage(`${firstGamerName} has already used this word in game!`);
       return;
     }
 
     if (game.player2.words.includes(currWord)) {
       resetState();
+      showAnimationMsg('Try again', NOTIFY_COLORS.error);
       setInfoMessage(`${secondGamerName} has already used this word in game!`);
       return;
     }
@@ -270,21 +279,21 @@ export const Game = (): JSX.Element => {
 
   useEffect(() => {
     if (game.player2.penalties > 2) {
-      setWinner(firstGamerName);
+      setWinner(PLAYERS_ID.FIRST_GAMER_ID);
     } else if (game.player1.penalties > 2) {
-      setWinner(secondGamerName);
+      setWinner(PLAYERS_ID.SECOND_GAMER_ID);
     }
   }, [game.player1.penalties, game.player2.penalties]);
 
   useEffect(() => {
     if (game.isOnline) {
-      if (game.isWin === 'bot') {
+      if (game.isWin === PLAYERS_ID.BOT_ID) {
         dispatch(setModal({ isWin: false, contentText: 'You lose' }));
       } else {
         dispatch(setModal({ isWin: true, contentText: 'You won' }));
       }
     } else if (game.isWin) {
-      dispatch(setModal({ isWin: true, contentText: `${game.isWin} won` }));
+      dispatch(setModal({ isWin: true, contentText: `${winnerName} won` }));
     }
   }, [game.isWin]);
 
@@ -293,7 +302,7 @@ export const Game = (): JSX.Element => {
 
   useEffect(() => {
     setGameIsStart();
-
+    showAnimationMsg('Game started', NOTIFY_COLORS.info);
     return () => {
       setGameIsStop();
     };
@@ -303,7 +312,7 @@ export const Game = (): JSX.Element => {
     <div className="main-game">
       <Scores onTimerComplete={setNextTurn} timerKey={timerKey} />
       <div className="game">
-        <PlayerWords />
+        <PlayerWords playerId={PLAYERS_ID.FIRST_GAMER_ID} />
         <div className="field-area">
           <Keyboard
             setCurrentLetter={handleCurrentLetter}
@@ -336,7 +345,13 @@ export const Game = (): JSX.Element => {
             </div>
           </div>
         </div>
-        <PlayerWords isEnemy />
+        <PlayerWords playerId={PLAYERS_ID.SECOND_GAMER_ID} />
+        <AnimatedText
+          isShow={isShowAnimation}
+          setIsShowAnimation={setIsShowAnimation}
+          text={animatedText}
+          colorMsg={animatedTextColor}
+        />
       </div>
       {modal ? <GameOverModal modal={modal} /> : null}
     </div>

@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Player, Timer } from '@components';
 import './scores.scss';
+import { PLAYERS_ID } from '@constants';
 
 type ScoresProps = {
   onTimerComplete: () => void;
@@ -16,12 +17,12 @@ export const Scores = ({ onTimerComplete, timerKey }: ScoresProps): JSX.Element 
   return (
     <div className="scores">
       <div className="players">
-        <Player />
+        <Player playerId={PLAYERS_ID.FIRST_GAMER_ID} />
         <div className="player__points">
           <span>{player1.points}</span> <Timer onComplete={onTimerComplete} timerKey={timerKey} />
           <span>{player2.points}</span>
         </div>
-        <Player isEnemy />
+        <Player playerId={PLAYERS_ID.SECOND_GAMER_ID} />
       </div>
     </div>
   );

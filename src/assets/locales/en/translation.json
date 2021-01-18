@@ -43,7 +43,25 @@
     "human": "Human"
   },
   "game": {
-    "start": "Start"
+    "start": "Start",
+    "gameStarted": "Game started",
+    "youWon": "You won",
+    "youLose": "You lose",
+    "nameWon": "{{winnerName}} won",
+    "usedWordFirst": "{{firstGamerName}} has already used this word in the game!",
+    "usedWordSecond": "{{secondGamerName}} has already used this word in the game!",
+    "mustContain": "Word must contain entered letter!",
+    "tooShort": "Only one letter selected!",
+    "notChoose": "You did not choose any letter",
+    "notInDictionary": "{{currWord}} not found in the dictionary!",
+    "tryAgain": "Try again",
+    "acceptedFrom": "Accepted from {{curGamerName}} : {{currWord}}",
+    "points": "+ {{points}} points",
+    "enterLetter": "Please, enter the letter",
+    "gameEnded": "Game ended!",
+    "playAgain": "Ready to play again?",
+    "return": "No, return to game",
+    "yes": "Yes!"
   },
   "settingPage": {
     "soundOn": "sound on",

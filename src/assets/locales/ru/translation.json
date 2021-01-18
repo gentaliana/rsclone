@@ -43,7 +43,25 @@
     "human": "Человек"
   },
   "game": {
-    "start": "Начать"
+    "start": "Начать",
+    "gameStarted": "Игра началась",
+    "youWon": "Вы победили",
+    "youLose": "Вы проиграли",
+    "nameWon": "{{winnerName}} победил",
+    "usedWordFirst": "{{firstGamerName}} уже использовал это слово в игре!",
+    "usedWordSecond": "{{secondGamerName}} уже использовал это слово в игре!",
+    "mustContain": "В слове должна быть введенная буква!",
+    "tooShort": "Введена только одна буква!",
+    "notChoose": "Не выбрана ни одна буква",
+    "notInDictionary": "{{currWord}} не найдено в словаре!",
+    "tryAgain": "Попробуйте ещё",
+    "acceptedFrom": "Принято от {{curGamerName}} : {{currWord}}",
+    "points": "очков: +{{points}}",
+    "enterLetter": "Пожалуйста, введите букву",
+    "gameEnded": "Игра закончена!",
+    "playAgain": "Играем снова?",
+    "return": "Нет, вернуться в игру",
+    "yes": "Да!"
   },
   "settingPage": {
     "sound": "Звук",

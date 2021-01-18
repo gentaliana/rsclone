@@ -28,7 +28,8 @@ export const Game = (): JSX.Element => {
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
   const [cells, setCells] = useState(initCells(fieldSize, firstWord));
-  const [infoMessage, setInfoMessage] = useState('Please, enter the letter');
+  const { t } = useTranslation();
+  const [infoMessage, setInfoMessage] = useState('');
   const [timerKey, setTimerKey] = useState(0);
   const modal = useSelector((state: IAppState) => state.modal);
 
@@ -58,7 +59,6 @@ export const Game = (): JSX.Element => {
   const shiftPress = useKeyPress('Shift');
   const symbolPressed = useSymbolKeyPress();
 
-  const { t } = useTranslation();
   const lang = useSelector((state: IAppState) => state.settings.lang);
   const [language] = Object.keys(Languages).filter((key) => Languages[key as keyof typeof Languages] === lang);
 
@@ -145,54 +145,45 @@ export const Game = (): JSX.Element => {
     try {
       // TODO сохранять ответ для тултипа
       await request(url(language || lang, word.toLowerCase()), method);
-      setInfoMessage(`Accepted from ${curGamerName}: ${currWord}`);
+      setInfoMessage(t('game.acceptedFrom', { curGamerName, currWord }));
       updatePoints(currWord);
       resetTimer();
       resetState(true);
-      showAnimationMsg(`+${currWord.length} points`, NOTIFY_COLORS.info);
+      showAnimationMsg(t('game.points', { points: currWord.length }), NOTIFY_COLORS.info);
     } catch (e) {
-      showAnimationMsg('Try again', NOTIFY_COLORS.error);
+      showAnimationMsg(t('game.tryAgain'), NOTIFY_COLORS.error);
       resetState();
-      setInfoMessage(`${currWord} not found in dictionary!`);
+      setInfoMessage(t('game.notInDictionary', { currWord }));
     }
   };
 
-  const handleSubmitButton = () => {
-    if (currWord.length === 0) {
-      showAnimationMsg('Try again', NOTIFY_COLORS.error);
-      setInfoMessage('You did not choose any letters');
-      return;
+  const validateSubmit = (): [string, boolean] | null => {
+    if (currWord.length === 0) return [t('game.notChoose'), false];
+    if (currWord.length === 1) return [t('game.tooShort'), true];
+    if (selectedCell !== null && !idsOfChosenLetters.includes(selectedCell)) {
+      return [t('game.mustContain'), true];
     }
-
-    if (currWord.length === 1) {
-      resetState();
-      showAnimationMsg('Try again', NOTIFY_COLORS.error);
-      setInfoMessage('Word is too short!');
-      return;
-    }
-
-    if (selectedCell !== null) {
-      if (!idsOfChosenLetters.includes(selectedCell)) {
-        resetState();
-        showAnimationMsg('Try again', NOTIFY_COLORS.error);
-        setInfoMessage('Word must contain selected cell!');
-        return;
-      }
-    }
-
     if (game.player1.words.includes(currWord)) {
-      resetState();
-      showAnimationMsg('Try again', NOTIFY_COLORS.error);
-      setInfoMessage(`${firstGamerName} has already used this word in game!`);
+      return [t('game.usedWordFirst', { firstGamerName }), true];
+    }
+    if (game.player2.words.includes(currWord)) {
+      return [t('game.usedWordSecond', { secondGamerName }), true];
+    }
+    return null;
+  };
+
+  const handleSubmitButton = () => {
+    const validationError = validateSubmit();
+    if (validationError != null) {
+      const [msg, shouldReset] = validationError;
+      if (shouldReset) {
+        resetState();
+      }
+      showAnimationMsg(t('game.tryAgain'), NOTIFY_COLORS.error);
+      setInfoMessage(msg);
       return;
     }
 
-    if (game.player2.words.includes(currWord)) {
-      resetState();
-      showAnimationMsg('Try again', NOTIFY_COLORS.error);
-      setInfoMessage(`${secondGamerName} has already used this word in game!`);
-      return;
-    }
     checkInDictionary(currWord);
   };
 
@@ -288,12 +279,12 @@ export const Game = (): JSX.Element => {
   useEffect(() => {
     if (game.isOnline) {
       if (game.isWin === PLAYERS_ID.BOT_ID) {
-        dispatch(setModal({ isWin: false, contentText: 'You lose' }));
+        dispatch(setModal({ isWin: false, contentText: t('game.youLose') }));
       } else {
-        dispatch(setModal({ isWin: true, contentText: 'You won' }));
+        dispatch(setModal({ isWin: true, contentText: t('game.youWon') }));
       }
     } else if (game.isWin) {
-      dispatch(setModal({ isWin: true, contentText: `${winnerName} won` }));
+      dispatch(setModal({ isWin: true, contentText: t('game.nameWon', { winnerName }) }));
     }
   }, [game.isWin]);
 
@@ -302,7 +293,8 @@ export const Game = (): JSX.Element => {
 
   useEffect(() => {
     setGameIsStart();
-    showAnimationMsg('Game started', NOTIFY_COLORS.info);
+    setInfoMessage(t('game.enterLetter'));
+    showAnimationMsg(t('game.gameStarted'), NOTIFY_COLORS.info);
     return () => {
       setGameIsStop();
     };

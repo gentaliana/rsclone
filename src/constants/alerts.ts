@@ -8,3 +8,8 @@ export const NOTIFY_TYPES = {
   dark: 'dark',
   light: 'light',
 };
+
+export const NOTIFY_COLORS = {
+  error: 'red',
+  info: 'green',
+};

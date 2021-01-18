@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
-import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal } from '@components';
+import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal, AnimatedText } from '@components';
 import Button from 'react-bootstrap/Button';
-import { getLangLetters, Languages, Api, NOTIFY_TYPES } from '@constants';
+import { getLangLetters, Languages, Api, NOTIFY_COLORS } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
-import { setGame, nextTurn, setModal, stopGame, startGame, setNotify } from '@store';
+import { setGame, nextTurn, setModal, stopGame, startGame } from '@store';
 import ReactHowler from 'react-howler';
 
 export const Game = (): JSX.Element => {
@@ -21,6 +21,9 @@ export const Game = (): JSX.Element => {
   const [currWord, setCurrWord] = useState<string>('');
   const [idsOfChosenLetters, setIdsOfChosenLetters] = useState<Array<number>>([]);
   const [startTime] = useState<Date>(new Date());
+  const [isShowAnimation, setIsShowAnimation] = useState(false);
+  const [animatedText, setAnimatedText] = useState('');
+  const [animatedTextColor, setAnimatedTextColor] = useState('');
 
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
@@ -131,12 +134,11 @@ export const Game = (): JSX.Element => {
     }
   };
 
-  const openModal = React.useCallback(
-    (headerText: string, contentText: string, variant: string = NOTIFY_TYPES.success) => {
-      dispatch(setNotify({ headerText, contentText, variant }));
-    },
-    [dispatch],
-  );
+  const showAnimationMsg = (textMsg: string, color: string) => {
+    setAnimatedTextColor(color);
+    setAnimatedText(textMsg);
+    setIsShowAnimation(true);
+  };
 
   const checkInDictionary = async (word: string) => {
     try {
@@ -146,8 +148,9 @@ export const Game = (): JSX.Element => {
       updatePoints(currWord);
       resetTimer();
       resetState(true);
+      showAnimationMsg(`+${currWord.length} points`, NOTIFY_COLORS.info);
     } catch (e) {
-      await openModal('dictionary error', e.message, NOTIFY_TYPES.error);
+      showAnimationMsg('Try again', NOTIFY_COLORS.error);
       resetState();
       setInfoMessage(`${currWord} not found in dictionary!`);
     }
@@ -155,12 +158,14 @@ export const Game = (): JSX.Element => {
 
   const handleSubmitButton = () => {
     if (currWord.length === 0) {
+      showAnimationMsg('Try again', NOTIFY_COLORS.error);
       setInfoMessage('You did not choose any letters');
       return;
     }
 
     if (currWord.length === 1) {
       resetState();
+      showAnimationMsg('Try again', NOTIFY_COLORS.error);
       setInfoMessage('Word is too short!');
       return;
     }
@@ -168,6 +173,7 @@ export const Game = (): JSX.Element => {
     if (selectedCell !== null) {
       if (!idsOfChosenLetters.includes(selectedCell)) {
         resetState();
+        showAnimationMsg('Try again', NOTIFY_COLORS.error);
         setInfoMessage('Word must contain selected cell!');
         return;
       }
@@ -175,12 +181,14 @@ export const Game = (): JSX.Element => {
 
     if (game.player1.words.includes(currWord)) {
       resetState();
+      showAnimationMsg('Try again', NOTIFY_COLORS.error);
       setInfoMessage(`${firstGamerName} has already used this word in game!`);
       return;
     }
 
     if (game.player2.words.includes(currWord)) {
       resetState();
+      showAnimationMsg('Try again', NOTIFY_COLORS.error);
       setInfoMessage(`${secondGamerName} has already used this word in game!`);
       return;
     }
@@ -293,7 +301,7 @@ export const Game = (): JSX.Element => {
 
   useEffect(() => {
     setGameIsStart();
-
+    showAnimationMsg('Game started', NOTIFY_COLORS.info);
     return () => {
       setGameIsStop();
     };
@@ -337,6 +345,12 @@ export const Game = (): JSX.Element => {
           </div>
         </div>
         <PlayerWords isEnemy />
+        <AnimatedText
+          isShow={isShowAnimation}
+          setIsShowAnimation={setIsShowAnimation}
+          text={animatedText}
+          colorMsg={animatedTextColor}
+        />
       </div>
       {modal ? <GameOverModal modal={modal} /> : null}
     </div>

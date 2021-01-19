@@ -1,5 +1,7 @@
+import { IAppState } from '@types';
 import * as React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { useSelector } from 'react-redux';
 import './selectOption.scss';
 
 interface IOptions {
@@ -18,10 +20,12 @@ export const SelectOption = (props: ISelectOptionProps): JSX.Element => {
   const handleSelect = (e: string | null) => {
     setCurrShowingData(e);
   };
+  const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
+  const themeChange = themeInitial === 'light' ? 'light' : 'dark';
 
   return (
     <Dropdown onSelect={handleSelect}>
-      <Dropdown.Toggle className="dropdown-toggle" key="info" variant="info" title={title}>
+      <Dropdown.Toggle className="dropdown-toggle" key={themeChange} variant={themeChange} title={title}>
         {selectedKey ? options[selectedKey] : title}
       </Dropdown.Toggle>
       <Dropdown.Menu>

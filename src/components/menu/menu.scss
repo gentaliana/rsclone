@@ -3,18 +3,38 @@
   align-items: center;
   justify-content: space-around;
   padding: 10px 0;
-}
 
-.menu__item {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
+  &__item {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
 
-.menu__link--active {
-  color: red;
-}
+  &__link-light {
+    padding: 0 15px;
+    color: hsl(0, 49%, 30%);
 
-.menu__link {
-  padding: 0 15px;
+    &--active {
+      color: hsl(134, 61%, 41%);
+    }
+
+    &:hover {
+      color: hsl(0, 6%, 48%);
+      text-decoration: none;
+    }
+  }
+
+  &__link-dark {
+    padding: 0 15px;
+    color: hsl(0, 0%, 100%);
+
+    &--active {
+      color: hsl(134, 61%, 41%);
+    }
+
+    &:hover {
+      color: hsl(0, 2%, 82%);
+      text-decoration: none;
+    }
+  }
 }

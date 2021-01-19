@@ -1,25 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { routes } from '@constants';
+import { routes, Theme } from '@constants';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { IAppState } from '@types';
 import './home.scss';
 
 export const Home = (): JSX.Element => {
   const { t } = useTranslation();
+  const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
+  const themeChange = themeInitial === Theme.light ? 'home__menu home__menu-light' : 'home__menu home__menu-dark';
+
   return (
     <>
       <ul className="main home__wrapper">
         <Link to={routes.SET_GAME}>
-          <li className="home__menu">{t('links.new-game')}</li>
+          <li className={themeChange}>{t('links.new-game')}</li>
         </Link>
         <Link to={routes.RATING}>
-          <li className="home__menu">{t('links.rating')}</li>
+          <li className={themeChange}>{t('links.rating')}</li>
         </Link>
         <Link to={routes.SETTINGS}>
-          <li className="home__menu">{t('links.settings')}</li>
+          <li className={themeChange}>{t('links.settings')}</li>
         </Link>
         <Link to={routes.ABOUT}>
-          <li className="home__menu">{t('links.about')}</li>
+          <li className={themeChange}>{t('links.about')}</li>
         </Link>
       </ul>
     </>

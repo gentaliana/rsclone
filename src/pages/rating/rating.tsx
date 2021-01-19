@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { TableWithPaginator } from '@components';
+import { useSelector } from 'react-redux';
+import { IAppState } from '@types';
+import { Theme } from '@constants';
 import './rating.scss';
 
 export const Rating = (): JSX.Element => {
@@ -72,8 +75,10 @@ export const Rating = (): JSX.Element => {
     },
   ].sort((a, b) => a.name.localeCompare(b.name));
 
+  const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
+
   return (
-    <div className="lala">
+    <div className={themeInitial === Theme.light ? 'raiting-light' : 'raiting-dark'}>
       <TableWithPaginator
         data={initialRaiting}
         pageSize={10}

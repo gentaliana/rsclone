@@ -64,7 +64,7 @@ export const Settings = (): JSX.Element => {
   //   [t],
   // );
   return (
-    <div className="settings">
+    <div className="settings settings-light">
       {/* <div className="sound">
         <div className="soundText">{t('settingPage.sound')}</div>
         <ButtonToggle
@@ -76,7 +76,6 @@ export const Settings = (): JSX.Element => {
           onClick={setSound}
         />
       </div> */}
-
       <User userName={firstUser} setUserName={setFirstUser} userText={t('settingPage.firstUser')} />
       <User userName={secondUser} setUserName={setSecondUser} userText={t('settingPage.secondUser')} />
 

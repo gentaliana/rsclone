@@ -4,6 +4,7 @@ import {
   DEFAULT_LANG,
   DEFAULT_SECOND_GAMER_NAME,
   DEFAULT_THEME,
+  PLAYERS_ID,
 } from '@constants';
 import { IAppState } from '@types';
 
@@ -15,10 +16,10 @@ export const defaultState: IAppState = {
     isBot: false,
     firstWord: '',
     currentWord: '',
-    isPlayer1Turn: true,
+    playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
     isGameStart: false,
     duration: 0,
-    isWin: '',
+    isWin: 0,
     player1: {
       points: 0,
       words: [],
@@ -35,8 +36,7 @@ export const defaultState: IAppState = {
     lang: DEFAULT_LANG,
     isSoundOn: true,
     isMusicOn: true,
-    gamerName: DEFAULT_GAMER_NAME,
-    secondGamerName: DEFAULT_SECOND_GAMER_NAME,
+    gamerNames: [DEFAULT_GAMER_NAME, DEFAULT_SECOND_GAMER_NAME],
     currentTheme: DEFAULT_THEME,
   },
 

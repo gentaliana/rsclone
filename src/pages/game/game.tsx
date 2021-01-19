@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
-import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal } from '@components';
+import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal, AnimatedText } from '@components';
 import Button from 'react-bootstrap/Button';
-import { getLangLetters, Languages, Api, NOTIFY_TYPES } from '@constants';
+import { getLangLetters, Languages, Api, NOTIFY_COLORS, PLAYERS_ID } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState } from '@types';
-import { setGame, nextTurn, setModal, stopGame, startGame, setNotify } from '@store';
+import { setGame, nextTurn, setModal, stopGame, startGame } from '@store';
 import ReactHowler from 'react-howler';
 
 export const Game = (): JSX.Element => {
@@ -21,21 +21,26 @@ export const Game = (): JSX.Element => {
   const [currWord, setCurrWord] = useState<string>('');
   const [idsOfChosenLetters, setIdsOfChosenLetters] = useState<Array<number>>([]);
   const [startTime] = useState<Date>(new Date());
+  const [isShowAnimation, setIsShowAnimation] = useState(false);
+  const [animatedText, setAnimatedText] = useState('');
+  const [animatedTextColor, setAnimatedTextColor] = useState('');
 
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
   const [cells, setCells] = useState(initCells(fieldSize, firstWord));
-  const [infoMessage, setInfoMessage] = useState('Please, enter the letter');
+  const { t } = useTranslation();
+  const [infoMessage, setInfoMessage] = useState('');
   const [timerKey, setTimerKey] = useState(0);
   const modal = useSelector((state: IAppState) => state.modal);
 
   const dispatch = useDispatch();
   const game = useSelector((state: IAppState) => state.game);
   const setGameSettings = (settings: IGameState) => dispatch(setGame(settings));
-  const isPlayer1Turn = useSelector((state: IAppState) => state.game.isPlayer1Turn);
-  const firstGamerName = useSelector((state: IAppState) => state.settings.gamerName);
-  const secondGamerName = useSelector((state: IAppState) => state.settings.secondGamerName);
-  const curGamerName = game.isPlayer1Turn ? firstGamerName : secondGamerName;
+  const playerTurnId = useSelector((state: IAppState) => state.game.playerTurnId);
+  const firstGamerName = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.FIRST_GAMER_ID]);
+  const secondGamerName = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.SECOND_GAMER_ID]);
+  const curGamerName = useSelector((state: IAppState) => state.settings.gamerNames[game.playerTurnId]);
+  const winnerName = useSelector((state: IAppState) => state.settings.gamerNames[game.isWin]);
 
   const { request } = useApi();
   const { url, method } = Api.GET_WORD_INFO;
@@ -54,7 +59,6 @@ export const Game = (): JSX.Element => {
   const shiftPress = useKeyPress('Shift');
   const symbolPressed = useSymbolKeyPress();
 
-  const { t } = useTranslation();
   const lang = useSelector((state: IAppState) => state.settings.lang);
   const [language] = Object.keys(Languages).filter((key) => Languages[key as keyof typeof Languages] === lang);
 
@@ -86,9 +90,9 @@ export const Game = (): JSX.Element => {
     dispatch(nextTurn());
   };
 
-  const setWinner = (winnerName: string) => {
+  const setWinner = (winnerId: number) => {
     const gameDuration = new Date().getTime() - startTime.getTime();
-    setGameSettings({ ...game, duration: gameDuration, isWin: winnerName });
+    setGameSettings({ ...game, duration: gameDuration, isWin: winnerId });
   };
 
   const updatePoints = (winWord: string) => {
@@ -99,10 +103,10 @@ export const Game = (): JSX.Element => {
     const prevSecondPlayerPoints = game.player2.points;
     const currSecondPlayerPoints = prevSecondPlayerPoints + numberOfPoints;
 
-    if (isPlayer1Turn) {
+    if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
       setGameSettings({
         ...game,
-        isPlayer1Turn: !game.isPlayer1Turn,
+        playerTurnId: PLAYERS_ID.SECOND_GAMER_ID,
         ...game.player2,
         player1: {
           ...game.player1,
@@ -113,7 +117,7 @@ export const Game = (): JSX.Element => {
     } else {
       setGameSettings({
         ...game,
-        isPlayer1Turn: !game.isPlayer1Turn,
+        playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
         player2: {
           ...game.player2,
           points: currSecondPlayerPoints,
@@ -124,66 +128,62 @@ export const Game = (): JSX.Element => {
 
     if (cells.filter((el) => el === '').length === 0) {
       if (currFirstPlayerPoints > currSecondPlayerPoints) {
-        setWinner(firstGamerName);
+        setWinner(PLAYERS_ID.FIRST_GAMER_ID);
       } else {
-        setWinner(secondGamerName);
+        setWinner(PLAYERS_ID.SECOND_GAMER_ID);
       }
     }
   };
 
-  const openModal = React.useCallback(
-    (headerText: string, contentText: string, variant: string = NOTIFY_TYPES.success) => {
-      dispatch(setNotify({ headerText, contentText, variant }));
-    },
-    [dispatch],
-  );
+  const showAnimationMsg = (textMsg: string, color: string) => {
+    setAnimatedTextColor(color);
+    setAnimatedText(textMsg);
+    setIsShowAnimation(true);
+  };
 
   const checkInDictionary = async (word: string) => {
     try {
       // TODO сохранять ответ для тултипа
       await request(url(language || lang, word.toLowerCase()), method);
-      setInfoMessage(`Accepted from ${curGamerName}: ${currWord}`);
+      setInfoMessage(t('game.acceptedFrom', { curGamerName, currWord }));
       updatePoints(currWord);
       resetTimer();
       resetState(true);
+      showAnimationMsg(t('game.points', { points: currWord.length }), NOTIFY_COLORS.info);
     } catch (e) {
-      await openModal('dictionary error', e.message, NOTIFY_TYPES.error);
+      showAnimationMsg(t('game.tryAgain'), NOTIFY_COLORS.error);
       resetState();
-      setInfoMessage(`${currWord} not found in dictionary!`);
+      setInfoMessage(t('game.notInDictionary', { currWord }));
     }
   };
 
-  const handleSubmitButton = () => {
-    if (currWord.length === 0) {
-      setInfoMessage('You did not choose any letters');
-      return;
+  const validateSubmit = (): [string, boolean] | null => {
+    if (currWord.length === 0) return [t('game.notChoose'), false];
+    if (currWord.length === 1) return [t('game.tooShort'), true];
+    if (selectedCell !== null && !idsOfChosenLetters.includes(selectedCell)) {
+      return [t('game.mustContain'), true];
     }
-
-    if (currWord.length === 1) {
-      resetState();
-      setInfoMessage('Word is too short!');
-      return;
-    }
-
-    if (selectedCell !== null) {
-      if (!idsOfChosenLetters.includes(selectedCell)) {
-        resetState();
-        setInfoMessage('Word must contain selected cell!');
-        return;
-      }
-    }
-
     if (game.player1.words.includes(currWord)) {
-      resetState();
-      setInfoMessage(`${firstGamerName} has already used this word in game!`);
+      return [t('game.usedWordFirst', { firstGamerName }), true];
+    }
+    if (game.player2.words.includes(currWord)) {
+      return [t('game.usedWordSecond', { secondGamerName }), true];
+    }
+    return null;
+  };
+
+  const handleSubmitButton = () => {
+    const validationError = validateSubmit();
+    if (validationError != null) {
+      const [msg, shouldReset] = validationError;
+      if (shouldReset) {
+        resetState();
+      }
+      showAnimationMsg(t('game.tryAgain'), NOTIFY_COLORS.error);
+      setInfoMessage(msg);
       return;
     }
 
-    if (game.player2.words.includes(currWord)) {
-      resetState();
-      setInfoMessage(`${secondGamerName} has already used this word in game!`);
-      return;
-    }
     checkInDictionary(currWord);
   };
 
@@ -270,21 +270,21 @@ export const Game = (): JSX.Element => {
 
   useEffect(() => {
     if (game.player2.penalties > 2) {
-      setWinner(firstGamerName);
+      setWinner(PLAYERS_ID.FIRST_GAMER_ID);
     } else if (game.player1.penalties > 2) {
-      setWinner(secondGamerName);
+      setWinner(PLAYERS_ID.SECOND_GAMER_ID);
     }
   }, [game.player1.penalties, game.player2.penalties]);
 
   useEffect(() => {
     if (game.isOnline) {
-      if (game.isWin === 'bot') {
-        dispatch(setModal({ isWin: false, contentText: 'You lose' }));
+      if (game.isWin === PLAYERS_ID.BOT_ID) {
+        dispatch(setModal({ isWin: false, contentText: t('game.youLose') }));
       } else {
-        dispatch(setModal({ isWin: true, contentText: 'You won' }));
+        dispatch(setModal({ isWin: true, contentText: t('game.youWon') }));
       }
     } else if (game.isWin) {
-      dispatch(setModal({ isWin: true, contentText: `${game.isWin} won` }));
+      dispatch(setModal({ isWin: true, contentText: t('game.nameWon', { winnerName }) }));
     }
   }, [game.isWin]);
 
@@ -293,7 +293,8 @@ export const Game = (): JSX.Element => {
 
   useEffect(() => {
     setGameIsStart();
-
+    setInfoMessage(t('game.enterLetter'));
+    showAnimationMsg(t('game.gameStarted'), NOTIFY_COLORS.info);
     return () => {
       setGameIsStop();
     };
@@ -303,7 +304,7 @@ export const Game = (): JSX.Element => {
     <div className="main-game">
       <Scores onTimerComplete={setNextTurn} timerKey={timerKey} />
       <div className="game">
-        <PlayerWords />
+        <PlayerWords playerId={PLAYERS_ID.FIRST_GAMER_ID} />
         <div className="field-area">
           <Keyboard
             setCurrentLetter={handleCurrentLetter}
@@ -336,7 +337,13 @@ export const Game = (): JSX.Element => {
             </div>
           </div>
         </div>
-        <PlayerWords isEnemy />
+        <PlayerWords playerId={PLAYERS_ID.SECOND_GAMER_ID} />
+        <AnimatedText
+          isShow={isShowAnimation}
+          setIsShowAnimation={setIsShowAnimation}
+          text={animatedText}
+          colorMsg={animatedTextColor}
+        />
       </div>
       {modal ? <GameOverModal modal={modal} /> : null}
     </div>

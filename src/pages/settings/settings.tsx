@@ -4,7 +4,7 @@ import { setSettings, setTheme } from '@store';
 import { Button } from 'react-bootstrap';
 import { ISettingsPage, IAppState } from '@types';
 import { useTranslation } from 'react-i18next';
-import { DEFAULT_GAMER_NAME, DEFAULT_SECOND_GAMER_NAME, NOTIFY_TYPES, Theme } from '@constants';
+import { DEFAULT_GAMER_NAME, DEFAULT_SECOND_GAMER_NAME, NOTIFY_TYPES, PLAYERS_ID, Theme } from '@constants';
 // import { SelectOption } from 'src/components/selectOption';
 import { ButtonToggle } from '@components';
 import { User } from './User/User';
@@ -18,8 +18,8 @@ export const Settings = (): JSX.Element => {
   const setSett = (sett: ISettingsPage) => dispatch(setSettings(sett));
 
   // const soundInitial = useSelector((state: IAppState) => state.settings.isSoundOn);
-  const firstUserInitial = useSelector((state: IAppState) => state.settings.gamerName);
-  const secondUserInitial = useSelector((state: IAppState) => state.settings.secondGamerName);
+  const firstUserInitial = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.FIRST_GAMER_ID]);
+  const secondUserInitial = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.SECOND_GAMER_ID]);
   const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
   // const langInitial = useSelector((state: IAppState) => state.settings.lang);
 
@@ -103,8 +103,10 @@ export const Settings = (): JSX.Element => {
             setSett({
               // lang: langInitial,
               // isSoundOn: soundInitial,
-              gamerName: firstUser === '' ? DEFAULT_GAMER_NAME : firstUser,
-              secondGamerName: secondUser === '' ? DEFAULT_SECOND_GAMER_NAME : secondUser,
+              gamerNames: [
+                firstUser === '' ? DEFAULT_GAMER_NAME : firstUser,
+                secondUser === '' ? DEFAULT_SECOND_GAMER_NAME : secondUser,
+              ],
               currentTheme: isLightTheme ? t('settingPage.light') : t('settingPage.dark'),
             });
             // i18n.changeLanguage(newLang);
@@ -138,8 +140,7 @@ export const Settings = (): JSX.Element => {
               setSett({
                 // lang: langInitial,
                 // isSoundOn: soundInitial,
-                gamerName: DEFAULT_GAMER_NAME,
-                secondGamerName: DEFAULT_SECOND_GAMER_NAME,
+                gamerNames: [DEFAULT_GAMER_NAME, DEFAULT_SECOND_GAMER_NAME],
                 currentTheme: 'light',
               });
               // i18n.changeLanguage(DEFAULT_LANG);

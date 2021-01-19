@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux';
-import { GameActions } from '@constants';
+import { GameActions, PLAYERS_ID } from '@constants';
 import { IGameState } from '@types';
 import { defaultState } from '../default-state';
 
@@ -19,19 +19,19 @@ export function game(state: IGameState = defaultState.game, action: AnyAction): 
     }
 
     case GameActions.NEXT_TURN: {
-      if (state.isPlayer1Turn) {
+      if (state.playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
         const newPenalties = state.player1.penalties + 1;
         return {
           ...state,
           player1: { ...state.player1, penalties: newPenalties },
-          isPlayer1Turn: !state.isPlayer1Turn,
+          playerTurnId: PLAYERS_ID.SECOND_GAMER_ID,
         };
       }
       const newPenalties = state.player2.penalties + 1;
       return {
         ...state,
         player2: { ...state.player2, penalties: newPenalties },
-        isPlayer1Turn: !state.isPlayer1Turn,
+        playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
       };
     }
 

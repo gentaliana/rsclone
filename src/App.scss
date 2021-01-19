@@ -1,4 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap');
+
+html {
+  font-size: 18px;
+}
+
 body {
+  min-height: 100%;
+  font-family: 'Heebo', 'Oranienbaum', sans-serif !important;
   background-image: url('./assets/images/background.jpg');
 }
 

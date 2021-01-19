@@ -17,16 +17,14 @@ export interface ISettingsState {
   lang: string;
   isSoundOn: boolean;
   isMusicOn: boolean;
-  gamerName: string;
-  secondGamerName: string;
+  gamerNames: Array<string>;
   currentTheme: string;
 }
 
 export interface ISettingsPage {
   lang?: string;
   isSoundOn?: boolean;
-  gamerName: string;
-  secondGamerName: string;
+  gamerNames: Array<string>;
   currentTheme: string;
 }
 
@@ -37,9 +35,9 @@ export interface IGameState {
   isBot: boolean;
   firstWord: string;
   currentWord: string;
-  isPlayer1Turn: boolean;
+  playerTurnId: number;
   isGameStart: boolean;
-  isWin: string;
+  isWin: number;
   duration: number;
   player1: IPlayerState;
   player2: IPlayerState;

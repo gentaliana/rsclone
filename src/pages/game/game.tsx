@@ -40,7 +40,13 @@ export const Game = (): JSX.Element => {
   const firstGamerName = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.FIRST_GAMER_ID]);
   const secondGamerName = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.SECOND_GAMER_ID]);
   const curGamerName = useSelector((state: IAppState) => state.settings.gamerNames[game.playerTurnId]);
-  const winnerName = useSelector((state: IAppState) => state.settings.gamerNames[game.isWin]);
+  const isGameEnded = useSelector((state: IAppState) => state.game.winnerId !== null);
+  const winnerName = useSelector((state: IAppState) => {
+    if (game.winnerId !== null) {
+      return state.settings.gamerNames[game.winnerId];
+    }
+    return '';
+  });
 
   const { request } = useApi();
   const { url, method } = Api.GET_WORD_INFO;
@@ -92,42 +98,42 @@ export const Game = (): JSX.Element => {
 
   const setWinner = (winnerId: number) => {
     const gameDuration = new Date().getTime() - startTime.getTime();
-    setGameSettings({ ...game, duration: gameDuration, isWin: winnerId });
+    setGameSettings({ ...game, duration: gameDuration, winnerId });
   };
 
   const updatePoints = (winWord: string) => {
     const numberOfPoints = winWord.length;
 
-    const prevFirstPlayerPoints = game.player1.points;
-    const currFirstPlayerPoints = prevFirstPlayerPoints + numberOfPoints;
-    const prevSecondPlayerPoints = game.player2.points;
-    const currSecondPlayerPoints = prevSecondPlayerPoints + numberOfPoints;
+    let firstPlayerPoints = game.player1.points;
+    let secondPlayerPoints = game.player2.points;
 
     if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
+      firstPlayerPoints += numberOfPoints;
       setGameSettings({
         ...game,
         playerTurnId: PLAYERS_ID.SECOND_GAMER_ID,
         ...game.player2,
         player1: {
           ...game.player1,
-          points: currFirstPlayerPoints,
+          points: firstPlayerPoints,
           words: [...game.player1.words, currWord],
         },
       });
     } else {
+      secondPlayerPoints += numberOfPoints;
       setGameSettings({
         ...game,
         playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
         player2: {
           ...game.player2,
-          points: currSecondPlayerPoints,
+          points: secondPlayerPoints,
           words: [...game.player2.words, currWord],
         },
       });
     }
 
     if (cells.filter((el) => el === '').length === 0) {
-      if (currFirstPlayerPoints > currSecondPlayerPoints) {
+      if (firstPlayerPoints > secondPlayerPoints) {
         setWinner(PLAYERS_ID.FIRST_GAMER_ID);
       } else {
         setWinner(PLAYERS_ID.SECOND_GAMER_ID);
@@ -208,7 +214,7 @@ export const Game = (): JSX.Element => {
   };
 
   const handleMouseSelectCell = (index: number) => {
-    if (game.isWin) return;
+    if (isGameEnded) return;
     if (!enteredLetter) {
       setFocusedCell(index);
       if (isKeyboardHidden) setIsKeyboardHidden(false);
@@ -218,7 +224,7 @@ export const Game = (): JSX.Element => {
   };
 
   const handleHideKeyboard = () => setIsKeyboardHidden(true);
-  const disableButtons = !isKeyboardHidden || Boolean(game.isWin);
+  const disableButtons = !isKeyboardHidden || isGameEnded;
 
   useEffect(() => {
     if (downPress || upPress || leftPress || rightPress) {
@@ -252,7 +258,7 @@ export const Game = (): JSX.Element => {
   }, [downPress, upPress, leftPress, rightPress]);
 
   useEffect(() => {
-    if (game.isWin) return;
+    if (isGameEnded) return;
     if (escPress) resetState();
     const isSelectedCellWithoutLetter = !enteredLetter && focusedCell !== null;
     if (shiftPress && isSelectedCellWithoutLetter) {
@@ -264,7 +270,7 @@ export const Game = (): JSX.Element => {
   }, [escPress, enterPress, shiftPress]);
 
   useEffect(() => {
-    if (game.isWin) return;
+    if (isGameEnded) return;
     handleKeyPressLetter();
   }, [symbolPressed]);
 
@@ -277,16 +283,18 @@ export const Game = (): JSX.Element => {
   }, [game.player1.penalties, game.player2.penalties]);
 
   useEffect(() => {
-    if (game.isOnline) {
-      if (game.isWin === PLAYERS_ID.BOT_ID) {
-        dispatch(setModal({ isWin: false, contentText: t('game.youLose') }));
+    if (isGameEnded) {
+      if (game.isOnline) {
+        if (game.winnerId === PLAYERS_ID.BOT_ID) {
+          dispatch(setModal({ isWin: false, contentText: t('game.youLose') }));
+        } else {
+          dispatch(setModal({ isWin: true, contentText: t('game.youWon') }));
+        }
       } else {
-        dispatch(setModal({ isWin: true, contentText: t('game.youWon') }));
+        dispatch(setModal({ isWin: true, contentText: t('game.nameWon', { winnerName }) }));
       }
-    } else if (game.isWin) {
-      dispatch(setModal({ isWin: true, contentText: t('game.nameWon', { winnerName }) }));
     }
-  }, [game.isWin]);
+  }, [game.winnerId]);
 
   const setGameIsStart = React.useCallback(() => dispatch(startGame()), [dispatch]);
   const setGameIsStop = React.useCallback(() => dispatch(stopGame()), [dispatch]);

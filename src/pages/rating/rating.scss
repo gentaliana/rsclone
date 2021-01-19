@@ -1,3 +1,16 @@
+.raiting {
+  &-light {
+    color: rgb(0, 0, 0);
+    background-color: white;
+  }
+
+  &-dark {
+    table {
+      color: hsl(0, 0%, 100%) !important;
+    }
+  }
+}
+
 .raitingPaginator {
   display: flex;
   align-items: center;

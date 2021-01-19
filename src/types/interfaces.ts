@@ -18,14 +18,14 @@ export interface ISettingsState {
   isSoundOn: boolean;
   isMusicOn: boolean;
   gamerNames: Array<string>;
-  currentTheme: string | null;
+  currentTheme: string;
 }
 
 export interface ISettingsPage {
   lang?: string;
   isSoundOn?: boolean;
   gamerNames: Array<string>;
-  currentTheme: string | null;
+  currentTheme: string;
 }
 
 export interface IGameState {

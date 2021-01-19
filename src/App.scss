@@ -8,6 +8,7 @@ html {
 body {
   min-height: 100%;
   font-family: 'Heebo', 'Oranienbaum', sans-serif !important;
+  background-image: url('./assets/images/background.jpg');
 }
 
 .wrapper {
@@ -31,7 +32,10 @@ body {
 }
 
 .main {
+  display: flex;
   grid-area: main;
+  align-items: center;
+  justify-content: center;
 
   @media screen and (max-width: 1000px) {
     .players {

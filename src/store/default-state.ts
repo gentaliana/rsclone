@@ -3,6 +3,7 @@ import {
   DEFAULT_GAMER_NAME,
   DEFAULT_LANG,
   DEFAULT_SECOND_GAMER_NAME,
+  DEFAULT_THEME,
   PLAYERS_ID,
 } from '@constants';
 import { IAppState } from '@types';
@@ -36,7 +37,7 @@ export const defaultState: IAppState = {
     isSoundOn: true,
     isMusicOn: true,
     gamerNames: [DEFAULT_GAMER_NAME, DEFAULT_SECOND_GAMER_NAME],
-    currentTheme: 'light',
+    currentTheme: DEFAULT_THEME,
   },
 
   rating: {

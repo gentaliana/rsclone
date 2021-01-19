@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { setSound, setMusic } from '@store';
-import { DEFAULT_LANG, routes, Languages } from '@constants';
+import { DEFAULT_LANG, routes, Languages, Theme } from '@constants';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { IAppState } from '@types';
@@ -31,30 +31,34 @@ export const Menu = (): JSX.Element => {
   const isSoundOn = useSelector((state: IAppState) => state.settings.isSoundOn);
   const isMusicOn = useSelector((state: IAppState) => state.settings.isMusicOn);
 
+  const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
+  const themeChange = themeInitial === Theme.light ? 'menu__link-light' : 'menu__link-dark';
+  const themeActiveLink = themeInitial === Theme.light ? 'menu__link-light--active' : 'menu__link-dark--active';
+
   return (
-    <Navbar bg="light" variant="light" collapseOnSelect expand="md">
+    <Navbar bg={themeInitial} variant="light" collapseOnSelect expand="md">
       <ReactHowler src="https://dl2.mp3party.net/online/8526180.mp3" playing={isMusicOn} volume={0.7} loop />
       <Container>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto" variant="pills" justify>
-            <NavLink className="menu__link" exact to={routes.HOME} activeClassName="menu__link--active">
+            <NavLink className={themeChange} exact to={routes.HOME} activeClassName={themeActiveLink}>
               {t('menu.home')}
             </NavLink>
             <NavDropdown.Divider />
-            <NavLink className="menu__link" to={routes.SET_GAME} activeClassName="menu__link--active">
+            <NavLink className={themeChange} to={routes.SET_GAME} activeClassName={themeActiveLink}>
               {t('menu.newGame')}
             </NavLink>
             <NavDropdown.Divider />
-            <NavLink className="menu__link" to={routes.SETTINGS} activeClassName="menu__link--active">
+            <NavLink className={themeChange} to={routes.SETTINGS} activeClassName={themeActiveLink}>
               {t('menu.settings')}
             </NavLink>
             <NavDropdown.Divider />
-            <NavLink className="menu__link" to={routes.RATING} activeClassName="menu__link--active">
+            <NavLink className={themeChange} to={routes.RATING} activeClassName={themeActiveLink}>
               {t('menu.rating')}
             </NavLink>
             <NavDropdown.Divider />
-            <NavLink className="menu__link" to={routes.ABOUT} activeClassName="menu__link--active">
+            <NavLink className={themeChange} to={routes.ABOUT} activeClassName={themeActiveLink}>
               {t('menu.about')}
             </NavLink>
           </Nav>
@@ -68,7 +72,7 @@ export const Menu = (): JSX.Element => {
             />
           )}
         </Nav.Item>
-        <Nav.Item className="menu__link">
+        <Nav.Item className={themeChange}>
           <span>{t('menu.sound')}</span>
           {isSoundOn ? (
             <BsFillVolumeUpFill style={{ fontSize: '30px' }} onClick={() => setIsSound(!isSoundOn)} />
@@ -76,7 +80,7 @@ export const Menu = (): JSX.Element => {
             <BsFillVolumeMuteFill style={{ fontSize: '30px' }} onClick={() => setIsSound(!isSoundOn)} />
           )}
         </Nav.Item>
-        <Nav.Item className="menu__link">
+        <Nav.Item className={themeChange}>
           <span>{t('menu.music')}</span>
           {isMusicOn ? (
             <BsFillPlayFill style={{ fontSize: '30px' }} onClick={() => setIsMusic(!isMusicOn)} />

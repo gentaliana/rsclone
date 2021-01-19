@@ -3,6 +3,7 @@ export enum SettingActions {
   SET_SOUND = 'SET_SOUND',
   SET_SETTINGS = 'SET_SETTINGS',
   SET_MUSIC = 'SET_MUSIC',
+  SET_THEME = 'SET_THEME',
 }
 
 export enum GameActions {

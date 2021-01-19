@@ -10,6 +10,10 @@ export interface ISetLanguageAction {
   type: typeof SettingActions.SET_LANGUAGE;
   payload: string;
 }
+export interface ISetThemeAction {
+  type: typeof SettingActions.SET_THEME;
+  payload: string;
+}
 
 export interface ISetSoundAction {
   type: typeof SettingActions.SET_SOUND;

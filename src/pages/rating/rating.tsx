@@ -76,9 +76,10 @@ export const Rating = (): JSX.Element => {
   ].sort((a, b) => a.name.localeCompare(b.name));
 
   const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
+  const themeChange = themeInitial === Theme.light ? 'raiting-light' : 'raiting-dark';
 
   return (
-    <div className={themeInitial === Theme.light ? 'raiting-light' : 'raiting-dark'}>
+    <div className={themeChange}>
       <TableWithPaginator
         data={initialRaiting}
         pageSize={10}

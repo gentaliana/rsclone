@@ -37,7 +37,7 @@ export interface IGameState {
   currentWord: string;
   playerTurnId: number;
   isGameStart: boolean;
-  isWin: number;
+  winnerId: number | null;
   duration: number;
   player1: IPlayerState;
   player2: IPlayerState;

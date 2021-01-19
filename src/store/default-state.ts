@@ -18,7 +18,7 @@ export const defaultState: IAppState = {
     playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
     isGameStart: false,
     duration: 0,
-    isWin: 0,
+    winnerId: null,
     player1: {
       points: 0,
       words: [],

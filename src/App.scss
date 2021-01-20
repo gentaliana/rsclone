@@ -55,6 +55,33 @@ body {
   }
 }
 
+@media screen and (max-width: 590px) {
+  .player__points {
+    min-width: 95px;
+  }
+
+  .player__name {
+    font-size: 16px;
+  }
+
+  .time-wrapper {
+    font-size: 15px;
+  }
+
+  .word-field {
+    font-size: 16px;
+  }
+
+  .cell {
+    font-size: 22px;
+  }
+
+  .footer-wrapper,
+  .player__points span {
+    font-size: 16px;
+  }
+}
+
 @media screen and (max-width: 540px) {
   .ribbon {
     display: none;
@@ -72,5 +99,18 @@ body {
 
   .modal-content p {
     font-size: 18px;
+  }
+
+  .footer-wrapper,
+  .player__points span {
+    font-size: 16px;
+  }
+
+  .player__name {
+    font-size: 16px;
+  }
+
+  .cellRow > * + * {
+    margin-left: 7px;
   }
 }

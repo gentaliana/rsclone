@@ -1,3 +1,5 @@
+@import '../../constants/variables';
+
 .menu {
   display: flex;
   align-items: center;
@@ -12,24 +14,24 @@
 
   &__link-light {
     padding: 0 15px;
-    color: hsl(0, 49%, 30%);
+    color: $font-menu-light;
 
     &--active {
-      color: hsl(134, 61%, 41%);
+      color: $success;
     }
 
     &:hover {
-      color: hsl(0, 6%, 48%);
+      color: $secondary;
       text-decoration: none;
     }
   }
 
   &__link-dark {
     padding: 0 15px;
-    color: hsl(0, 0%, 100%);
+    color: $secondary-color-dark;
 
     &--active {
-      color: hsl(134, 61%, 41%);
+      color: $success;
     }
 
     &:hover {

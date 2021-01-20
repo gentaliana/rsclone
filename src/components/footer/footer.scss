@@ -1,3 +1,5 @@
+@import '../../constants/variables';
+
 .footer {
   grid-area: footer;
 
@@ -10,9 +12,38 @@
     padding-right: 10px;
     padding-left: 10px;
     margin: 0 auto;
-    margin-top: 10px;
     text-align: center;
-    background: rgb(255, 253, 253);
-    border-radius: 5px;
+
+    &-light {
+      color: $primary-color-font-light;
+      background: $primary-color-background-light;
+
+      & a {
+        color: $primary-color-font-light;
+
+        &:hover {
+          color: $secondary;
+          text-decoration: none;
+        }
+      }
+    }
+
+    &-dark {
+      color: $primary-color-font-dark;
+      background: $primary-color-background-dark;
+
+      .logo {
+        filter: invert(100%);
+      }
+
+      & a {
+        color: $primary-color-font-dark;
+
+        &:hover {
+          color: hsl(0, 2%, 82%);
+          text-decoration: none;
+        }
+      }
+    }
   }
 }

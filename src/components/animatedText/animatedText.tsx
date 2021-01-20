@@ -22,7 +22,6 @@ export const AnimatedText = ({ isShow, setIsShowAnimation, text, colorMsg }: Ani
         opacity: 0,
         fontSize: 0,
       }}
-      // TODO размер поменьше для < 850px
       update={{
         opacity: isShow ? [1] : 0,
         fontSize: isShow ? [msgFontSize] : 0,

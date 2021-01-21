@@ -1,21 +1,28 @@
 import React, { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
-import { setSound, setMusic } from '@store';
+import { setSound, setMusic, setLanguage } from '@store';
 import { DEFAULT_LANG, routes, Languages, Theme } from '@constants';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { IAppState } from '@types';
 import ReactHowler from 'react-howler';
+
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill, BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { SelectOption } from '../selectOption';
 import './menu.scss';
 
 export const Menu = (): JSX.Element => {
+  const dispatch = useDispatch();
   const { i18n, t } = useTranslation();
+
   const changeLanguage = (lng: string | null) => {
-    i18n.changeLanguage(lng ?? DEFAULT_LANG);
+    const lang = lng || DEFAULT_LANG;
+    i18n.changeLanguage(lang);
+    const setGameSettings = (lngToSet: string) => dispatch(setLanguage(lngToSet));
+    setGameSettings(lang);
   };
+
   const DROPDOWN_TITLES = useMemo(
     () => ({
       translations: t('dropdown.titles.language'),
@@ -23,7 +30,6 @@ export const Menu = (): JSX.Element => {
     [t],
   );
 
-  const dispatch = useDispatch();
   const setIsSound = (sound: boolean) => dispatch(setSound(sound));
   const setIsMusic = (music: boolean) => dispatch(setMusic(music));
 

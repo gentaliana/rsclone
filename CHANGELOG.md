@@ -30,7 +30,9 @@
 - Проверка слова в словаре (https://github.com/gentaliana/rsclone/issues/126)
 - Добавить анимацию в игру анимированное сообщение (https://github.com/gentaliana/rsclone/issues/25)
 - Подсветка поля у текущего игрока (https://github.com/gentaliana/rsclone/issues/138)
+- Ресайз клетки для маленьких разрешений экрана (https://github.com/gentaliana/rsclone/issues/130)
 
 ### Fix
 
 - Исправление в lint staged (https://github.com/gentaliana/rsclone/issues/76)
+- Исправление бага со сменой языка (https://github.com/gentaliana/rsclone/issues/142)

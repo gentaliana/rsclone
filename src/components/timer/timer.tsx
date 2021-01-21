@@ -4,6 +4,8 @@ import './timer.scss';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { IAppState } from '@types';
 import { useSelector } from 'react-redux';
+import { useWindowSize } from '@hooks';
+import { MOBILE_WINDOW_SIZE, DEFAULT_TIMER_SIZE, MOBILE_TIMER_SIZE } from '@constants';
 
 type RenderTimeProps = {
   remainingTime: number;
@@ -49,8 +51,10 @@ type TimerProps = {
 };
 
 export const Timer = ({ onComplete, timerKey }: TimerProps): JSX.Element => {
+  const size = useWindowSize();
+  const timerSize = size > MOBILE_WINDOW_SIZE ? DEFAULT_TIMER_SIZE : MOBILE_TIMER_SIZE;
   const time = useSelector((state: IAppState) => state.game.time);
-  const isGameEnded = useSelector((state: IAppState) => state.game.winnerId !== null);
+  const isGameEnded = useSelector((state: IAppState) => state.game.winnerId === null);
 
   return time > 0 ? (
     <div className="timer-wrapper">
@@ -59,7 +63,7 @@ export const Timer = ({ onComplete, timerKey }: TimerProps): JSX.Element => {
         key={timerKey}
         duration={time * 60}
         onComplete={onComplete}
-        size={80}
+        size={timerSize}
         strokeWidth={6}
         colors={[
           ['#004777', 0.33],

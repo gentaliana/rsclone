@@ -22,12 +22,12 @@ export const defaultState: IAppState = {
     winnerId: null,
     player1: {
       points: 0,
-      words: [],
+      playerWords: [],
       penalties: 0,
     },
     player2: {
       points: 0,
-      words: [],
+      playerWords: [],
       penalties: 0,
     },
   },

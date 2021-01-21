@@ -1,3 +1,5 @@
+import { Languages } from '@constants';
+
 export interface IAppState {
   notify: INotify | null;
   modal: IModal | null;
@@ -14,7 +16,7 @@ export interface IAppState {
 }
 
 export interface ISettingsState {
-  lang: string;
+  lang: Languages;
   isSoundOn: boolean;
   isMusicOn: boolean;
   gamerNames: Array<string>;
@@ -45,8 +47,13 @@ export interface IGameState {
 
 export interface IPlayerState {
   points: number;
-  words: string[];
+  playerWords: IWordState[];
   penalties: number;
+}
+
+export interface IWordState {
+  word: string;
+  description: string;
 }
 
 export interface IRatingItem {

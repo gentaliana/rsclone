@@ -19,8 +19,9 @@ export const Menu = (): JSX.Element => {
   const changeLanguage = (lng: string | null) => {
     const lang = lng || DEFAULT_LANG;
     i18n.changeLanguage(lang);
+    const langEnum = Languages[lang as keyof typeof Languages];
     const setGameSettings = (lngToSet: string) => dispatch(setLanguage(lngToSet));
-    setGameSettings(lang);
+    setGameSettings(langEnum);
   };
 
   const DROPDOWN_TITLES = useMemo(

@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
-import { IAppState, IGameState } from '@types';
+import { IAppState, IGameState, IWordState } from '@types';
 import { setGame, nextTurn, setModal, stopGame, startGame } from '@store';
 import ReactHowler from 'react-howler';
 
@@ -101,7 +101,7 @@ export const Game = (): JSX.Element => {
     setGameSettings({ ...game, duration: gameDuration, winnerId });
   };
 
-  const updatePoints = (winWord: string) => {
+  const updatePoints = (winWord: string, description: string) => {
     const numberOfPoints = winWord.length;
 
     let firstPlayerPoints = game.player1.points;
@@ -116,7 +116,7 @@ export const Game = (): JSX.Element => {
         player1: {
           ...game.player1,
           points: firstPlayerPoints,
-          words: [...game.player1.words, currWord],
+          playerWords: [...game.player1.playerWords, { word: currWord, description }],
         },
       });
     } else {
@@ -127,7 +127,7 @@ export const Game = (): JSX.Element => {
         player2: {
           ...game.player2,
           points: secondPlayerPoints,
-          words: [...game.player2.words, currWord],
+          playerWords: [...game.player2.playerWords, { word: currWord, description }],
         },
       });
     }
@@ -149,10 +149,9 @@ export const Game = (): JSX.Element => {
 
   const checkInDictionary = async (word: string) => {
     try {
-      // TODO сохранять ответ для тултипа
-      await request(url(language || lang, word.toLowerCase()), method);
+      const wordInfo = await request(url(language || lang, word.toLowerCase()), method);
       setInfoMessage(t('game.acceptedFrom', { curGamerName, currWord }));
-      updatePoints(currWord);
+      updatePoints(currWord, wordInfo.definition);
       resetTimer();
       resetState(true);
       showAnimationMsg(t('game.points', { points: currWord.length }), NOTIFY_COLORS.info);
@@ -163,16 +162,19 @@ export const Game = (): JSX.Element => {
     }
   };
 
+  const checkUsedWord = (wordObj: Array<IWordState>, wordToCheck: string) =>
+    wordObj.filter((el) => el.word === wordToCheck).length !== 0;
+
   const validateSubmit = (): [string, boolean] | null => {
     if (currWord.length === 0) return [t('game.notChoose'), false];
     if (currWord.length === 1) return [t('game.tooShort'), true];
     if (selectedCell !== null && !idsOfChosenLetters.includes(selectedCell)) {
       return [t('game.mustContain'), true];
     }
-    if (game.player1.words.includes(currWord)) {
+    if (checkUsedWord(game.player1.playerWords, currWord)) {
       return [t('game.usedWordFirst', { firstGamerName }), true];
     }
-    if (game.player2.words.includes(currWord)) {
+    if (checkUsedWord(game.player2.playerWords, currWord)) {
       return [t('game.usedWordSecond', { secondGamerName }), true];
     }
     return null;

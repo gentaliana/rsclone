@@ -1,14 +1,30 @@
+@import '../../constants/variables';
+
 .player {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 5px;
+  background-color: hsl(208, 100%, 97%);
+  border-radius: 20px;
+  box-shadow: inset -2px -3px 8px #fff, inset 2px 3px 8px rgba(0, 0, 0, 0.3);
+
+  &-light {
+    color: $dark-game;
+    background-color: $light-game;
+  }
+
+  &-dark {
+    color: $light-game;
+    background-color: $dark-game;
+  }
 
   &--current {
     color: red;
   }
 
   &--current::before {
-    content: '>';
+    content: '\2713';
   }
 }
 
@@ -30,12 +46,28 @@
 
 .player-words {
   margin: 5px;
-  background: #edf0f5;
   border-radius: 20px;
   box-shadow: inset -2px -3px 8px #fff, inset 2px 3px 8px rgba(0, 0, 0, 0.3);
 
-  &--current {
+  &-light {
+    background: #edf0f5;
+  }
+
+  &-dark {
+    color: $primary-color-font-dark;
+    background: hsl(0, 0%, 27%);
+  }
+
+  &--current-light {
     background-image: linear-gradient(#edf0f5, #edf0f5), radial-gradient(circle at top left, #f00, #acb136);
+    background-clip: content-box, border-box;
+    background-origin: border-box;
+    border: solid 3px transparent;
+  }
+
+  &--current-dark {
+    color: hsl(0, 0%, 100%);
+    background-image: linear-gradient(#2b2b2b, #edf0f5), radial-gradient(circle at top left, #f00, #acb136);
     background-clip: content-box, border-box;
     background-origin: border-box;
     border: solid 3px transparent;

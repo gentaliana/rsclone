@@ -1,3 +1,5 @@
+@import '../../constants/variables';
+
 .word-field {
   display: flex;
   align-items: center;
@@ -9,7 +11,16 @@
   margin-bottom: 5px;
   font-size: 20px;
   text-align: center;
-  background-color: #edf0f5;
   border-radius: 5px;
   box-shadow: inset -2px -3px 8px #fff, inset 2px 3px 8px rgba(0, 0, 0, 0.3);
+
+  &-light {
+    color: $dark-game;
+    background-color: $light-game;
+  }
+
+  &-dark {
+    color: $light-game;
+    background-color: $dark-game;
+  }
 }

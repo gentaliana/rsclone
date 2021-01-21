@@ -1,13 +1,23 @@
 import * as React from 'react';
+import { IAppState } from '@types';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { Theme } from '@constants';
 import logo from '../../assets/icons/rs_school_js.svg';
 import './footer.scss';
 
 export const Footer = (): JSX.Element => {
   const { t } = useTranslation();
+
+  const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
+  const themeChange = React.useMemo(
+    () => `footer-wrapper ${themeInitial === Theme.light ? 'footer-wrapper-light' : 'footer-wrapper-dark'}`,
+    [themeInitial],
+  );
+
   return (
-    <footer>
-      <div className="footer-wrapper">
+    <footer className="footer">
+      <div className={themeChange}>
         <div>
           <span>
             {t('footer.by')}

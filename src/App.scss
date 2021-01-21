@@ -8,13 +8,25 @@ html {
 body {
   min-height: 100%;
   font-family: 'Heebo', 'Oranienbaum', sans-serif !important;
-  background-image: url('./assets/images/background.jpg');
+}
+
+.background {
+  width: 100%;
+  height: 100%;
+
+  &_light {
+    background-image: url('./assets/images/background-light.jpg');
+  }
+
+  &_dark {
+    background-image: url('./assets/images/background-dark.jpg');
+  }
 }
 
 .wrapper {
   display: grid;
   grid-template-areas: 'header' 'main' 'footer';
-  grid-template-rows: 50px 1fr 50px;
+  grid-template-rows: 62px 1fr 54px;
   max-width: 1280px;
   height: 100vh;
   margin: 0 auto;

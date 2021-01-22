@@ -36,6 +36,7 @@
 - Дизайн приложения (https://github.com/gentaliana/rsclone/issues/61)
 - Убран вертикальный скролл (https://github.com/gentaliana/rsclone/issues/147)
 - Стилизация футера (https://github.com/gentaliana/rsclone/issues/150)
+- Респонсив футера для маленьких экранов (https://github.com/gentaliana/rsclone/issues/157)
 
 ### Fix
 

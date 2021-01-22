@@ -61,8 +61,8 @@ export const SetGame = (): JSX.Element => {
       winnerId: null,
       duration: 0,
       playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
-      player1: { points: 0, words: [], penalties: 0 },
-      player2: { points: 0, words: [], penalties: 0 },
+      player1: { points: 0, playerWords: [], penalties: 0 },
+      player2: { points: 0, playerWords: [], penalties: 0 },
     });
 
     setFormSubmit(true);

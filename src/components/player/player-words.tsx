@@ -2,6 +2,8 @@ import React from 'react';
 import './player.scss';
 import { IAppState } from '@types';
 import { useSelector } from 'react-redux';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import { PLAYERS_ID, Theme } from '@constants';
 
 type PlayerWordsProps = {
@@ -12,7 +14,7 @@ export const PlayerWords = ({ playerId }: PlayerWordsProps): JSX.Element => {
   const player1 = useSelector((state: IAppState) => state.game.player1);
   const player2 = useSelector((state: IAppState) => state.game.player2);
 
-  const displayedWords = playerId === PLAYERS_ID.SECOND_GAMER_ID ? player2.words : player1.words;
+  const displayedWords = playerId === PLAYERS_ID.SECOND_GAMER_ID ? player2.playerWords : player1.playerWords;
   const playerTurnId = useSelector((state: IAppState) => state.game.playerTurnId);
   const isCurrent = playerTurnId === playerId;
   const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
@@ -29,7 +31,13 @@ export const PlayerWords = ({ playerId }: PlayerWordsProps): JSX.Element => {
     <div className={`${classList.join(' ')} ${themeChangePlayer}`}>
       <ol>
         {displayedWords.map((word) => (
-          <li key={word}>{word}</li>
+          <OverlayTrigger
+            key={word.word}
+            placement={playerId === PLAYERS_ID.SECOND_GAMER_ID ? 'left' : 'right'}
+            overlay={<Tooltip id={word.word}>{word.description}</Tooltip>}
+          >
+            <li key={word.word}>{word.word}</li>
+          </OverlayTrigger>
         ))}
       </ol>
     </div>

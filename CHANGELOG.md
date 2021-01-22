@@ -31,6 +31,7 @@
 - Добавить анимацию в игру анимированное сообщение (https://github.com/gentaliana/rsclone/issues/25)
 - Подсветка поля у текущего игрока (https://github.com/gentaliana/rsclone/issues/138)
 - Ресайз клетки для маленьких разрешений экрана (https://github.com/gentaliana/rsclone/issues/130)
+- При наведении на принятое слово пользователя - тултип со значением слова (https://github.com/gentaliana/rsclone/issues/128)
 - Стилизация игры под смену темы (https://github.com/gentaliana/rsclone/issues/149)
 - Дизайн приложения (https://github.com/gentaliana/rsclone/issues/61)
 - Убран вертикальный скролл (https://github.com/gentaliana/rsclone/issues/147)

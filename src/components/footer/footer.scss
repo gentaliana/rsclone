@@ -3,6 +3,10 @@
 .footer {
   grid-area: footer;
 
+  &__content {
+    display: flex;
+  }
+
   &-wrapper {
     display: flex;
     align-items: center;
@@ -44,6 +48,18 @@
           text-decoration: none;
         }
       }
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .footer {
+    &-wrapper {
+      flex-direction: column;
+    }
+
+    &__content {
+      flex-direction: column;
     }
   }
 }

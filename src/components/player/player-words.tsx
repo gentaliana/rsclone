@@ -2,9 +2,9 @@ import React from 'react';
 import './player.scss';
 import { IAppState } from '@types';
 import { useSelector } from 'react-redux';
-import { PLAYERS_ID } from '@constants';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { PLAYERS_ID, Theme } from '@constants';
 
 type PlayerWordsProps = {
   playerId: number;
@@ -17,15 +17,18 @@ export const PlayerWords = ({ playerId }: PlayerWordsProps): JSX.Element => {
   const displayedWords = playerId === PLAYERS_ID.SECOND_GAMER_ID ? player2.playerWords : player1.playerWords;
   const playerTurnId = useSelector((state: IAppState) => state.game.playerTurnId);
   const isCurrent = playerTurnId === playerId;
+  const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
+  const themeChange = themeInitial === Theme.light ? 'player-words--current-light' : 'player-words--current-dark';
+  const themeChangePlayer = themeInitial === Theme.light ? 'player-words-light' : 'player-words-dark';
 
   const classList = ['player-words'];
 
   if (isCurrent) {
-    classList.push('player-words--current');
+    classList.push(themeChange);
   }
 
   return (
-    <div className={classList.join(' ')}>
+    <div className={`${classList.join(' ')} ${themeChangePlayer}`}>
       <ol>
         {displayedWords.map((word) => (
           <OverlayTrigger

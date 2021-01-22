@@ -335,13 +335,13 @@ export const Game = (): JSX.Element => {
             />
             <WordField currWord={currWord} infoMessage={infoMessage} />
             <div className="buttons">
-              <Button disabled={disableButtons} onClick={handleClearButton}>
+              <Button disabled={disableButtons} onClick={handleClearButton} variant="success">
                 {t('buttons.cancel')}
               </Button>
-              <Button disabled={disableButtons} onClick={setNextTurn}>
+              <Button disabled={disableButtons} onClick={setNextTurn} variant="danger">
                 {t('buttons.skip')}
               </Button>
-              <Button disabled={disableButtons} onClick={handleSubmitButton}>
+              <Button disabled={disableButtons} onClick={handleSubmitButton} variant="success">
                 {t('buttons.submit')}
               </Button>
             </div>

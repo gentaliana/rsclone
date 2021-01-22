@@ -2,7 +2,7 @@ import React from 'react';
 import './field.scss';
 import { useSelector } from 'react-redux';
 import { IAppState } from '@types';
-import { DEFAULT_FIELD_SIDE_SIZE, MOBILE_FIELD_SIDE_SIZE, MOBILE_WINDOW_SIZE } from '@constants';
+import { DEFAULT_FIELD_SIDE_SIZE, MOBILE_FIELD_SIDE_SIZE, MOBILE_WINDOW_SIZE, Theme } from '@constants';
 import { useWindowSize } from '@hooks';
 
 type CellProps = {
@@ -16,9 +16,11 @@ type CellProps = {
 export const Cell = ({ isActive, isSelected, isFocused, letter, handleSelectedCell }: CellProps): JSX.Element => {
   const size = useWindowSize();
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
+  const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
+  const themeChange = themeInitial === Theme.light ? 'cell-light' : 'cell-dark';
 
   const getClassName = () => {
-    const classes = ['cell'];
+    const classes = [`cell ${themeChange}`];
     if (isActive) {
       classes.push('active');
     }

@@ -1,3 +1,5 @@
+@import '../../constants/variables';
+
 .field-area {
   margin: 0 auto;
 }
@@ -14,14 +16,14 @@
   justify-content: center;
   font-size: 52px;
   font-weight: bold;
-  color: black;
+  // color: black;
   -webkit-user-select: none; /* Chrome/Safari/Opera */
   -khtml-user-select: none; /* Konqueror */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
-  background-color: white;
-  border: 1px solid black;
+  // background-color: white;
+  // border: 1px solid black;
   border-radius: 10px;
   -webkit-touch-callout: none; /* iOS Safari */
 
@@ -35,6 +37,18 @@
     content: '';
     border-radius: 10px;
     box-shadow: 3px 3px 4px #000;
+  }
+
+  &-light {
+    color: $dark-game;
+    background-color: $light-game;
+    border: 1px solid $dark-game;
+  }
+
+  &-dark {
+    color: $light-game;
+    background-color: $dark-game;
+    border: 1px solid $light-game;
   }
 }
 
@@ -87,6 +101,7 @@
 }
 
 .cell.selected {
+  color: hsl(0, 0%, 0%);
   background: yellow;
 }
 

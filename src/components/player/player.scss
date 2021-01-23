@@ -88,3 +88,17 @@
   min-width: 400px;
   max-width: 100%;
 }
+
+button.close {
+  margin-left: 10px;
+}
+
+button.close:focus {
+  margin-left: 10px;
+  outline: none;
+}
+
+.empty-words {
+  padding-top: 15px;
+  text-align: center;
+}

@@ -17,4 +17,5 @@ export const MOBILE_TIMER_SIZE = 60;
 export const DEFAULT_MSG_SIZE = 65;
 export const MOBILE_MSG_SIZE = 25;
 export const MOBILE_WINDOW_SIZE = 590;
+export const HIDE_WORDS_SIZE = 1000;
 export const FIRST_WORDS = ['bar', 'time', 'board', 'aikido', 'barista', 'bookshop', 'buckboard'];

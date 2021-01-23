@@ -5,11 +5,11 @@ import { DEFAULT_LANG, routes, Languages, Theme } from '@constants';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { IAppState } from '@types';
-import ReactHowler from 'react-howler';
-
+import { AudioPlayer } from '@components';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill, BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { SelectOption } from '../selectOption';
+import musicfile from '../../assets/sound/sound.mp3';
 import './menu.scss';
 
 export const Menu = (): JSX.Element => {
@@ -44,7 +44,6 @@ export const Menu = (): JSX.Element => {
 
   return (
     <Navbar bg={themeInitial} variant="light" collapseOnSelect expand="md">
-      <ReactHowler src="https://dl2.mp3party.net/online/8526180.mp3" playing={isMusicOn} volume={0.7} loop />
       <Container>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -82,18 +81,19 @@ export const Menu = (): JSX.Element => {
         <Nav.Item className={themeChange}>
           <span>{t('menu.sound')}</span>
           {isSoundOn ? (
-            <BsFillVolumeUpFill style={{ fontSize: '30px' }} onClick={() => setIsSound(!isSoundOn)} />
+            <BsFillVolumeUpFill className="menu__sound" onClick={() => setIsSound(!isSoundOn)} />
           ) : (
-            <BsFillVolumeMuteFill style={{ fontSize: '30px' }} onClick={() => setIsSound(!isSoundOn)} />
+            <BsFillVolumeMuteFill className="menu__sound" onClick={() => setIsSound(!isSoundOn)} />
           )}
         </Nav.Item>
         <Nav.Item className={themeChange}>
           <span>{t('menu.music')}</span>
           {isMusicOn ? (
-            <BsFillPlayFill style={{ fontSize: '30px' }} onClick={() => setIsMusic(!isMusicOn)} />
+            <BsFillPlayFill className="menu__music" onClick={() => setIsMusic(!isMusicOn)} />
           ) : (
-            <BsFillPauseFill style={{ fontSize: '30px' }} onClick={() => setIsMusic(!isMusicOn)} />
+            <BsFillPauseFill className="menu__music" onClick={() => setIsMusic(!isMusicOn)} />
           )}
+          <AudioPlayer file={musicfile} format={['mp3']} autoplay loop isMute={!isMusicOn} />
         </Nav.Item>
       </Container>
     </Navbar>

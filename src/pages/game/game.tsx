@@ -106,6 +106,8 @@ export const Game = (): JSX.Element => {
 
     let firstPlayerPoints = game.player1.points;
     let secondPlayerPoints = game.player2.points;
+    const descriptionShort =
+      description.indexOf('Note') === -1 ? description : description.substring(0, description.indexOf('Note'));
 
     if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
       firstPlayerPoints += numberOfPoints;
@@ -116,7 +118,7 @@ export const Game = (): JSX.Element => {
         player1: {
           ...game.player1,
           points: firstPlayerPoints,
-          playerWords: [...game.player1.playerWords, { word: currWord, description }],
+          playerWords: [...game.player1.playerWords, { word: currWord, description: descriptionShort }],
         },
       });
     } else {
@@ -127,7 +129,7 @@ export const Game = (): JSX.Element => {
         player2: {
           ...game.player2,
           points: secondPlayerPoints,
-          playerWords: [...game.player2.playerWords, { word: currWord, description }],
+          playerWords: [...game.player2.playerWords, { word: currWord, description: descriptionShort }],
         },
       });
     }

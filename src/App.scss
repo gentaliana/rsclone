@@ -126,3 +126,9 @@ body {
     margin-left: 7px;
   }
 }
+
+@media (max-width: 420px) {
+  .wrapper {
+    grid-template-rows: 62px 1fr 155px;
+  }
+}

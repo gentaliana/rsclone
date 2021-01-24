@@ -18,7 +18,7 @@ export const Footer = (): JSX.Element => {
   return (
     <footer className="footer">
       <div className={themeChange}>
-        <div>
+        <div className="footer__content">
           <span>
             {t('footer.by')}
             &nbsp;

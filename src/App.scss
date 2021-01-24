@@ -73,7 +73,8 @@ body {
 
 @media screen and (max-width: 590px) {
   .player__points {
-    min-width: 95px;
+    order: 1;
+    min-width: 90%;
   }
 
   .player__name {
@@ -95,6 +96,10 @@ body {
   .footer-wrapper,
   .player__points span {
     font-size: 16px;
+  }
+
+  .main .players {
+    justify-content: space-around;
   }
 }
 

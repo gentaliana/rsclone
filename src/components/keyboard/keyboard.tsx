@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './keyboard.scss';
+import { Sound } from '@components';
 import { getLangLetters } from '@constants';
 import { IKeyboardLang, IAppState } from '@types';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
+import musicfile from '../../assets/sound/click.mp3';
 
 type KeyboardProps = {
   setCurrentLetter: (letter: string) => void;
@@ -14,9 +16,14 @@ type KeyboardProps = {
 
 export const Keyboard = ({ setCurrentLetter, isKeyboardHidden, handleHideKeyboard }: KeyboardProps): JSX.Element => {
   const lang = useSelector((state: IAppState) => state.settings.lang);
+  const isSoundMuteOn = useSelector((state: IAppState) => state.settings.isSoundOn);
   const currLetters = getLangLetters(lang);
 
   const { t } = useTranslation();
+
+  const [isPlay, setIsPlay] = useState<boolean>(false);
+
+  const handlePlay = () => setIsPlay(true);
 
   const handleClick = (event: React.MouseEvent) => {
     setCurrentLetter((event.target as HTMLTextAreaElement).value);
@@ -25,7 +32,16 @@ export const Keyboard = ({ setCurrentLetter, isKeyboardHidden, handleHideKeyboar
   const renderLettersRow = (row: Array<IKeyboardLang>) =>
     /* eslint-disable implicit-arrow-linebreak */
     row.map((letter) => (
-      <button type="button" key={letter.name} className="keyboard__key" value={letter.name} onClick={handleClick}>
+      <button
+        type="button"
+        key={letter.name}
+        className="keyboard__key"
+        value={letter.name}
+        onClick={(e) => {
+          handleClick(e);
+          handlePlay();
+        }}
+      >
         {letter.name}
       </button>
     ));
@@ -41,9 +57,16 @@ export const Keyboard = ({ setCurrentLetter, isKeyboardHidden, handleHideKeyboar
   return (
     <div className={isKeyboardHidden ? 'keyboard keyboard-hidden' : 'keyboard'}>
       {renderLetters()}
-      <Button className="mt-2" onClick={handleHideKeyboard}>
+      <Button
+        className="mt-2"
+        onClick={() => {
+          handleHideKeyboard();
+          handlePlay();
+        }}
+      >
         {t('buttons.close')}
       </Button>
+      <Sound src={musicfile} playing={isPlay} format={['mp3']} loop={false} mute={!isSoundMuteOn} onEnd={setIsPlay} />
     </div>
   );
 };

@@ -36,9 +36,17 @@
 - Дизайн приложения (https://github.com/gentaliana/rsclone/issues/61)
 - Убран вертикальный скролл (https://github.com/gentaliana/rsclone/issues/147)
 - Стилизация футера (https://github.com/gentaliana/rsclone/issues/150)
+- Добавлена страница настроек (https://github.com/gentaliana/rsclone/issues/7)
+- Добавлена страница рекордов (https://github.com/gentaliana/rsclone/issues/33)
+- Добавлено меню сделанное с использованием бутстрапа (https://github.com/gentaliana/rsclone/issues/131)
+- Перенесено в header откл/вкл звука (https://github.com/gentaliana/rsclone/issues/106)
+- Добавлен звук с использование библиотеки react-howler (https://github.com/gentaliana/rsclone/issues/21)
+- don't save переименована в default setting и если настройки не были сохранены кнопка не активна (https://github.com/gentaliana/rsclone/issues/105)
+- Добавлен Белорусский язык в папке locales/be (https://github.com/gentaliana/rsclone/issues/124)
 - Респонсив футера для маленьких экранов (https://github.com/gentaliana/rsclone/issues/157)
 
 ### Fix
 
 - Исправление в lint staged (https://github.com/gentaliana/rsclone/issues/76)
 - Исправление бага со сменой языка (https://github.com/gentaliana/rsclone/issues/142)
+- Испправление бага музыкой (https://github.com/gentaliana/rsclone/issues/136)

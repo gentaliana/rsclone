@@ -14,3 +14,5 @@ export * from './tableWithPaginator';
 export * from './radio-group';
 export * from './modal';
 export * from './animatedText';
+export * from './audioPlayer';
+export * from './sound';

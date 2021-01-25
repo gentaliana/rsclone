@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
-import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal, AnimatedText } from '@components';
+import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal, AnimatedText, Sound } from '@components';
 import Button from 'react-bootstrap/Button';
 import { getLangLetters, Languages, Api, NOTIFY_COLORS, PLAYERS_ID } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState, IWordState } from '@types';
 import { setGame, nextTurn, setModal, stopGame, startGame } from '@store';
-import ReactHowler from 'react-howler';
+import musicfile from '../../assets/sound/click.mp3';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -24,6 +24,7 @@ export const Game = (): JSX.Element => {
   const [isShowAnimation, setIsShowAnimation] = useState(false);
   const [animatedText, setAnimatedText] = useState('');
   const [animatedTextColor, setAnimatedTextColor] = useState('');
+  const [isPlay, setIsPlay] = useState<boolean>(false);
 
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
@@ -47,11 +48,12 @@ export const Game = (): JSX.Element => {
     }
     return '';
   });
+  const isSoundMuteOn = useSelector((state: IAppState) => state.settings.isSoundOn);
 
   const { request } = useApi();
   const { url, method } = Api.GET_WORD_INFO;
 
-  const isMusicOn = useSelector((state: IAppState) => state.settings.isSoundOn);
+  // const isSoundOn = useSelector((state: IAppState) => state.settings.isSoundOn);
 
   const selectedCellRef = useRef<number | null>(null);
   selectedCellRef.current = selectedCell;
@@ -227,6 +229,8 @@ export const Game = (): JSX.Element => {
     }
   };
 
+  const handlePlay = () => setIsPlay(true);
+
   const handleHideKeyboard = () => setIsKeyboardHidden(true);
   const disableButtons = !isKeyboardHidden || isGameEnded;
 
@@ -324,7 +328,6 @@ export const Game = (): JSX.Element => {
             handleHideKeyboard={handleHideKeyboard}
           />
           <div>
-            <ReactHowler src="https://noisefx.ru/noise_base/obect/ofis/00171.mp3" playing={isMusicOn} volume={1} />
             <Field
               handleMouseSelectCell={handleMouseSelectCell}
               selectedCell={selectedCell}
@@ -337,15 +340,44 @@ export const Game = (): JSX.Element => {
             />
             <WordField currWord={currWord} infoMessage={infoMessage} />
             <div className="buttons">
-              <Button disabled={disableButtons} onClick={handleClearButton} variant="success">
+              <Button
+                disabled={disableButtons}
+                onClick={() => {
+                  handleClearButton();
+                  handlePlay();
+                }}
+                variant="success"
+              >
                 {t('buttons.cancel')}
               </Button>
-              <Button disabled={disableButtons} onClick={setNextTurn} variant="danger">
+              <Button
+                disabled={disableButtons}
+                onClick={() => {
+                  setNextTurn();
+                  handlePlay();
+                }}
+                variant="danger"
+              >
                 {t('buttons.skip')}
               </Button>
-              <Button disabled={disableButtons} onClick={handleSubmitButton} variant="success">
+              <Button
+                disabled={disableButtons}
+                onClick={() => {
+                  handleSubmitButton();
+                  handlePlay();
+                }}
+                variant="success"
+              >
                 {t('buttons.submit')}
               </Button>
+              <Sound
+                src={musicfile}
+                playing={isPlay}
+                format={['mp3']}
+                loop={false}
+                mute={!isSoundMuteOn}
+                onEnd={setIsPlay}
+              />
             </div>
           </div>
         </div>

@@ -154,6 +154,10 @@ body {
   .empty-words {
     padding-top: 3px;
   }
+
+  button.btn {
+    font-size: 14px !important;
+  }
 }
 
 @media (max-width: 420px) {

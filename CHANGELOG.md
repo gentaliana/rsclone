@@ -44,6 +44,7 @@
 - don't save переименована в default setting и если настройки не были сохранены кнопка не активна (https://github.com/gentaliana/rsclone/issues/105)
 - Добавлен Белорусский язык в папке locales/be (https://github.com/gentaliana/rsclone/issues/124)
 - Респонсив футера для маленьких экранов (https://github.com/gentaliana/rsclone/issues/157)
+- При нажатии на имя игрока в моб версии - список его слов (https://github.com/gentaliana/rsclone/issues/122)
 
 ### Fix
 

@@ -61,7 +61,8 @@
     "gameEnded": "Game ended!",
     "playAgain": "Ready to play again?",
     "return": "No, return to game",
-    "yes": "Yes!"
+    "yes": "Yes!",
+    "noWords": "No words yet!"
   },
   "settingPage": {
     "soundOn": "sound on",

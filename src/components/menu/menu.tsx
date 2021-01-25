@@ -41,9 +41,10 @@ export const Menu = (): JSX.Element => {
   const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
   const themeChange = themeInitial === Theme.light ? 'menu__link-light' : 'menu__link-dark';
   const themeActiveLink = themeInitial === Theme.light ? 'menu__link-light--active' : 'menu__link-dark--active';
+  const themeBg = themeInitial === Theme.light ? 'light' : 'dark';
 
   return (
-    <Navbar bg={themeInitial} variant="light" collapseOnSelect expand="md">
+    <Navbar bg={themeBg} variant={themeBg} collapseOnSelect expand="md">
       <Container>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

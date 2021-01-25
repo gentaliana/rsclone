@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import { Theme, PLAYERS_ID, HIDE_WORDS_SIZE } from '@constants';
+import { Theme, PLAYERS_ID, TABLET_WORDS_SIZE } from '@constants';
 import { IAppState } from '@types';
 import React from 'react';
 import { useWindowSize } from '@hooks';
@@ -29,7 +29,7 @@ export const Player: React.FC<PlayerProps> = ({ playerId }: PlayerProps) => {
 
   return (
     <div className={classList.join(' ')}>
-      {size < HIDE_WORDS_SIZE ? (
+      {size < TABLET_WORDS_SIZE ? (
         <OverlayTrigger
           trigger="click"
           placement="bottom"

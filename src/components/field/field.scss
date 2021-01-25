@@ -1,9 +1,5 @@
 @import '../../constants/variables';
 
-.field-area {
-  margin: 0 auto;
-}
-
 .game-field {
   box-sizing: border-box;
   width: 100%;
@@ -16,14 +12,11 @@
   justify-content: center;
   font-size: 52px;
   font-weight: bold;
-  // color: black;
   -webkit-user-select: none; /* Chrome/Safari/Opera */
   -khtml-user-select: none; /* Konqueror */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
-  // background-color: white;
-  // border: 1px solid black;
   border-radius: 10px;
   -webkit-touch-callout: none; /* iOS Safari */
 

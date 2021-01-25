@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
 import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal, AnimatedText, Sound } from '@components';
 import Button from 'react-bootstrap/Button';
-import { getLangLetters, Languages, Api, NOTIFY_COLORS, PLAYERS_ID } from '@constants';
+import { getLangLetters, Languages, Api, NOTIFY_COLORS, PLAYERS_ID, MAX_DESCRIPTION_LENGTH } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
 import { useTranslation } from 'react-i18next';
@@ -108,8 +108,7 @@ export const Game = (): JSX.Element => {
 
     let firstPlayerPoints = game.player1.points;
     let secondPlayerPoints = game.player2.points;
-    const descriptionShort =
-      description.indexOf('Note') === -1 ? description : description.substring(0, description.indexOf('Note'));
+    const descriptionShort = description.split(MAX_DESCRIPTION_LENGTH)[0];
 
     if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
       firstPlayerPoints += numberOfPoints;
@@ -370,18 +369,11 @@ export const Game = (): JSX.Element => {
               >
                 {t('buttons.submit')}
               </Button>
-              <Sound
-                src={musicfile}
-                playing={isPlay}
-                format={['mp3']}
-                loop={false}
-                mute={!isSoundMuteOn}
-                onEnd={setIsPlay}
-              />
             </div>
           </div>
         </div>
         <PlayerWords playerId={PLAYERS_ID.SECOND_GAMER_ID} />
+        <Sound src={musicfile} playing={isPlay} format={['mp3']} loop={false} mute={!isSoundMuteOn} onEnd={setIsPlay} />
         <AnimatedText
           isShow={isShowAnimation}
           setIsShowAnimation={setIsShowAnimation}

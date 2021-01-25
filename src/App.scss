@@ -48,26 +48,36 @@ body {
   grid-area: main;
   align-items: center;
   justify-content: center;
+}
 
-  @media screen and (max-width: 1000px) {
-    .players {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+@media screen and (max-width: 1000px) {
+  .players {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .game {
-      display: grid;
-      grid-template-columns: 1fr;
-    }
+  .game {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 
-    .player-words {
-      display: none;
-    }
+  .player-words {
+    display: none;
+  }
 
-    .player__name {
-      cursor: pointer;
-    }
+  .player__name {
+    cursor: pointer;
+  }
+
+  .empty-words {
+    padding-top: 15px;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .field-area {
+    margin: 0 auto;
   }
 }
 
@@ -75,6 +85,7 @@ body {
   .player__points {
     order: 1;
     min-width: 90%;
+    min-height: 40px;
   }
 
   .player__name {

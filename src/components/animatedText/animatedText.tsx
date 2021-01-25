@@ -2,7 +2,7 @@ import React from 'react';
 import Animate from 'react-move/Animate';
 import { easeCubicOut } from 'd3-ease';
 import { useWindowSize } from '@hooks';
-import { MOBILE_WINDOW_SIZE, DEFAULT_MSG_SIZE, MOBILE_MSG_SIZE } from '@constants';
+import { TABLET_WORDS_SIZE, MOBILE_WINDOW_SIZE, DEFAULT_MSG_SIZE, MOBILE_MSG_SIZE, TABLET_MSG_SIZE } from '@constants';
 
 type AnimatedTextProps = {
   isShow: boolean;
@@ -13,7 +13,16 @@ type AnimatedTextProps = {
 
 export const AnimatedText = ({ isShow, setIsShowAnimation, text, colorMsg }: AnimatedTextProps): JSX.Element => {
   const size = useWindowSize();
-  const msgFontSize = size > MOBILE_WINDOW_SIZE ? DEFAULT_MSG_SIZE : MOBILE_MSG_SIZE;
+
+  let msgFontSize;
+
+  if (size < MOBILE_WINDOW_SIZE) {
+    msgFontSize = MOBILE_MSG_SIZE;
+  } else if (size < TABLET_WORDS_SIZE) {
+    msgFontSize = TABLET_MSG_SIZE;
+  } else {
+    msgFontSize = DEFAULT_MSG_SIZE;
+  }
 
   return (
     <Animate

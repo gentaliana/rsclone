@@ -9,7 +9,6 @@ import { AudioPlayer } from '@components';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill, BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { SelectOption } from '../selectOption';
-import musicfile from '../../assets/sound/sound.mp3';
 import './menu.scss';
 
 export const Menu = (): JSX.Element => {
@@ -94,7 +93,7 @@ export const Menu = (): JSX.Element => {
           ) : (
             <BsFillPauseFill className="menu__music" onClick={() => setIsMusic(!isMusicOn)} />
           )}
-          <AudioPlayer file={musicfile} format={['mp3']} autoplay loop isMute={!isMusicOn} />
+          <AudioPlayer format={['mp3']} autoplay loop isMute={!isMusicOn} />
         </Nav.Item>
       </Container>
     </Navbar>

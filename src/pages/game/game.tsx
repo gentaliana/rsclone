@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState, IWordState } from '@types';
 import { setGame, nextTurn, setModal, stopGame, startGame } from '@store';
-import musicfile from '../../assets/sound/click.mp3';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -373,7 +372,7 @@ export const Game = (): JSX.Element => {
           </div>
         </div>
         <PlayerWords playerId={PLAYERS_ID.SECOND_GAMER_ID} />
-        <Sound src={musicfile} playing={isPlay} format={['mp3']} loop={false} mute={!isSoundMuteOn} onEnd={setIsPlay} />
+        <Sound playing={isPlay} format={['mp3']} loop={false} mute={!isSoundMuteOn} onEnd={setIsPlay} />
         <AnimatedText
           isShow={isShowAnimation}
           setIsShowAnimation={setIsShowAnimation}

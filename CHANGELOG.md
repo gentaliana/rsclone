@@ -54,3 +54,4 @@
 - Убрано слово First Word на странице игры (https://github.com/gentaliana/rsclone/issues/108)
 - Исправлена ошибка при изменении нового игрового поля (https://github.com/gentaliana/rsclone/issues/151)
 - Исправлено, нельзя начать игру до генерации случайного слова (https://github.com/gentaliana/rsclone/issues/144)
+- Исправить баги в меню (Проблема c z-index на странице с игрой) (https://github.com/gentaliana/rsclone/issues/135)

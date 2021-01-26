@@ -5,7 +5,6 @@ import { Sound } from '@components';
 import { IAppState } from '@types';
 import { DEFAULT_FIELD_SIDE_SIZE, MOBILE_FIELD_SIDE_SIZE, MOBILE_WINDOW_SIZE, Theme } from '@constants';
 import { useWindowSize } from '@hooks';
-import musicfile from '../../assets/sound/click.mp3';
 
 type CellProps = {
   isActive: boolean;
@@ -58,7 +57,7 @@ export const Cell = ({ isActive, isSelected, isFocused, letter, handleSelectedCe
       role="button"
       tabIndex={-1}
     >
-      <Sound src={musicfile} playing={isPlay} format={['mp3']} loop={false} mute={!isSoundMuteOn} onEnd={setIsPlay} />
+      <Sound playing={isPlay} format={['mp3']} loop={false} mute={!isSoundMuteOn} onEnd={setIsPlay} />
       {letter}
     </div>
   );

@@ -45,6 +45,7 @@
 - Добавлен Белорусский язык в папке locales/be (https://github.com/gentaliana/rsclone/issues/124)
 - Респонсив футера для маленьких экранов (https://github.com/gentaliana/rsclone/issues/157)
 - При нажатии на имя игрока в моб версии - список его слов (https://github.com/gentaliana/rsclone/issues/122)
+- Добавлено скрытие меню на маленьких экранах при клике по пункту меню и вне его (https://github.com/gentaliana/rsclone/issues/164)
 
 ### Fix
 

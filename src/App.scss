@@ -48,28 +48,44 @@ body {
   grid-area: main;
   align-items: center;
   justify-content: center;
+}
 
-  @media screen and (max-width: 1000px) {
-    .players {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+@media screen and (max-width: 1000px) {
+  .players {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .game {
-      display: grid;
-      grid-template-columns: 1fr;
-    }
+  .game {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 
-    .player-words {
-      display: none;
-    }
+  .player-words {
+    display: none;
+  }
+
+  .player__name {
+    cursor: pointer;
+  }
+
+  .empty-words {
+    padding-top: 15px;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .field-area {
+    margin: 0 auto;
   }
 }
 
 @media screen and (max-width: 590px) {
   .player__points {
-    min-width: 95px;
+    order: 1;
+    min-width: 90%;
+    min-height: 40px;
   }
 
   .player__name {
@@ -91,6 +107,10 @@ body {
   .footer-wrapper,
   .player__points span {
     font-size: 16px;
+  }
+
+  .main .players {
+    justify-content: space-around;
   }
 }
 
@@ -124,5 +144,24 @@ body {
 
   .cellRow > * + * {
     margin-left: 7px;
+  }
+
+  .tooltip-inner {
+    min-width: 200px;
+    font-size: 14px;
+  }
+
+  .empty-words {
+    padding-top: 3px;
+  }
+
+  button.btn {
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .wrapper {
+    grid-template-rows: 62px 1fr 155px;
   }
 }

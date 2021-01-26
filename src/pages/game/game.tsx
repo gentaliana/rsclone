@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
 import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal, AnimatedText, Sound } from '@components';
 import Button from 'react-bootstrap/Button';
-import { getLangLetters, Languages, Api, NOTIFY_COLORS, PLAYERS_ID } from '@constants';
+import { getLangLetters, Languages, Api, NOTIFY_COLORS, PLAYERS_ID, MAX_DESCRIPTION_LENGTH } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
 import { useTranslation } from 'react-i18next';
@@ -107,6 +107,7 @@ export const Game = (): JSX.Element => {
 
     let firstPlayerPoints = game.player1.points;
     let secondPlayerPoints = game.player2.points;
+    const descriptionShort = description.split(MAX_DESCRIPTION_LENGTH)[0];
 
     if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
       firstPlayerPoints += numberOfPoints;
@@ -117,7 +118,7 @@ export const Game = (): JSX.Element => {
         player1: {
           ...game.player1,
           points: firstPlayerPoints,
-          playerWords: [...game.player1.playerWords, { word: currWord, description }],
+          playerWords: [...game.player1.playerWords, { word: currWord, description: descriptionShort }],
         },
       });
     } else {
@@ -128,7 +129,7 @@ export const Game = (): JSX.Element => {
         player2: {
           ...game.player2,
           points: secondPlayerPoints,
-          playerWords: [...game.player2.playerWords, { word: currWord, description }],
+          playerWords: [...game.player2.playerWords, { word: currWord, description: descriptionShort }],
         },
       });
     }
@@ -367,11 +368,11 @@ export const Game = (): JSX.Element => {
               >
                 {t('buttons.submit')}
               </Button>
-              <Sound playing={isPlay} format={['mp3']} loop={false} mute={!isSoundMuteOn} onEnd={setIsPlay} />
             </div>
           </div>
         </div>
         <PlayerWords playerId={PLAYERS_ID.SECOND_GAMER_ID} />
+        <Sound playing={isPlay} format={['mp3']} loop={false} mute={!isSoundMuteOn} onEnd={setIsPlay} />
         <AnimatedText
           isShow={isShowAnimation}
           setIsShowAnimation={setIsShowAnimation}

@@ -24,13 +24,12 @@ export const useApi = (): IApi => {
           throw new Error(data.message || 'Request error!');
         }
 
-        setLoading(false);
-
         return data;
       } catch (e) {
-        setLoading(false);
         setError(e.message);
         throw e;
+      } finally {
+        setLoading(false);
       }
     },
     [],

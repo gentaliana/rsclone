@@ -49,7 +49,8 @@ export const SetGame = (): JSX.Element => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     const time = +form.time.value.trim();
-    const firstWord = form.firstWord.value.trim();
+    const firstWord = firstGameWord;
+
     const secondPlayer = form.secondPlayer.value.trim();
 
     setGameSettings({
@@ -108,10 +109,10 @@ export const SetGame = (): JSX.Element => {
           ]}
           onChange={setFieldSize}
         />
-        <Form.Group controlId="firstWord">
-          <Form.Label>{t('settings.first-word')}</Form.Label>
-          <Form.Control type="text" value={firstGameWord} name="firstWord" readOnly />
-        </Form.Group>
+        {/* <Form.Group controlId="firstWord"> */}
+        {/* <Form.Label>{t('settings.first-word')}</Form.Label> */}
+        {/* <Form.Control type="text" value={firstGameWord} name="firstWord" readOnly /> */}
+        {/* </Form.Group> */}
         <Form.Group controlId="time">
           <Form.Label>{t('settings.time')}</Form.Label>
           <Form.Control type="number" defaultValue={game.time} min="0" max="10" name="time" />

@@ -9,10 +9,10 @@ type DataType = {
   time: number;
 };
 type Props = {
-  data:Array<DataType>;
+  data: Array<DataType>;
   classTable: string;
   classPaginator: string;
-  pageSize: number
+  pageSize: number;
 };
 
 export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize }: Props): JSX.Element => {
@@ -34,7 +34,7 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
 
   const sortColumn = (param: string) => {
     switch (param) {
-      case ('User Name' || 'Время'): {
+      case 'User Name' || 'Время': {
         if (alfabetName) {
           setAlfabetName(false);
           setState(state.sort((a, b) => a.name.localeCompare(b.name)));
@@ -44,7 +44,7 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
         }
         break;
       }
-      case ('Score' || 'Счет'): {
+      case 'Score' || 'Счет': {
         if (bestScore) {
           setBestScore(false);
           setState(state.sort((a, b) => a.score - b.score));
@@ -54,7 +54,7 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
         }
         break;
       }
-      case ('Time' || 'Время'): {
+      case 'Time' || 'Время': {
         if (bestTime) {
           setBestTime(false);
           setState(state.sort((a, b) => a.time - b.time));
@@ -72,18 +72,13 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
 
   const millisToMinutesAndSeconds = (millis: number) => {
     const minutes = Math.floor(millis / 60000);
-    const seconds = ((millis % 60000) / 1000).toFixed(0);
-    return `${minutes} minets : ${+seconds < 10 ? 0 : seconds} seconds`;
+    const seconds = Number(((millis % 60000) / 1000).toFixed(0));
+    return `${minutes} minutes : ${seconds < 10 ? 0 : seconds} seconds`;
   };
 
   return (
     <div>
-      <Table
-        className={classTable}
-        striped
-        bordered
-        hover
-      >
+      <Table className={classTable} striped bordered hover>
         <thead>
           <tr
             style={{ cursor: 'pointer' }}

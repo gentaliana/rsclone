@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { IAppState } from '@types';
 import { AudioPlayer } from '@components';
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Container, Modal } from 'react-bootstrap';
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill, BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { SelectOption } from '../selectOption';
 import './menu.scss';
@@ -14,6 +14,8 @@ import './menu.scss';
 export const Menu = (): JSX.Element => {
   const dispatch = useDispatch();
   const { i18n, t } = useTranslation();
+
+  const [expanded, setExpanded] = React.useState(false);
 
   const changeLanguage = (lng: string | null) => {
     const lang = lng || DEFAULT_LANG;
@@ -42,60 +44,96 @@ export const Menu = (): JSX.Element => {
   const themeActiveLink = themeInitial === Theme.light ? 'menu__link-light--active' : 'menu__link-dark--active';
   const themeBg = themeInitial === Theme.light ? 'light' : 'dark';
 
+  const handleClose = () => {
+    setExpanded(false);
+  };
+
+  const handleToggle = () => {
+    setExpanded((prevState) => !prevState);
+  };
+
   return (
-    <Navbar bg={themeBg} variant={themeBg} collapseOnSelect expand="md">
-      <Container>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto" variant="pills" justify>
-            <NavLink className={themeChange} exact to={routes.HOME} activeClassName={themeActiveLink}>
-              {t('menu.home')}
-            </NavLink>
-            <NavDropdown.Divider />
-            <NavLink className={themeChange} to={routes.SET_GAME} activeClassName={themeActiveLink}>
-              {t('menu.newGame')}
-            </NavLink>
-            <NavDropdown.Divider />
-            <NavLink className={themeChange} to={routes.SETTINGS} activeClassName={themeActiveLink}>
-              {t('menu.settings')}
-            </NavLink>
-            <NavDropdown.Divider />
-            <NavLink className={themeChange} to={routes.RATING} activeClassName={themeActiveLink}>
-              {t('menu.rating')}
-            </NavLink>
-            <NavDropdown.Divider />
-            <NavLink className={themeChange} to={routes.ABOUT} activeClassName={themeActiveLink}>
-              {t('menu.about')}
-            </NavLink>
-          </Nav>
-        </Navbar.Collapse>
-        <Nav.Item className="menu__link">
-          {!isGameStart && (
-            <SelectOption
-              setCurrShowingData={changeLanguage}
-              options={Languages}
-              title={DROPDOWN_TITLES.translations}
-            />
-          )}
-        </Nav.Item>
-        <Nav.Item className={themeChange}>
-          <span>{t('menu.sound')}</span>
-          {isSoundOn ? (
-            <BsFillVolumeUpFill className="menu__sound" onClick={() => setIsSound(!isSoundOn)} />
-          ) : (
-            <BsFillVolumeMuteFill className="menu__sound" onClick={() => setIsSound(!isSoundOn)} />
-          )}
-        </Nav.Item>
-        <Nav.Item className={themeChange}>
-          <span>{t('menu.music')}</span>
-          {isMusicOn ? (
-            <BsFillPlayFill className="menu__music" onClick={() => setIsMusic(!isMusicOn)} />
-          ) : (
-            <BsFillPauseFill className="menu__music" onClick={() => setIsMusic(!isMusicOn)} />
-          )}
-          <AudioPlayer format={['mp3']} autoplay loop isMute={!isMusicOn} />
-        </Nav.Item>
-      </Container>
-    </Navbar>
+    <>
+      <Navbar bg={themeBg} variant={themeBg} collapseOnSelect expand="lg" expanded={expanded}>
+        <Container>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={handleToggle} />
+          <div className="menu__outside">
+            <Nav.Item className="menu__link">
+              {!isGameStart && (
+                <SelectOption
+                  setCurrShowingData={changeLanguage}
+                  options={Languages}
+                  title={DROPDOWN_TITLES.translations}
+                />
+              )}
+            </Nav.Item>
+
+            <Nav.Item className={themeChange} onClick={() => setIsSound(!isSoundOn)} title={t('menu.sound')}>
+              <span className="menu__sound-text">{t('menu.sound')}</span>
+              {isSoundOn ? (
+                <BsFillVolumeUpFill className="menu__sound" />
+              ) : (
+                <BsFillVolumeMuteFill className="menu__sound" />
+              )}
+            </Nav.Item>
+            <Nav.Item className={themeChange} onClick={() => setIsMusic(!isMusicOn)} title={t('menu.music')}>
+              <span className="menu__music-text">{t('menu.music')}</span>
+              {isMusicOn ? <BsFillPauseFill className="menu__music" /> : <BsFillPlayFill className="menu__music" />}
+              <AudioPlayer format={['mp3']} autoplay loop isMute={!isMusicOn} />
+            </Nav.Item>
+          </div>
+          <Navbar.Collapse id="responsive-navbar-nav" className="menu__inside">
+            <Nav className="mr-auto" variant="pills" justify>
+              <NavLink
+                className={themeChange}
+                exact
+                to={routes.HOME}
+                activeClassName={themeActiveLink}
+                onClick={handleClose}
+              >
+                {t('menu.home')}
+              </NavLink>
+              <NavDropdown.Divider />
+              <NavLink
+                className={themeChange}
+                to={routes.SET_GAME}
+                activeClassName={themeActiveLink}
+                onClick={handleClose}
+              >
+                {t('menu.newGame')}
+              </NavLink>
+              <NavDropdown.Divider />
+              <NavLink
+                className={themeChange}
+                to={routes.SETTINGS}
+                activeClassName={themeActiveLink}
+                onClick={handleClose}
+              >
+                {t('menu.settings')}
+              </NavLink>
+              <NavDropdown.Divider />
+              <NavLink
+                className={themeChange}
+                to={routes.RATING}
+                activeClassName={themeActiveLink}
+                onClick={handleClose}
+              >
+                {t('menu.rating')}
+              </NavLink>
+              <NavDropdown.Divider />
+              <NavLink
+                className={themeChange}
+                to={routes.ABOUT}
+                activeClassName={themeActiveLink}
+                onClick={handleClose}
+              >
+                {t('menu.about')}
+              </NavLink>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+        <Modal show={expanded} onHide={handleClose} />
+      </Navbar>
+    </>
   );
 };

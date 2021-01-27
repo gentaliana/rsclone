@@ -24,6 +24,7 @@
 
       & a {
         color: $primary-color-font-light;
+        transition: color 0.3s;
 
         &:hover {
           color: $secondary;
@@ -42,9 +43,10 @@
 
       & a {
         color: $primary-color-font-dark;
+        transition: color 0.3s;
 
         &:hover {
-          color: hsl(0, 2%, 82%);
+          color: $secondary;
           text-decoration: none;
         }
       }

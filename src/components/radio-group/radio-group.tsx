@@ -14,7 +14,7 @@ interface IRadioGroupProps {
   groupLabel: string;
   name: string;
   items: IRadioGroupItem[];
-  onChange: (value: number) => void;
+  onChange: (value: string) => void;
 }
 
 export const RadioGroup = ({ controlId, groupLabel, name, items, onChange }: IRadioGroupProps): JSX.Element => (
@@ -31,7 +31,7 @@ export const RadioGroup = ({ controlId, groupLabel, name, items, onChange }: IRa
           name={name}
           defaultChecked={item.defaultChecked}
           id={item.id}
-          onChange={() => onChange(Number(item.value))}
+          onChange={() => onChange(item.value)}
         />
       ))}
     </Col>

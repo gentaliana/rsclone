@@ -5,7 +5,17 @@ import Form from 'react-bootstrap/esm/Form';
 import { useSelector, useDispatch } from 'react-redux';
 import { IAppState, IGameState } from '@types';
 import { Redirect } from 'react-router-dom';
-import { Api, Languages, NOTIFY_TYPES, routes, sizes, FIRST_WORDS, DEFAULT_FIELD_SIZE, PLAYERS_ID } from '@constants';
+import {
+  Api,
+  Languages,
+  NOTIFY_TYPES,
+  routes,
+  sizes,
+  FIRST_WORDS,
+  DEFAULT_FIELD_SIZE,
+  PLAYERS_ID,
+  SecondPlayer,
+} from '@constants';
 import { setGame, setNotify } from '@store';
 import { RadioGroup } from '@components';
 import { useApi } from '@hooks';
@@ -16,8 +26,11 @@ export const SetGame = (): JSX.Element => {
   const lang = useSelector((state: IAppState) => state.settings.lang);
   const game = useSelector((state: IAppState) => state.game);
   const [isFormSubmit, setFormSubmit] = React.useState(false);
-  const [fieldSize, setFieldSize] = React.useState(DEFAULT_FIELD_SIZE);
+  const [fieldSize, setFieldSize] = React.useState<number>(DEFAULT_FIELD_SIZE);
   const [firstGameWord, setFirstGameWord] = React.useState(FIRST_WORDS[fieldSize]);
+  const [secondPlayer, setSecondPlayer] = React.useState<string>(SecondPlayer.human);
+  const [isWordFetching, setIsWordFetching] = React.useState<boolean>(false);
+
   const { request } = useApi();
 
   const dispatch = useDispatch();
@@ -33,12 +46,15 @@ export const SetGame = (): JSX.Element => {
   React.useEffect(() => {
     const getFirstWord = async () => {
       try {
+        setIsWordFetching(true);
         const [language] = Object.keys(Languages).filter((key) => Languages[key as keyof typeof Languages] === lang);
         const { url, method } = Api.GET_WORD_BY_LENGTH;
         const data = await request(url(language || lang, fieldSize), method);
         setFirstGameWord(data.word);
       } catch (e) {
-        await openModal(t('notify.wordByLength'), e.message, NOTIFY_TYPES.error);
+        openModal(t('notify.wordByLength'), e.message, NOTIFY_TYPES.error);
+      } finally {
+        setIsWordFetching(false);
       }
     };
 
@@ -49,13 +65,12 @@ export const SetGame = (): JSX.Element => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     const time = +form.time.value.trim();
-    const firstWord = form.firstWord.value.trim();
-    const secondPlayer = form.secondPlayer.value.trim();
+    const firstWord = firstGameWord;
 
     setGameSettings({
       ...game,
       time,
-      isBot: secondPlayer === 'bot',
+      isBot: secondPlayer === SecondPlayer.bot,
       fieldSize,
       firstWord,
       winnerId: null,
@@ -85,7 +100,7 @@ export const SetGame = (): JSX.Element => {
               defaultChecked: isCurrentSize,
             };
           })}
-          onChange={setFieldSize}
+          onChange={(value) => setFieldSize(Number(value))}
         />
 
         <RadioGroup
@@ -96,27 +111,23 @@ export const SetGame = (): JSX.Element => {
             {
               id: 'secondPlayer-bot',
               label: t('settings.bot'),
-              value: 'bot',
+              value: SecondPlayer.bot,
               defaultChecked: false,
             },
             {
               id: 'secondPlayer-human',
               label: t('settings.human'),
-              value: 'human',
+              value: SecondPlayer.human,
               defaultChecked: true,
             },
           ]}
-          onChange={setFieldSize}
+          onChange={(value) => setSecondPlayer(value)}
         />
-        <Form.Group controlId="firstWord">
-          <Form.Label>{t('settings.first-word')}</Form.Label>
-          <Form.Control type="text" value={firstGameWord} name="firstWord" readOnly />
-        </Form.Group>
         <Form.Group controlId="time">
           <Form.Label>{t('settings.time')}</Form.Label>
           <Form.Control type="number" defaultValue={game.time} min="0" max="10" name="time" />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" disabled={isWordFetching}>
           {t('game.start')}
         </Button>
       </Form>

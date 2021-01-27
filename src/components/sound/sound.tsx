@@ -2,7 +2,6 @@ import * as React from 'react';
 import ReactHowler from 'react-howler';
 
 type SoundProps = {
-  src: string;
   playing: boolean;
   format: Array<string>;
   loop: boolean;
@@ -10,6 +9,16 @@ type SoundProps = {
   onEnd: (play: boolean) => void;
 };
 
-export const Sound = ({ src, playing, format, loop, mute, onEnd }: SoundProps): JSX.Element => (
-  <ReactHowler src={src} playing={playing} format={format} loop={loop} mute={mute} onEnd={() => onEnd(false)} />
+export const Sound = ({ playing, format, loop, mute, onEnd }: SoundProps): JSX.Element => (
+  <ReactHowler
+    src="https://noisefx.ru/noise_base/obect/ofis/00171.mp3"
+    playing={playing}
+    format={format}
+    loop={loop}
+    mute={mute}
+    onEnd={() => onEnd(false)}
+    volume={0.5}
+    preload
+    html5
+  />
 );

@@ -6,7 +6,6 @@ import { IKeyboardLang, IAppState } from '@types';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
-import musicfile from '../../assets/sound/click.mp3';
 
 type KeyboardProps = {
   setCurrentLetter: (letter: string) => void;
@@ -66,7 +65,7 @@ export const Keyboard = ({ setCurrentLetter, isKeyboardHidden, handleHideKeyboar
       >
         {t('buttons.close')}
       </Button>
-      <Sound src={musicfile} playing={isPlay} format={['mp3']} loop={false} mute={!isSoundMuteOn} onEnd={setIsPlay} />
+      <Sound playing={isPlay} format={['mp3']} loop={false} mute={!isSoundMuteOn} onEnd={setIsPlay} />
     </div>
   );
 };

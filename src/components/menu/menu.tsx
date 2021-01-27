@@ -54,36 +54,35 @@ export const Menu = (): JSX.Element => {
 
   return (
     <>
-      <Navbar bg={themeBg} variant={themeBg} collapseOnSelect expand="md" expanded={expanded}>
+      <Navbar bg={themeBg} variant={themeBg} collapseOnSelect expand="lg" expanded={expanded}>
         <Container>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={handleToggle} />
-          <Nav.Item className="menu__link">
-            {!isGameStart && (
-              <SelectOption
-                setCurrShowingData={changeLanguage}
-                options={Languages}
-                title={DROPDOWN_TITLES.translations}
-              />
-            )}
-          </Nav.Item>
-          <Nav.Item className={themeChange}>
-            <span>{t('menu.sound')}</span>
-            {isSoundOn ? (
-              <BsFillVolumeUpFill className="menu__sound" onClick={() => setIsSound(!isSoundOn)} />
-            ) : (
-              <BsFillVolumeMuteFill className="menu__sound" onClick={() => setIsSound(!isSoundOn)} />
-            )}
-          </Nav.Item>
-          <Nav.Item className={themeChange}>
-            <span>{t('menu.music')}</span>
-            {isMusicOn ? (
-              <BsFillPlayFill className="menu__music" onClick={() => setIsMusic(!isMusicOn)} />
-            ) : (
-              <BsFillPauseFill className="menu__music" onClick={() => setIsMusic(!isMusicOn)} />
-            )}
-            <AudioPlayer format={['mp3']} autoplay loop isMute={!isMusicOn} />
-          </Nav.Item>
-          <Navbar.Collapse id="responsive-navbar-nav">
+          <div className="menu__outside">
+            <Nav.Item className="menu__link">
+              {!isGameStart && (
+                <SelectOption
+                  setCurrShowingData={changeLanguage}
+                  options={Languages}
+                  title={DROPDOWN_TITLES.translations}
+                />
+              )}
+            </Nav.Item>
+
+            <Nav.Item className={themeChange} onClick={() => setIsSound(!isSoundOn)} title={t('menu.sound')}>
+              <span className="menu__sound-text">{t('menu.sound')}</span>
+              {isSoundOn ? (
+                <BsFillVolumeUpFill className="menu__sound" />
+              ) : (
+                <BsFillVolumeMuteFill className="menu__sound" />
+              )}
+            </Nav.Item>
+            <Nav.Item className={themeChange} onClick={() => setIsMusic(!isMusicOn)} title={t('menu.music')}>
+              <span className="menu__music-text">{t('menu.music')}</span>
+              {isMusicOn ? <BsFillPauseFill className="menu__music" /> : <BsFillPlayFill className="menu__music" />}
+              <AudioPlayer format={['mp3']} autoplay loop isMute={!isMusicOn} />
+            </Nav.Item>
+          </div>
+          <Navbar.Collapse id="responsive-navbar-nav" className="menu__inside">
             <Nav className="mr-auto" variant="pills" justify>
               <NavLink
                 className={themeChange}

@@ -3,6 +3,7 @@ import { Languages } from '@constants';
 export interface IAppState {
   notify: INotify | null;
   modal: IModal | null;
+  universalModal: IUniversalModal | null;
   game: IGameState;
 
   settings: ISettingsState;
@@ -73,4 +74,10 @@ export interface INotify {
 export interface IModal {
   isWin: boolean;
   contentText: string;
+}
+
+export interface IUniversalModal {
+  title: string;
+  context: string;
+  btnText: string;
 }

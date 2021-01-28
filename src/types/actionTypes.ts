@@ -1,5 +1,5 @@
 import { SettingActions, GameActions, AlertActions, ModalActions } from '@constants';
-import { ISettingsPage, IGameState, INotify, IModal } from '@types';
+import { ISettingsPage, IGameState, INotify, IModal, IUniversalModal } from '@types';
 
 export interface ISetSettingsAction {
   type: typeof SettingActions.SET_SETTINGS;
@@ -61,4 +61,13 @@ export interface ISetModalAction {
 
 export interface IRemoveModalAction {
   type: typeof ModalActions.REMOVE_MODAL;
+}
+
+export interface ISetUniversalModalAction {
+  type: typeof ModalActions.SET_UNIVERSAL_MODAL;
+  payload: IUniversalModal;
+}
+
+export interface IRemoveUniversalModalAction {
+  type: typeof ModalActions.REMOVE_UNIVERSAL_MODAL;
 }

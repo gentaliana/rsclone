@@ -107,3 +107,7 @@ button.close:focus {
   display: flex;
   align-items: center;
 }
+
+.popover-body li {
+  cursor: pointer;
+}

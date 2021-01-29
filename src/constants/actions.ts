@@ -18,6 +18,7 @@ export enum GameActions {
   NEXT_TURN = 'NEXT_TURN',
   SET_START_GAME = 'SET_START_GAME',
   SET_STOP_GAME = 'SET_STOP_GAME',
+  SET_WINNER = 'SET_WINNER',
 }
 
 export enum AlertActions {

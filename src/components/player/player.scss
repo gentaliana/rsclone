@@ -84,6 +84,10 @@
   cursor: pointer;
 }
 
+.tooltip {
+  z-index: 3000 !important;
+}
+
 .tooltip-inner {
   min-width: 400px;
   max-width: 100%;

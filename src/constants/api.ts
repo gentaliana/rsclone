@@ -1,4 +1,4 @@
-import { IAuthBody } from '@types';
+import { IAuthBody, IBotBody } from '@types';
 
 export const HOST = 'https://rsclone-backend.herokuapp.com';
 export const API_PATH = `${HOST}/api`;
@@ -26,5 +26,11 @@ export const Api = {
   GET_WORD_BY_LENGTH: {
     url: (lang: string, length: number | string): string => `${API_WORD_ENDPOINT}/${lang}/length/${length}`,
     method: 'GET',
+  },
+
+  BOT: {
+    url: (lang: string): string => `${API_WORD_ENDPOINT}/${lang}/bot/find`,
+    method: 'POST',
+    body: (cells: string[], used: string[]): IBotBody => ({ cells: cells.map((cell) => cell.toLowerCase()), used }),
   },
 };

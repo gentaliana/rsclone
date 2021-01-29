@@ -3,6 +3,11 @@ export interface IAuthBody {
   password: string;
 }
 
+export interface IBotBody {
+  cells: string[];
+  used: string[];
+}
+
 export interface IAuthData {
   login: (jwtToken: string | null, id: string | null) => void;
   logout: () => void;
@@ -15,7 +20,7 @@ export interface IHttpHeaders {
   [key: string]: string;
 }
 
-export type ApiRequestBody = IAuthBody | string;
+export type ApiRequestBody = IAuthBody | IBotBody | string;
 
 export type ApiRequestHeaders = IHttpHeaders;
 

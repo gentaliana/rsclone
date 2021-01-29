@@ -45,7 +45,7 @@ export const WordsComponent = ({ playerId }: WordsComponentProps): JSX.Element =
           <li
             key={word.word}
             role="presentation"
-            onClick={() => openModal(word.word, word.description, btnTextTranslated)}
+            onClick={() => { document.body.click(); openModal(word.word, word.description, btnTextTranslated); }}
           >
             {word.word}
           </li>

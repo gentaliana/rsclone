@@ -81,3 +81,8 @@ export interface IUniversalModal {
   context: string;
   btnText: string;
 }
+
+export interface IWinnerState {
+  duration: number;
+  winnerId: number;
+}

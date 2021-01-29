@@ -2,13 +2,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import './game.scss';
 import { Keyboard, Field, WordField, Scores, PlayerWords, GameOverModal, AnimatedText, Sound } from '@components';
 import Button from 'react-bootstrap/Button';
-import { getLangLetters, Languages, Api, NOTIFY_COLORS, PLAYERS_ID, MAX_DESCRIPTION_LENGTH } from '@constants';
+import {
+  getLangLetters,
+  Languages,
+  Api,
+  NOTIFY_COLORS,
+  PLAYERS_ID,
+  MAX_DESCRIPTION_LENGTH,
+  MAX_PENALTY,
+} from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState, IWordState } from '@types';
-import { setGame, nextTurn, setModal, stopGame, startGame } from '@store';
+import { setGame, nextTurn, setModal, stopGame, startGame, setWinner } from '@store';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -27,6 +35,7 @@ export const Game = (): JSX.Element => {
 
   const fieldSize = useSelector((state: IAppState) => state.game.fieldSize);
   const firstWord = useSelector((state: IAppState) => state.game.firstWord);
+  const isBotGame = useSelector((state: IAppState) => state.game.isBot);
   const [cells, setCells] = useState(initCells(fieldSize, firstWord));
   const { t } = useTranslation();
   const [infoMessage, setInfoMessage] = useState('');
@@ -41,6 +50,12 @@ export const Game = (): JSX.Element => {
   const secondGamerName = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.SECOND_GAMER_ID]);
   const curGamerName = useSelector((state: IAppState) => state.settings.gamerNames[game.playerTurnId]);
   const isGameEnded = useSelector((state: IAppState) => state.game.winnerId !== null);
+
+  const [isFreezed, setIsFreezed] = useState(false);
+
+  let firstPlayerPoints = game.player1.points;
+  let secondPlayerPoints = game.player2.points;
+
   const winnerName = useSelector((state: IAppState) => {
     if (game.winnerId !== null) {
       return state.settings.gamerNames[game.winnerId];
@@ -51,8 +66,6 @@ export const Game = (): JSX.Element => {
 
   const { request } = useApi();
   const { url, method } = Api.GET_WORD_INFO;
-
-  // const isSoundOn = useSelector((state: IAppState) => state.settings.isSoundOn);
 
   const selectedCellRef = useRef<number | null>(null);
   selectedCellRef.current = selectedCell;
@@ -73,6 +86,7 @@ export const Game = (): JSX.Element => {
     const newCells = [...cells];
     newCells[pos] = letter;
     setCells(newCells);
+    return newCells;
   };
 
   const resetTimer = () => {
@@ -90,23 +104,39 @@ export const Game = (): JSX.Element => {
     setCurrWord('');
   };
 
+  const setGameWinner = (winnerId: number) => {
+    const duration = new Date().getTime() - startTime.getTime();
+    dispatch(setWinner({ duration, winnerId }));
+  };
+
   const handleClearButton = () => resetState(false);
   const setNextTurn = () => {
     resetState();
     resetTimer();
-    dispatch(nextTurn());
+    const player2Penalties = game.player2.penalties;
+    const player1Penalties = game.player1.penalties;
+
+    if (playerTurnId === PLAYERS_ID.SECOND_GAMER_ID && player2Penalties + 1 > MAX_PENALTY) {
+      setGameWinner(PLAYERS_ID.FIRST_GAMER_ID);
+    } else if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID && player1Penalties + 1 > MAX_PENALTY) {
+      setGameWinner(PLAYERS_ID.SECOND_GAMER_ID);
+    } else {
+      dispatch(nextTurn());
+    }
   };
 
-  const setWinner = (winnerId: number) => {
-    const gameDuration = new Date().getTime() - startTime.getTime();
-    setGameSettings({ ...game, duration: gameDuration, winnerId });
+  const checkLastTurn = (arr: Array<string>) => {
+    if (arr.filter((el) => el === '').length === 0) {
+      if (firstPlayerPoints > secondPlayerPoints) {
+        setGameWinner(PLAYERS_ID.FIRST_GAMER_ID);
+      } else {
+        setGameWinner(PLAYERS_ID.SECOND_GAMER_ID);
+      }
+    }
   };
 
   const updatePoints = (winWord: string, description: string) => {
     const numberOfPoints = winWord.length;
-
-    let firstPlayerPoints = game.player1.points;
-    let secondPlayerPoints = game.player2.points;
     const descriptionShort = description.split(MAX_DESCRIPTION_LENGTH)[0];
 
     if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
@@ -118,7 +148,7 @@ export const Game = (): JSX.Element => {
         player1: {
           ...game.player1,
           points: firstPlayerPoints,
-          playerWords: [...game.player1.playerWords, { word: currWord, description: descriptionShort }],
+          playerWords: [...game.player1.playerWords, { word: winWord.toUpperCase(), description: descriptionShort }],
         },
       });
     } else {
@@ -129,17 +159,9 @@ export const Game = (): JSX.Element => {
         player2: {
           ...game.player2,
           points: secondPlayerPoints,
-          playerWords: [...game.player2.playerWords, { word: currWord, description: descriptionShort }],
+          playerWords: [...game.player2.playerWords, { word: winWord.toUpperCase(), description: descriptionShort }],
         },
       });
-    }
-
-    if (cells.filter((el) => el === '').length === 0) {
-      if (firstPlayerPoints > secondPlayerPoints) {
-        setWinner(PLAYERS_ID.FIRST_GAMER_ID);
-      } else {
-        setWinner(PLAYERS_ID.SECOND_GAMER_ID);
-      }
     }
   };
 
@@ -157,6 +179,7 @@ export const Game = (): JSX.Element => {
       resetTimer();
       resetState(true);
       showAnimationMsg(t('game.points', { points: currWord.length }), NOTIFY_COLORS.info);
+      checkLastTurn(cells);
     } catch (e) {
       showAnimationMsg(t('game.tryAgain'), NOTIFY_COLORS.error);
       resetState();
@@ -218,7 +241,7 @@ export const Game = (): JSX.Element => {
   };
 
   const handleMouseSelectCell = (index: number) => {
-    if (isGameEnded) return;
+    if (isGameEnded || isFreezed) return;
     if (!enteredLetter) {
       setFocusedCell(index);
       if (isKeyboardHidden) setIsKeyboardHidden(false);
@@ -230,7 +253,32 @@ export const Game = (): JSX.Element => {
   const handlePlay = () => setIsPlay(true);
 
   const handleHideKeyboard = () => setIsKeyboardHidden(true);
-  const disableButtons = !isKeyboardHidden || isGameEnded;
+  const disableButtons = !isKeyboardHidden || isGameEnded || isFreezed;
+
+  const setBotWord = async () => {
+    try {
+      const { url: urlBot, method: methodBot, body } = Api.BOT;
+      setIsFreezed(true);
+      const used = game.player1.playerWords.concat(game.player2.playerWords).map((el) => el.word);
+      const data = await request(urlBot(language), methodBot, body(cells, used));
+      const newCells = setLetterInCells(data.character.toUpperCase(), Number(data.index));
+      resetTimer();
+      showAnimationMsg(t('game.points', { points: data.word.length }), NOTIFY_COLORS.info);
+      updatePoints(data.word, data.definition);
+      checkLastTurn(newCells);
+    } catch (e) {
+      setNextTurn();
+    }
+  };
+
+  useEffect(() => {
+    if (isBotGame && playerTurnId === PLAYERS_ID.SECOND_GAMER_ID) {
+      if (isGameEnded || isFreezed) return;
+      setBotWord();
+    } else {
+      setIsFreezed(false);
+    }
+  }, [game.playerTurnId]);
 
   useEffect(() => {
     if (downPress || upPress || leftPress || rightPress) {
@@ -264,7 +312,7 @@ export const Game = (): JSX.Element => {
   }, [downPress, upPress, leftPress, rightPress]);
 
   useEffect(() => {
-    if (isGameEnded) return;
+    if (isGameEnded || isFreezed) return;
     if (escPress) resetState();
     const isSelectedCellWithoutLetter = !enteredLetter && focusedCell !== null;
     if (shiftPress && isSelectedCellWithoutLetter) {
@@ -276,22 +324,14 @@ export const Game = (): JSX.Element => {
   }, [escPress, enterPress, shiftPress]);
 
   useEffect(() => {
-    if (isGameEnded) return;
+    if (isGameEnded || isFreezed) return;
     handleKeyPressLetter();
   }, [symbolPressed]);
 
   useEffect(() => {
-    if (game.player2.penalties > 2) {
-      setWinner(PLAYERS_ID.FIRST_GAMER_ID);
-    } else if (game.player1.penalties > 2) {
-      setWinner(PLAYERS_ID.SECOND_GAMER_ID);
-    }
-  }, [game.player1.penalties, game.player2.penalties]);
-
-  useEffect(() => {
     if (isGameEnded) {
-      if (game.isOnline) {
-        if (game.winnerId === PLAYERS_ID.BOT_ID) {
+      if (isBotGame) {
+        if (game.winnerId === PLAYERS_ID.SECOND_GAMER_ID) {
           dispatch(setModal({ isWin: false, contentText: t('game.youLose') }));
         } else {
           dispatch(setModal({ isWin: true, contentText: t('game.youWon') }));

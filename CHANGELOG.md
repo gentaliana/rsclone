@@ -46,6 +46,8 @@
 - Респонсив футера для маленьких экранов (https://github.com/gentaliana/rsclone/issues/157)
 - При нажатии на имя игрока в моб версии - список его слов (https://github.com/gentaliana/rsclone/issues/122)
 - Добавлено скрытие меню на маленьких экранах при клике по пункту меню и вне его (https://github.com/gentaliana/rsclone/issues/164)
+- Описание слова показывается на маленьком разрешении в всплывающем окне (https://github.com/gentaliana/rsclone/issues/173)
+- Добавлена логика бота на фронте (https://github.com/gentaliana/rsclone/issues/22)
 
 ### Fix
 

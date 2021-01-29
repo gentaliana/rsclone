@@ -1,6 +1,15 @@
 import { Dispatch } from 'redux';
 import { GameActions } from '@constants';
-import { IGameState, ISetFieldSizeAction, ISetGameAction, INextTurn, IStartGame, IStopGame } from '@types';
+import {
+  IGameState,
+  ISetFieldSizeAction,
+  ISetGameAction,
+  INextTurn,
+  IStartGame,
+  IStopGame,
+  ISetWinner,
+  IWinnerState,
+} from '@types';
 
 /* eslint-disable implicit-arrow-linebreak */
 export const setFieldSize = (payload: number) => (dispatch: Dispatch): ISetFieldSizeAction =>
@@ -10,6 +19,8 @@ export const setGame = (payload: IGameState) => (dispatch: Dispatch): ISetGameAc
   dispatch({ type: GameActions.SET_GAME, payload });
 
 export const nextTurn = () => (dispatch: Dispatch): INextTurn => dispatch({ type: GameActions.NEXT_TURN });
+export const setWinner = (payload: IWinnerState) => (dispatch: Dispatch): ISetWinner =>
+  dispatch({ type: GameActions.SET_WINNER, payload });
 
 export const startGame = () => (dispatch: Dispatch): IStartGame => dispatch({ type: GameActions.SET_START_GAME });
 

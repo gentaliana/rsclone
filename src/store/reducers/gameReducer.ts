@@ -35,6 +35,13 @@ export function game(state: IGameState = defaultState.game, action: AnyAction): 
       };
     }
 
+    case GameActions.SET_WINNER: {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+
     case GameActions.SET_START_GAME: {
       return {
         ...state,

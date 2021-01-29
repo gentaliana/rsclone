@@ -57,3 +57,4 @@
 - Исправлена ошибка при изменении нового игрового поля (https://github.com/gentaliana/rsclone/issues/151)
 - Исправлено, нельзя начать игру до генерации случайного слова (https://github.com/gentaliana/rsclone/issues/144)
 - Исправить баги в меню (Проблема c z-index на странице с игрой) (https://github.com/gentaliana/rsclone/issues/135)
+- Исправить. Нельзя вводить букву если рядом (слева или справа или снизу или сверху) нету буквы (https://github.com/gentaliana/rsclone/issues/141)

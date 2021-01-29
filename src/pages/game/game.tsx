@@ -16,7 +16,7 @@ import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState, IWordState } from '@types';
-import { setGame, nextTurn, setModal, stopGame, startGame, setWinner } from '@store';
+import { setGame, nextTurn, setModal, stopGame, startGame, setWinner, setPenaltyPoints } from '@store';
 
 export const Game = (): JSX.Element => {
   const [enteredLetter, setEnteredLetter] = useState('');
@@ -121,6 +121,7 @@ export const Game = (): JSX.Element => {
     } else if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID && player1Penalties + 1 > MAX_PENALTY) {
       setGameWinner(PLAYERS_ID.SECOND_GAMER_ID);
     } else {
+      dispatch(setPenaltyPoints());
       dispatch(nextTurn());
     }
   };
@@ -143,7 +144,6 @@ export const Game = (): JSX.Element => {
       firstPlayerPoints += numberOfPoints;
       setGameSettings({
         ...game,
-        playerTurnId: PLAYERS_ID.SECOND_GAMER_ID,
         ...game.player2,
         player1: {
           ...game.player1,
@@ -155,7 +155,6 @@ export const Game = (): JSX.Element => {
       secondPlayerPoints += numberOfPoints;
       setGameSettings({
         ...game,
-        playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
         player2: {
           ...game.player2,
           points: secondPlayerPoints,
@@ -163,6 +162,8 @@ export const Game = (): JSX.Element => {
         },
       });
     }
+
+    if (!isGameEnded) dispatch(nextTurn());
   };
 
   const showAnimationMsg = (textMsg: string, color: string) => {

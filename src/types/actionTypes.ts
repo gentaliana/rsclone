@@ -36,7 +36,11 @@ export interface ISetGameAction {
 }
 
 export interface INextTurn {
-  type: typeof GameActions.NEXT_TURN;
+  type: typeof GameActions.SET_NEXT_TURN;
+}
+
+export interface IPenaltiesPoints {
+  type: typeof GameActions.SET_PENALTY_POINTS;
 }
 
 export interface ISetWinner {

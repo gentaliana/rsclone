@@ -82,6 +82,9 @@ export const Game = (): JSX.Element => {
   const lang = useSelector((state: IAppState) => state.settings.lang);
   const [language] = Object.keys(Languages).filter((key) => Languages[key as keyof typeof Languages] === lang);
 
+  const isSecondPlayerTurn = playerTurnId === PLAYERS_ID.SECOND_GAMER_ID;
+  const isFirstPlayerTurn = playerTurnId === PLAYERS_ID.FIRST_GAMER_ID;
+
   const setLetterInCells = (letter: string, pos: number) => {
     const newCells = [...cells];
     newCells[pos] = letter;
@@ -113,12 +116,12 @@ export const Game = (): JSX.Element => {
   const setNextTurn = () => {
     resetState();
     resetTimer();
-    const player2Penalties = game.player2.penalties;
-    const player1Penalties = game.player1.penalties;
+    const isPlayer2MaxPenalties = game.player2.penalties + 1 > MAX_PENALTY;
+    const isPlayer1MaxPenalties = game.player1.penalties + 1 > MAX_PENALTY;
 
-    if (playerTurnId === PLAYERS_ID.SECOND_GAMER_ID && player2Penalties + 1 > MAX_PENALTY) {
+    if (isSecondPlayerTurn && isPlayer2MaxPenalties) {
       setGameWinner(PLAYERS_ID.FIRST_GAMER_ID);
-    } else if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID && player1Penalties + 1 > MAX_PENALTY) {
+    } else if (isFirstPlayerTurn && isPlayer1MaxPenalties) {
       setGameWinner(PLAYERS_ID.SECOND_GAMER_ID);
     } else {
       dispatch(setPenaltyPoints());
@@ -140,7 +143,7 @@ export const Game = (): JSX.Element => {
     const numberOfPoints = winWord.length;
     const descriptionShort = description.split(MAX_DESCRIPTION_LENGTH)[0];
 
-    if (playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
+    if (isFirstPlayerTurn) {
       firstPlayerPoints += numberOfPoints;
       setGameSettings({
         ...game,
@@ -273,7 +276,7 @@ export const Game = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (isBotGame && playerTurnId === PLAYERS_ID.SECOND_GAMER_ID) {
+    if (isBotGame && isSecondPlayerTurn) {
       if (isGameEnded || isFreezed) return;
       setBotWord();
     } else {

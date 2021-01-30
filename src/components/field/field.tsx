@@ -45,6 +45,15 @@ export const Field = ({
     setCurrWord((prevState: string) => prevState.substring(0, prevState.length - 1));
   };
 
+  const isAroundEmpty = (id: number) => {
+    const isDownEmpty = id + fieldSize >= fieldSize ** 2 || cells[id + fieldSize] === '';
+    const isUpEmpty = id - fieldSize < 0 || cells[id - fieldSize] === '';
+    const isRightEmpty = (id + 1) % fieldSize === 0 || cells[id + 1] === '';
+    const isLeftEmpty = id % fieldSize === 0 || cells[id - 1] === '';
+
+    return isDownEmpty && isUpEmpty && isRightEmpty && isLeftEmpty;
+  };
+
   const isRightPosition = (id: number) => {
     const lastLetterId = idsOfChosenLetters[idsOfChosenLetters.length - 1];
     if (typeof lastLetterId === 'undefined') return true;
@@ -97,8 +106,7 @@ export const Field = ({
   return (
     <div className="game-field">
       {chunk(cells, fieldSize).map((item: string[], rowIndex: number) => (
-        /* eslint-disable  react/no-array-index-key */
-        <div key={`cellRow${rowIndex}`} className="cellRow">
+        <div key={`cellRow${rowIndex.toString()}`} className="cellRow">
           {item.map((cellLetter: string, index: number) => {
             const id = rowIndex * fieldSize + index;
             return (
@@ -111,7 +119,7 @@ export const Field = ({
                 handleSelectedCell={() => {
                   if (canSelect) {
                     checkNextCell(id);
-                  } else if (cellLetter === '') {
+                  } else if (!isAroundEmpty(id) && cellLetter === '') {
                     handleMouseSelectCell(id);
                   }
                 }}

@@ -1,5 +1,5 @@
 import { SettingActions, GameActions, AlertActions, ModalActions } from '@constants';
-import { ISettingsPage, IGameState, INotify, IModal } from '@types';
+import { ISettingsPage, IGameState, INotify, IModal, IUniversalModal, IWinnerState } from '@types';
 
 export interface ISetSettingsAction {
   type: typeof SettingActions.SET_SETTINGS;
@@ -36,7 +36,16 @@ export interface ISetGameAction {
 }
 
 export interface INextTurn {
-  type: typeof GameActions.NEXT_TURN;
+  type: typeof GameActions.SET_NEXT_TURN;
+}
+
+export interface IPenaltiesPoints {
+  type: typeof GameActions.SET_PENALTY_POINTS;
+}
+
+export interface ISetWinner {
+  type: typeof GameActions.SET_WINNER;
+  payload: IWinnerState;
 }
 
 export interface ISetAlertAction {
@@ -61,4 +70,13 @@ export interface ISetModalAction {
 
 export interface IRemoveModalAction {
   type: typeof ModalActions.REMOVE_MODAL;
+}
+
+export interface ISetUniversalModalAction {
+  type: typeof ModalActions.SET_UNIVERSAL_MODAL;
+  payload: IUniversalModal;
+}
+
+export interface IRemoveUniversalModalAction {
+  type: typeof ModalActions.REMOVE_UNIVERSAL_MODAL;
 }

@@ -130,7 +130,7 @@ export const Game = (): JSX.Element => {
   };
 
   const checkLastTurn = (arr: Array<string>) => {
-    if (arr.filter((el) => el === '').length === 0) {
+    if (arr.every((el) => el !== '')) {
       if (firstPlayerPoints > secondPlayerPoints) {
         setGameWinner(PLAYERS_ID.FIRST_GAMER_ID);
       } else {

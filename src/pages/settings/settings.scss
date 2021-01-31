@@ -17,22 +17,34 @@
     color: hsl(210, 17%, 98%);
   }
 
-  .soundText,
-  .userText,
-  .themeText,
-  .langText {
-    padding-right: 10px;
-    font-size: 1.8em;
-  }
-
-  .sound,
   .user,
   .theme,
   .lang {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 50%;
+    width: 65%;
+  }
+
+  .soundText,
+  .userText,
+  .themeText {
+    width: 45%;
+    min-width: 150px;
+    padding-right: 10px;
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 450px) {
+    .user,
+    .theme,
+    .lang {
+      width: 90%;
+    }
+  }
+
+  .userInputName {
+    width: 60%;
   }
 
   .btn-save {
@@ -40,5 +52,11 @@
     align-items: center;
     justify-content: space-around;
     width: 50%;
+  }
+
+  .length-error,
+  .name-error {
+    font-size: 0.9rem;
+    color: hsl(0, 96%, 56%);
   }
 }

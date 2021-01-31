@@ -6,12 +6,6 @@ import { defaultState } from '../default-state';
 export function settings(state: ISettingsState = defaultState.settings, action: AnyAction): ISettingsState {
   const { payload, type } = action;
   switch (type) {
-    case SettingActions.SET_SETTINGS:
-      return {
-        ...state,
-        ...payload,
-      };
-
     case SettingActions.SET_LANGUAGE:
       return {
         ...state,
@@ -33,6 +27,16 @@ export function settings(state: ISettingsState = defaultState.settings, action: 
       return {
         ...state,
         isMusicOn: payload,
+      };
+    case SettingActions.SET_FIRSTGAMER:
+      return {
+        ...state,
+        gamerNames: [payload, state.gamerNames[1]],
+      };
+    case SettingActions.SET_SECONDGAMER:
+      return {
+        ...state,
+        gamerNames: [state.gamerNames[0], payload],
       };
 
     default:

@@ -23,7 +23,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en',
+    lng: JSON.parse(localStorage.getItem('settings') || '{}').lang || 'en',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,

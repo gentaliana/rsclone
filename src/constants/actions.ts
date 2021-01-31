@@ -4,6 +4,8 @@ export enum SettingActions {
   SET_SETTINGS = 'SET_SETTINGS',
   SET_MUSIC = 'SET_MUSIC',
   SET_THEME = 'SET_THEME',
+  SET_FIRSTGAMER = 'SET_FIRSTGAMER',
+  SET_SECONDGAMER = 'SET_SECONDGAMER',
 }
 
 export enum GameActions {

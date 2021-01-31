@@ -24,13 +24,6 @@ export interface ISettingsState {
   currentTheme: string;
 }
 
-export interface ISettingsPage {
-  lang?: string;
-  isSoundOn?: boolean;
-  gamerNames: Array<string>;
-  currentTheme: string;
-}
-
 export interface IGameState {
   isOnline: boolean;
   fieldSize: number;

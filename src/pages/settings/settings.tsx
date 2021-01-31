@@ -1,83 +1,83 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSettings, setTheme } from '@store';
+import { setTheme, setSound, setMusic, setLanguage, setFirstGamer, setSecondGamer } from '@store';
 import { Button } from 'react-bootstrap';
-import { ISettingsPage, IAppState } from '@types';
+import { IAppState } from '@types';
 import { useTranslation } from 'react-i18next';
-import { DEFAULT_GAMER_NAME, DEFAULT_SECOND_GAMER_NAME, NOTIFY_TYPES, PLAYERS_ID, Theme } from '@constants';
-// import { SelectOption } from 'src/components/selectOption';
+import {
+  DEFAULT_GAMER_NAME,
+  DEFAULT_SECOND_GAMER_NAME,
+  NOTIFY_TYPES,
+  PLAYERS_ID,
+  DEFAULT_LANG,
+  Theme,
+} from '@constants';
 import { ButtonToggle } from '@components';
 import { User } from './User/User';
+import { setDefSettingsToStorage } from '../../utils/setDefSettingsToStorage';
+import { setNameUserToStorage } from '../../utils/setNameUserToStorage';
+import { setParamToStorage } from '../../utils/setParamToStorage';
 import './settings.scss';
 
 export const Settings = (): JSX.Element => {
-  // const DEFAULT_LANG = 'en';
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
-  // const setLang = (lang: string) => dispatch(setLanguage(lang));
-  const setSett = (sett: ISettingsPage) => dispatch(setSettings(sett));
 
-  // const soundInitial = useSelector((state: IAppState) => state.settings.isSoundOn);
+  const setFirst = (gamer: string) => dispatch(setFirstGamer(gamer));
+  const setSecond = (gamer: string) => dispatch(setSecondGamer(gamer));
+  const setIsLang = (lang: string) => dispatch(setLanguage(lang));
+  const setIsSoundOn = (sound: boolean) => dispatch(setSound(sound));
+  const setIsMusicOn = (music: boolean) => dispatch(setMusic(music));
+
   const firstUserInitial = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.FIRST_GAMER_ID]);
   const secondUserInitial = useSelector((state: IAppState) => state.settings.gamerNames[PLAYERS_ID.SECOND_GAMER_ID]);
+  const langInitial = useSelector((state: IAppState) => state.settings.lang);
+  const musicInitial = useSelector((state: IAppState) => state.settings.isMusicOn);
+  const soundInitial = useSelector((state: IAppState) => state.settings.isSoundOn);
   const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
-  // const langInitial = useSelector((state: IAppState) => state.settings.lang);
-
-  // const [sound, setSound] = useState<boolean>(soundInitial);
-  const [firstUser, setFirstUser] = useState<string>(firstUserInitial);
-  const [secondUser, setSecondUser] = useState<string>(secondUserInitial);
-  // const [theme, setTheme] = useState<boolean>(themeInitial === 'light');
-  // const [newLang, setNewLang] = useState<string>(langInitial);
-
-  useEffect(() => {
-    // setSound(soundInitial);
-    setFirstUser(firstUserInitial);
-    setSecondUser(secondUserInitial);
-    // setTheme(themeInitial === 'light');
-    // setNewLang(langInitial);
-  }, [
-    // soundInitial,
-    firstUserInitial,
-    secondUserInitial,
-    themeInitial,
-    // langInitial,
-  ]);
+  const [isFirstName, setFirstName] = useState<string>(firstUserInitial);
+  const [isSecondName, setSecondName] = useState<string>(secondUserInitial);
 
   const onChangeTheme = useCallback(() => {
     if (themeInitial === Theme.light) {
       dispatch(setTheme(Theme.dark));
+      setParamToStorage('currentTheme', Theme.dark);
     } else {
       dispatch(setTheme(Theme.light));
+      setParamToStorage('currentTheme', Theme.light);
     }
   }, [themeInitial, dispatch]);
 
   const isLightTheme = useMemo(() => themeInitial === Theme.light, [themeInitial]);
 
-  // const changeLanguage = (lng: string | null) => {
-  //   setNewLang(lng ?? DEFAULT_LANG);
-  //   setLang(lng ?? DEFAULT_LANG);
-  // };
-  // const DROPDOWN_TITLES = React.useMemo(
-  //   () => ({
-  //     translations: t('dropdown.titles.language'),
-  //   }),
-  //   [t],
-  // );
+  const isDefaultSettings =
+    langInitial !== DEFAULT_LANG ||
+    musicInitial !== true ||
+    soundInitial !== true ||
+    firstUserInitial !== DEFAULT_GAMER_NAME ||
+    secondUserInitial !== DEFAULT_SECOND_GAMER_NAME ||
+    themeInitial !== 'light';
+
   return (
     <div className="settings settings-light">
-      {/* <div className="sound">
-        <div className="soundText">{t('settingPage.sound')}</div>
-        <ButtonToggle
-          param={sound}
-          classBtn="sound-btn"
-          variant={NOTIFY_TYPES.secondary}
-          first={t('settingPage.soundOn')}
-          second={t('settingPage.soundOff')}
-          onClick={setSound}
-        />
-      </div> */}
-      <User userName={firstUser} setUserName={setFirstUser} userText={t('settingPage.firstUser')} />
-      <User userName={secondUser} setUserName={setSecondUser} userText={t('settingPage.secondUser')} />
+      <User
+        id={PLAYERS_ID.FIRST_GAMER_ID}
+        userName={firstUserInitial}
+        setUserName={setFirst}
+        localUserName={isFirstName}
+        setLocalUserName={setFirstName}
+        userText={t('settingPage.firstUser')}
+        changeLocalStarageName={setNameUserToStorage}
+      />
+      <User
+        id={PLAYERS_ID.SECOND_GAMER_ID}
+        userName={secondUserInitial}
+        setUserName={setSecond}
+        localUserName={isSecondName}
+        setLocalUserName={setSecondName}
+        userText={t('settingPage.secondUser')}
+        changeLocalStarageName={setNameUserToStorage}
+      />
 
       <div className="theme">
         <div className="themeText">{t('settingPage.theme')}</div>
@@ -91,58 +91,25 @@ export const Settings = (): JSX.Element => {
         />
       </div>
 
-      {/* <div className="lang">
-        <div className="langText">{t('settingPage.language')}:</div>
-      </div> */}
       <div className="btn-save">
-        <Button
-          variant={NOTIFY_TYPES.success}
-          size="sm"
-          onClick={() => {
-            setSett({
-              // lang: langInitial,
-              // isSoundOn: soundInitial,
-              gamerNames: [
-                firstUser === '' ? DEFAULT_GAMER_NAME : firstUser,
-                secondUser === '' ? DEFAULT_SECOND_GAMER_NAME : secondUser,
-              ],
-              currentTheme: isLightTheme ? t('settingPage.light') : t('settingPage.dark'),
-            });
-            // i18n.changeLanguage(newLang);
-          }}
-        >
-          {t('settingPage.save')}
-        </Button>
         <Button
           variant={NOTIFY_TYPES.error}
           size="sm"
-          disabled={
-            // newLang === DEFAULT_LANG &&
-            // sound &&
-            firstUser === DEFAULT_GAMER_NAME && secondUser === DEFAULT_SECOND_GAMER_NAME && isLightTheme
-          }
+          disabled={!isDefaultSettings}
           onClick={() => {
-            if (firstUser !== DEFAULT_GAMER_NAME || secondUser !== DEFAULT_SECOND_GAMER_NAME || !isLightTheme) {
-              // setSound(soundInitial);
-              setFirstUser(firstUserInitial);
-              setSecondUser(secondUserInitial);
-              // setTheme(themeInitial === 'light');
-              // setNewLang(langInitial);
-            }
-            if (
-              // soundInitial !== true ||
-              firstUserInitial !== DEFAULT_GAMER_NAME ||
-              secondUserInitial !== DEFAULT_SECOND_GAMER_NAME ||
-              themeInitial !== 'light'
-              // langInitial !== DEFAULT_LANG
-            ) {
-              setSett({
-                // lang: langInitial,
-                // isSoundOn: soundInitial,
-                gamerNames: [DEFAULT_GAMER_NAME, DEFAULT_SECOND_GAMER_NAME],
-                currentTheme: 'light',
-              });
-              // i18n.changeLanguage(DEFAULT_LANG);
+            if (isDefaultSettings) {
+              setFirst(DEFAULT_GAMER_NAME);
+              setSecond(DEFAULT_SECOND_GAMER_NAME);
+
+              i18n.changeLanguage(DEFAULT_LANG);
+              setIsLang('English');
+              setIsSoundOn(true);
+              setIsMusicOn(true);
+              setFirstName(DEFAULT_GAMER_NAME);
+              setSecondName(DEFAULT_SECOND_GAMER_NAME);
+              dispatch(setTheme(Theme.light));
+
+              setDefSettingsToStorage();
             }
           }}
         >

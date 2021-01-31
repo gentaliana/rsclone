@@ -1,12 +1,12 @@
 import { Dispatch } from 'redux';
 import { SettingActions, Theme } from '@constants';
 import {
-  ISettingsPage,
   ISetLanguageAction,
-  ISetSettingsAction,
   ISetSoundAction,
   ISetMusicAction,
   ISetThemeAction,
+  ISetFristGamer,
+  ISetSecondGamer,
 } from '@types';
 
 /* eslint-disable implicit-arrow-linebreak */
@@ -22,5 +22,8 @@ export const setSound = (payload: boolean) => (dispatch: Dispatch): ISetSoundAct
 export const setMusic = (payload: boolean) => (dispatch: Dispatch): ISetMusicAction =>
   dispatch({ type: SettingActions.SET_MUSIC, payload });
 
-export const setSettings = (payload: ISettingsPage) => (dispatch: Dispatch): ISetSettingsAction =>
-  dispatch({ type: SettingActions.SET_SETTINGS, payload });
+export const setFirstGamer = (payload: string) => (dispatch: Dispatch): ISetFristGamer =>
+  dispatch({ type: SettingActions.SET_FIRSTGAMER, payload });
+
+export const setSecondGamer = (payload: string) => (dispatch: Dispatch): ISetSecondGamer =>
+  dispatch({ type: SettingActions.SET_SECONDGAMER, payload });

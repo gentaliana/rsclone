@@ -9,6 +9,7 @@ import { AudioPlayer } from '@components';
 import { Navbar, Nav, NavDropdown, Container, Modal } from 'react-bootstrap';
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill, BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { SelectOption } from '../selectOption';
+import { setParamToStorage } from '../../utils/setParamToStorage';
 import './menu.scss';
 
 export const Menu = (): JSX.Element => {
@@ -23,6 +24,7 @@ export const Menu = (): JSX.Element => {
     const langEnum = Languages[lang as keyof typeof Languages];
     const setGameSettings = (lngToSet: string) => dispatch(setLanguage(lngToSet));
     setGameSettings(langEnum);
+    setParamToStorage('lang', lang);
   };
 
   const DROPDOWN_TITLES = useMemo(
@@ -71,14 +73,42 @@ export const Menu = (): JSX.Element => {
             <Nav.Item className={themeChange} onClick={() => setIsSound(!isSoundOn)} title={t('menu.sound')}>
               <span className="menu__sound-text">{t('menu.sound')}</span>
               {isSoundOn ? (
-                <BsFillVolumeUpFill className="menu__sound" />
+                <BsFillVolumeUpFill
+                  className="menu__sound"
+                  onClick={() => {
+                    setParamToStorage('isSoundOn', !isSoundOn);
+                    setIsSound(!isSoundOn);
+                  }}
+                />
               ) : (
-                <BsFillVolumeMuteFill className="menu__sound" />
+                <BsFillVolumeMuteFill
+                  className="menu__sound"
+                  onClick={() => {
+                    setParamToStorage('isSoundOn', !isSoundOn);
+                    setIsSound(!isSoundOn);
+                  }}
+                />
               )}
             </Nav.Item>
             <Nav.Item className={themeChange} onClick={() => setIsMusic(!isMusicOn)} title={t('menu.music')}>
               <span className="menu__music-text">{t('menu.music')}</span>
-              {isMusicOn ? <BsFillPauseFill className="menu__music" /> : <BsFillPlayFill className="menu__music" />}
+              {isMusicOn ? (
+                <BsFillPlayFill
+                  className="menu__music"
+                  onClick={() => {
+                    setIsMusic(!isMusicOn);
+                    setParamToStorage('isMusicOn', !isMusicOn);
+                  }}
+                />
+              ) : (
+                <BsFillPauseFill
+                  className="menu__music"
+                  onClick={() => {
+                    setIsMusic(!isMusicOn);
+                    setParamToStorage('isMusicOn', !isMusicOn);
+                  }}
+                />
+              )}
               <AudioPlayer format={['mp3']} autoplay loop isMute={!isMusicOn} />
             </Nav.Item>
           </div>

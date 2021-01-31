@@ -47,6 +47,24 @@
   }
 }
 
+@media (max-width: 450px) {
+  .sound__text,
+  .music__text {
+    display: none;
+  }
+
+  .menu__sound,
+  .menu__music {
+    padding-left: 0;
+    font-size: 1.1rem;
+  }
+}
+
+.sound__text,
+.music__text {
+  font-size: 1.2em;
+}
+
 .navbar {
   z-index: 1;
 }

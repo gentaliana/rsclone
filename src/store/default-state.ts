@@ -33,11 +33,20 @@ export const defaultState: IAppState = {
   },
 
   settings: {
-    lang: DEFAULT_LANG,
-    isSoundOn: true,
-    isMusicOn: true,
-    gamerNames: [DEFAULT_GAMER_NAME, DEFAULT_SECOND_GAMER_NAME],
-    currentTheme: DEFAULT_THEME,
+    lang: JSON.parse(localStorage.getItem('settings') || '{}').lang || DEFAULT_LANG,
+    isSoundOn:
+      JSON.parse(localStorage.getItem('settings') || '{}') !== null
+        ? JSON.parse(localStorage.getItem('settings') || '{}').isSoundOn
+        : true,
+    isMusicOn:
+      JSON.parse(localStorage.getItem('settings') || '{}') !== null
+        ? JSON.parse(localStorage.getItem('settings') || '{}').isMusicOn
+        : true,
+    gamerNames: JSON.parse(localStorage.getItem('settings') || '{}').gamerNames || [
+      DEFAULT_GAMER_NAME,
+      DEFAULT_SECOND_GAMER_NAME,
+    ],
+    currentTheme: JSON.parse(localStorage.getItem('settings') || '{}').currentTheme || DEFAULT_THEME,
   },
 
   rating: {

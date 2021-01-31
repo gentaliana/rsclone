@@ -1,9 +1,9 @@
 import { SettingActions, GameActions, AlertActions, ModalActions } from '@constants';
-import { ISettingsPage, IGameState, INotify, IModal } from '@types';
+import { ISettingsState, IGameState, INotify, IModal } from '@types';
 
 export interface ISetSettingsAction {
   type: typeof SettingActions.SET_SETTINGS;
-  payload: ISettingsPage;
+  payload: ISettingsState;
 }
 
 export interface ISetLanguageAction {
@@ -18,6 +18,16 @@ export interface ISetThemeAction {
 export interface ISetSoundAction {
   type: typeof SettingActions.SET_SOUND;
   payload: boolean;
+}
+
+export interface ISetFristGamer {
+  type: typeof SettingActions.SET_FIRSTGAMER;
+  payload: string;
+}
+
+export interface ISetSecondGamer {
+  type: typeof SettingActions.SET_SECONDGAMER;
+  payload: string;
 }
 
 export interface ISetMusicAction {

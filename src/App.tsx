@@ -5,6 +5,7 @@ import { Home, NotFound, SetGame, Game, Rating, Settings, About, Auth } from '@p
 import { Header, Footer, Alerts } from '@components';
 import { routes, Theme } from '@constants';
 import { IAppState } from '@types';
+import { setDefSettingsToStorage } from './utils/setDefSettingsToStorage';
 import './App.scss';
 
 function App(): JSX.Element {
@@ -15,6 +16,10 @@ function App(): JSX.Element {
     () => `background ${themeInitial === Theme.light ? 'background_light' : 'background_dark'}`,
     [themeInitial],
   );
+
+  if (localStorage.getItem('settings') === null) {
+    setDefSettingsToStorage();
+  }
 
   return (
     <div className={themeChange}>

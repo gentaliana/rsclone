@@ -45,6 +45,8 @@
 - Добавлен Белорусский язык в папке locales/be (https://github.com/gentaliana/rsclone/issues/124)
 - Респонсив футера для маленьких экранов (https://github.com/gentaliana/rsclone/issues/157)
 - При нажатии на имя игрока в моб версии - список его слов (https://github.com/gentaliana/rsclone/issues/122)
+- ограничение на ввод слишком длинных имен/ обработка (https://github.com/gentaliana/rsclone/issues/100)
+- сохранение настроек в localStorage (https://github.com/gentaliana/rsclone/issues/9)
 
 ### Fix
 
@@ -55,3 +57,4 @@
 - Исправлена ошибка при изменении нового игрового поля (https://github.com/gentaliana/rsclone/issues/151)
 - Исправлено, нельзя начать игру до генерации случайного слова (https://github.com/gentaliana/rsclone/issues/144)
 - Исправить баги в меню (Проблема c z-index на странице с игрой) (https://github.com/gentaliana/rsclone/issues/135)
+- Исправлена верстка в странице настроек (https://github.com/gentaliana/rsclone/issues/170)

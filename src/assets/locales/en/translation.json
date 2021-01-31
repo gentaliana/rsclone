@@ -67,14 +67,16 @@
   "settingPage": {
     "soundOn": "sound on",
     "soundOff": "sound off",
-    "firstUser": "First user name",
-    "secondUser": "Second user name",
+    "firstUser": "First gamer name",
+    "secondUser": "Second gamer name",
     "theme": "Theme",
     "language": "Language",
     "light": "light",
     "dark": "dark",
     "save": "save settings",
-    "unsave": "default settings"
+    "unsave": "default settings",
+    "maxLength": "Max length is 10 symbols",
+    "enterName": "Please, enter gamer name. Your last name "
   },
   "raiting": {
     "place": "Place",

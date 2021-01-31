@@ -47,6 +47,10 @@
 - При нажатии на имя игрока в моб версии - список его слов (https://github.com/gentaliana/rsclone/issues/122)
 - ограничение на ввод слишком длинных имен/ обработка (https://github.com/gentaliana/rsclone/issues/100)
 - сохранение настроек в localStorage (https://github.com/gentaliana/rsclone/issues/9)
+- Добавлено скрытие меню на маленьких экранах при клике по пункту меню и вне его (https://github.com/gentaliana/rsclone/issues/164)
+- Описание слова показывается на маленьком разрешении в всплывающем окне (https://github.com/gentaliana/rsclone/issues/173)
+- Добавлена логика бота на фронте (https://github.com/gentaliana/rsclone/issues/22)
+- Добавлен эндпоинт для получения слова бота (https://github.com/gentaliana/rsclone/issues/22)
 
 ### Fix
 
@@ -58,3 +62,4 @@
 - Исправлено, нельзя начать игру до генерации случайного слова (https://github.com/gentaliana/rsclone/issues/144)
 - Исправить баги в меню (Проблема c z-index на странице с игрой) (https://github.com/gentaliana/rsclone/issues/135)
 - Исправлена верстка в странице настроек (https://github.com/gentaliana/rsclone/issues/170)
+- Исправить. Нельзя вводить букву если рядом (слева или справа или снизу или сверху) нету буквы (https://github.com/gentaliana/rsclone/issues/141)

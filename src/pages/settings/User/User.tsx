@@ -29,7 +29,7 @@ export const User = (props: UserProps): JSX.Element => {
   return (
     <div className="user">
       <div className="userText">{userText}</div>
-      <div>
+      <div className="userInputName">
         <TextInput
           placeholder="Enter yor name"
           value={localUserName}

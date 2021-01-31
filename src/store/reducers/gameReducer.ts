@@ -18,20 +18,38 @@ export function game(state: IGameState = defaultState.game, action: AnyAction): 
       };
     }
 
-    case GameActions.NEXT_TURN: {
+    case GameActions.SET_NEXT_TURN: {
+      if (state.playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
+        return {
+          ...state,
+          playerTurnId: PLAYERS_ID.SECOND_GAMER_ID,
+        };
+      }
+      return {
+        ...state,
+        playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
+      };
+    }
+
+    case GameActions.SET_PENALTY_POINTS: {
       if (state.playerTurnId === PLAYERS_ID.FIRST_GAMER_ID) {
         const newPenalties = state.player1.penalties + 1;
         return {
           ...state,
           player1: { ...state.player1, penalties: newPenalties },
-          playerTurnId: PLAYERS_ID.SECOND_GAMER_ID,
         };
       }
       const newPenalties = state.player2.penalties + 1;
       return {
         ...state,
         player2: { ...state.player2, penalties: newPenalties },
-        playerTurnId: PLAYERS_ID.FIRST_GAMER_ID,
+      };
+    }
+
+    case GameActions.SET_WINNER: {
+      return {
+        ...state,
+        ...payload,
       };
     }
 

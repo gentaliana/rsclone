@@ -63,3 +63,7 @@
 - Исправить баги в меню (Проблема c z-index на странице с игрой) (https://github.com/gentaliana/rsclone/issues/135)
 - Исправлена верстка в странице настроек (https://github.com/gentaliana/rsclone/issues/170)
 - Исправить. Нельзя вводить букву если рядом (слева или справа или снизу или сверху) нету буквы (https://github.com/gentaliana/rsclone/issues/141)
+
+### Docs
+
+- Добавлена инструкция по запуску front-end (https://github.com/gentaliana/rsclone/issues/168)

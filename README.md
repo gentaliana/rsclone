@@ -1,8 +1,10 @@
-# RS Clone
+# RS Clone - Word game 'Balda'
 
-## Final project of the RS School course
+It's RS School Final Project.
 
-### https://github.com/rolling-scopes-school/tasks/blob/master/tasks/rsclone/rsclone.md
+Task description could be found here
+
+https://github.com/rolling-scopes-school/tasks/blob/master/tasks/rsclone/rsclone.md
 
 ## Deploy
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './keyboard.scss';
 import { Sound } from '@components';
-import { getLangLetters } from '@constants';
+import { getLangLetters, Languages, DEFAULT_LANG_GAME } from '@constants';
 import { IKeyboardLang, IAppState } from '@types';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
@@ -14,9 +14,10 @@ type KeyboardProps = {
 };
 
 export const Keyboard = ({ setCurrentLetter, isKeyboardHidden, handleHideKeyboard }: KeyboardProps): JSX.Element => {
-  const lang = useSelector((state: IAppState) => state.settings.lang);
+  const { lang } = JSON.parse(localStorage.getItem('settings') || DEFAULT_LANG_GAME);
+  const langEnum = Languages[lang as keyof typeof Languages];
   const isSoundMuteOn = useSelector((state: IAppState) => state.settings.isSoundOn);
-  const currLetters = getLangLetters(lang);
+  const currLetters = getLangLetters(langEnum);
 
   const { t } = useTranslation();
 

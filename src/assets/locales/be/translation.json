@@ -53,7 +53,7 @@
     "mustContain": "У слове павінна быць уведзеная літара!",
     "tooShort": "Введена только одна буква!",
     "notChoose": "Ўведзена толькі адна літара",
-    "notInDictionary": "{currWord}} не знойдзена ў слоўніку!",
+    "notInDictionary": "{{currWord}} не знойдзена ў слоўніку!",
     "tryAgain": "Паспрабуйце яшчэ",
     "acceptedFrom": "Прынята ад {{curGamerName}} : {{currWord}}",
     "points": "ачкоў: +{{points}}",

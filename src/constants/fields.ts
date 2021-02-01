@@ -21,4 +21,5 @@ export const MOBILE_WINDOW_SIZE = 590;
 export const TABLET_WORDS_SIZE = 1000;
 export const MAX_DESCRIPTION_LENGTH = '3.';
 export const MAX_PENALTY = 2;
+export const MIN_DESCRIPTION = 5;
 export const FIRST_WORDS = ['bar', 'time', 'board', 'aikido', 'barista', 'bookshop', 'buckboard'];

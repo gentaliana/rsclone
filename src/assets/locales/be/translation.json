@@ -55,13 +55,15 @@
     "notChoose": "Ўведзена толькі адна літара",
     "notInDictionary": "{currWord}} не знойдзена ў слоўніку!",
     "tryAgain": "Паспрабуйце яшчэ",
-    "acceptedFrom": "Прынята ад {{curGamerName}} : {currWord}}",
+    "acceptedFrom": "Прынята ад {{curGamerName}} : {{currWord}}",
     "points": "ачкоў: +{{points}}",
     "enterLetter": "Калі ласка, увядзіце літару",
     "gameEnded": "Гульня скончана!",
     "playAgain": "Гуляем зноў?",
     "return": "Не, вярнуцца ў гульню",
-    "yes": "Да!"
+    "yes": "Да!",
+    "noWords": "Слоў пакуль няма",
+    "noDesc": "Для слова няма апісання"
   },
   "settingPage": {
     "sound": "Гук",

@@ -128,7 +128,7 @@ export const SetGame = (): JSX.Element => {
           <Form.Control type="number" defaultValue={game.time} min="0" max="10" name="time" />
         </Form.Group>
         <Button variant="primary" type="submit" disabled={isWordFetching}>
-          {t('game.start')}
+          {isWordFetching ? t('game.load') : t('game.start')}
         </Button>
       </Form>
     </div>

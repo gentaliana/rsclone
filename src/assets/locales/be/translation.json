@@ -44,6 +44,7 @@
   },
   "game": {
     "start": "Пачаць",
+    "load": "Loading",
     "gameStarted": "Гульня пачалася",
     "youWon": "Вы перамагли",
     "youLose": "Вы прайгралі",

@@ -19,6 +19,6 @@ export const getLangLetters = (language: string): KeyboardKey[][] => {
       return BE_LETTERS;
 
     default:
-      return RU_LETTERS;
+      return EN_LETTERS;
   }
 };

@@ -5,3 +5,4 @@ export enum Languages {
 }
 
 export const DEFAULT_LANG = Languages.en;
+export const DEFAULT_LANG_GAME = 'en';

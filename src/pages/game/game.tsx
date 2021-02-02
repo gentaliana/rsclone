@@ -10,6 +10,7 @@ import {
   PLAYERS_ID,
   MAX_DESCRIPTION_LENGTH,
   MAX_PENALTY,
+  MIN_DESCRIPTION,
 } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
@@ -141,7 +142,12 @@ export const Game = (): JSX.Element => {
 
   const updatePoints = (winWord: string, description: string) => {
     const numberOfPoints = winWord.length;
-    const descriptionShort = description.split(MAX_DESCRIPTION_LENGTH)[0];
+    let descriptionShort = description.split(MAX_DESCRIPTION_LENGTH)[0];
+
+    if (descriptionShort.length < MIN_DESCRIPTION) {
+      const textNoDesc = t('game.noDesc');
+      descriptionShort = textNoDesc;
+    }
 
     if (isFirstPlayerTurn) {
       firstPlayerPoints += numberOfPoints;

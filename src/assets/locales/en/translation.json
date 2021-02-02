@@ -44,6 +44,7 @@
   },
   "game": {
     "start": "Start",
+    "load": "Loading",
     "gameStarted": "Game started",
     "youWon": "You won",
     "youLose": "You lose",
@@ -62,7 +63,8 @@
     "playAgain": "Ready to play again?",
     "return": "No, return to game",
     "yes": "Yes!",
-    "noWords": "No words yet!"
+    "noWords": "No words yet!",
+    "noDesc": "No description for this word"
   },
   "settingPage": {
     "soundOn": "sound on",

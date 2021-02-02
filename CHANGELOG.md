@@ -64,3 +64,9 @@
 - Исправлена, верстка в странице настроек (https://github.com/gentaliana/rsclone/issues/170)
 - Исправлено. Нельзя вводить букву если рядом (слева или справа или снизу или сверху) нету буквы (https://github.com/gentaliana/rsclone/issues/141)
 - Исправлено, при наведении на таблицу в темной теме не видно букв (https://github.com/gentaliana/rsclone/issues/187)
+- Исправлено. При ожидании слова добавлен лоадер на кнопку Старт (https://github.com/gentaliana/rsclone/issues/189)
+- язык клавитуры не меняется при загрузке с local storage (https://github.com/gentaliana/rsclone/issues/183)
+
+### Docs
+
+- Добавлена инструкция по запуску front-end (https://github.com/gentaliana/rsclone/issues/168)

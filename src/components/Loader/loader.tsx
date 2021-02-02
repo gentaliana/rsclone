@@ -6,10 +6,9 @@ interface ILoaderProps {
   className?: string;
 }
 
-export const Loader = (props: ILoaderProps): JSX.Element => {
-  const { color, className } = props;
-  return <Spinner animation="border" role="status" variant={color} className={className} />;
-};
+export const Loader = ({ color, className }: ILoaderProps): JSX.Element => (
+  <Spinner animation="border" role="status" variant={color} className={className} />
+);
 
 Loader.defaultProps = {
   color: '',

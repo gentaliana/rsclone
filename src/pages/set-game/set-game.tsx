@@ -5,20 +5,11 @@ import Form from 'react-bootstrap/esm/Form';
 import { useSelector, useDispatch } from 'react-redux';
 import { IAppState, IGameState } from '@types';
 import { Redirect } from 'react-router-dom';
-import {
-  Api,
-  Languages,
-  NOTIFY_TYPES,
-  routes,
-  sizes,
-  FIRST_WORDS,
-  DEFAULT_FIELD_SIZE,
-  PLAYERS_ID,
-  SecondPlayer,
-} from '@constants';
+import { Api, Languages, NOTIFY_TYPES, routes, sizes, FIRST_WORDS, PLAYERS_ID, SecondPlayer } from '@constants';
 import { setGame, setNotify } from '@store';
 import { RadioGroup } from '@components';
 import { useApi } from '@hooks';
+import { Loader } from 'src/components/Loader';
 import './set-game.scss';
 
 export const SetGame = (): JSX.Element => {
@@ -26,7 +17,7 @@ export const SetGame = (): JSX.Element => {
   const lang = useSelector((state: IAppState) => state.settings.lang);
   const game = useSelector((state: IAppState) => state.game);
   const [isFormSubmit, setFormSubmit] = React.useState(false);
-  const [fieldSize, setFieldSize] = React.useState<number>(DEFAULT_FIELD_SIZE);
+  const [fieldSize, setFieldSize] = React.useState<number>(game.fieldSize);
   const [firstGameWord, setFirstGameWord] = React.useState(FIRST_WORDS[fieldSize]);
   const [secondPlayer, setSecondPlayer] = React.useState<string>(SecondPlayer.human);
   const [isWordFetching, setIsWordFetching] = React.useState<boolean>(false);
@@ -83,6 +74,20 @@ export const SetGame = (): JSX.Element => {
     setFormSubmit(true);
   };
 
+  const fieldSizeArray = React.useMemo(
+    () =>
+      sizes.map((size) => {
+        const isCurrentSize = game.fieldSize === size;
+        return {
+          id: `fieldSize-${size}`,
+          label: `${size}`,
+          value: `${size}`,
+          defaultChecked: isCurrentSize,
+        };
+      }),
+    [game],
+  );
+
   return (
     <div className="set-game">
       {isFormSubmit && <Redirect to={routes.GAME} />}
@@ -91,20 +96,14 @@ export const SetGame = (): JSX.Element => {
           controlId="fieldSize"
           groupLabel={t('settings.field-size')}
           name="fieldSize"
-          items={sizes.map((size) => {
-            const isCurrentSize = game.fieldSize === size;
-            return {
-              id: `fieldSize-${size}`,
-              label: `${size}`,
-              value: `${size}`,
-              defaultChecked: isCurrentSize,
-            };
-          })}
+          items={fieldSizeArray}
           onChange={(value) => setFieldSize(Number(value))}
+          disabled={isWordFetching}
         />
 
         <RadioGroup
           controlId="secondPlayer"
+          disabled={isWordFetching}
           groupLabel={t('settings.second-player')}
           name="secondPlayer"
           items={[
@@ -130,6 +129,7 @@ export const SetGame = (): JSX.Element => {
         <Button variant="primary" type="submit" disabled={isWordFetching}>
           {isWordFetching ? t('game.load') : t('game.start')}
         </Button>
+        {isWordFetching && <Loader className="set-game__loader" />}
       </Form>
     </div>
   );

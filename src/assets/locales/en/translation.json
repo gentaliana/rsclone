@@ -51,6 +51,7 @@
     "nameWon": "{{winnerName}} won",
     "usedWordFirst": "{{firstGamerName}} has already used this word in the game!",
     "usedWordSecond": "{{secondGamerName}} has already used this word in the game!",
+    "usedFirstWord": "The first word cannot be used",
     "mustContain": "Word must contain entered letter!",
     "tooShort": "Only one letter selected!",
     "notChoose": "You did not choose any letter",

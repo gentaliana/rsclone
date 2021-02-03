@@ -200,18 +200,25 @@ export const Game = (): JSX.Element => {
   const checkUsedWord = (wordObj: Array<IWordState>, wordToCheck: string) =>
     wordObj.filter((el) => el.word === wordToCheck).length !== 0;
 
+  const checkFirstWord = (wordToCheck: string) => firstWord === wordToCheck.toLowerCase();
+
   const validateSubmit = (): [string, boolean] | null => {
     if (currWord.length === 0) return [t('game.notChoose'), false];
     if (currWord.length === 1) return [t('game.tooShort'), true];
     if (selectedCell !== null && !idsOfChosenLetters.includes(selectedCell)) {
       return [t('game.mustContain'), true];
     }
+
     if (checkUsedWord(game.player1.playerWords, currWord)) {
       return [t('game.usedWordFirst', { firstGamerName }), true];
     }
     if (checkUsedWord(game.player2.playerWords, currWord)) {
       return [t('game.usedWordSecond', { secondGamerName }), true];
     }
+    if (checkFirstWord(currWord)) {
+      return [t('game.usedFirstWord'), true];
+    }
+
     return null;
   };
 
@@ -270,7 +277,7 @@ export const Game = (): JSX.Element => {
       const { url: urlBot, method: methodBot, body } = Api.BOT;
       setIsFreezed(true);
       const used = game.player1.playerWords.concat(game.player2.playerWords).map((el) => el.word);
-      const data = await request(urlBot(language || lang), methodBot, body(cells, used));
+      const data = await request(urlBot(language || lang), methodBot, body(cells, [...used, firstWord]));
       const newCells = setLetterInCells(data.character.toUpperCase(), Number(data.index));
       resetTimer();
       showAnimationMsg(t('game.points', { points: data.word.length }), NOTIFY_COLORS.info);

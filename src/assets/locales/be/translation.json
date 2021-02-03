@@ -51,6 +51,7 @@
     "nameWon": "{{winnerName}} перамог",
     "usedWordFirst": "{{firstGamerName}} ўжо выкарыстаў гэтае слова ў гульні!",
     "usedWordSecond": "{{secondGamerName}} ўжо выкарыстаў гэтае слова ў гульні!",
+    "usedFirstWord": "Першае слова выкарыстоўваць нельга",
     "mustContain": "У слове павінна быць уведзеная літара!",
     "tooShort": "Введена только одна буква!",
     "notChoose": "Ўведзена толькі адна літара",

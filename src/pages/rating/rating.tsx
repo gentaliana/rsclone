@@ -67,7 +67,7 @@ export const Rating = (): JSX.Element => {
     renderTabs = (
       <Tabs defaultActiveKey={defaultActiveKey || 'fieldSize-3'} id="rating-tab">
         {ratingKeys.map((fieldSize: string) => (
-          <Tab eventKey={`fieldSize-${fieldSize}`} title={fieldSize}>
+          <Tab eventKey={`fieldSize-${fieldSize}`} title={`${fieldSize}x${fieldSize}`}>
             <TableWithPaginator
               data={rating[fieldSize] as DataType[]}
               pageSize={10}

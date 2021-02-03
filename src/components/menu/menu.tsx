@@ -7,13 +7,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IAppState } from '@types';
 import { AudioPlayer } from '@components';
 import { Navbar, Nav, NavDropdown, Container, Modal } from 'react-bootstrap';
-import { BsFillVolumeUpFill, BsFillVolumeMuteFill, BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
+import {
+  BsFillVolumeUpFill,
+  BsFillVolumeMuteFill,
+  BsFillPlayFill,
+  BsFillPauseFill,
+  BsPersonFill,
+  BsUnlockFill,
+} from 'react-icons/bs';
+import { useAuth } from '@hooks';
 import { SelectOption } from '../selectOption';
 import { setParamToStorage } from '../../utils/setParamToStorage';
 import './menu.scss';
 
 export const Menu = (): JSX.Element => {
   const dispatch = useDispatch();
+  const { token, userId } = useAuth();
   const { i18n, t } = useTranslation();
 
   const [expanded, setExpanded] = React.useState(false);
@@ -158,6 +167,14 @@ export const Menu = (): JSX.Element => {
                 onClick={handleClose}
               >
                 {t('menu.about')}
+              </NavLink>
+              <NavLink
+                className={themeChange}
+                to={token ? `${routes.USER.replace(':name', userId || '')}` : routes.AUTH}
+                activeClassName={themeActiveLink}
+                onClick={handleClose}
+              >
+                {token ? <BsPersonFill /> : <BsUnlockFill />}
               </NavLink>
             </Nav>
           </Navbar.Collapse>

@@ -7,6 +7,16 @@
   &-dark {
     table {
       color: hsl(0, 0%, 100%) !important;
+
+      tbody {
+        tr {
+          transition: color 0.3s;
+        }
+
+        tr:hover {
+          color: hsl(0, 98%, 51%);
+        }
+      }
     }
   }
 }

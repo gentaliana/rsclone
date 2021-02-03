@@ -51,6 +51,8 @@
 - Описание слова показывается на маленьком разрешении в всплывающем окне (https://github.com/gentaliana/rsclone/issues/173)
 - Добавлена логика бота на фронте (https://github.com/gentaliana/rsclone/issues/22)
 - Добавлен эндпоинт для получения слова бота (https://github.com/gentaliana/rsclone/issues/22)
+- Добавлена страница пользователя с его настройками и играми (https://github.com/gentaliana/rsclone/issues/57)
+- Добавлены эндпоинты для получения данных пользователя и сохранения игры (https://github.com/gentaliana/rsclone/issues/57)
 
 ### Fix
 
@@ -60,9 +62,11 @@
 - Убрано слово First Word на странице игры (https://github.com/gentaliana/rsclone/issues/108)
 - Исправлена ошибка при изменении нового игрового поля (https://github.com/gentaliana/rsclone/issues/151)
 - Исправлено, нельзя начать игру до генерации случайного слова (https://github.com/gentaliana/rsclone/issues/144)
-- Исправить баги в меню (Проблема c z-index на странице с игрой) (https://github.com/gentaliana/rsclone/issues/135)
-- Исправлена верстка в странице настроек (https://github.com/gentaliana/rsclone/issues/170)
-- Исправить. Нельзя вводить букву если рядом (слева или справа или снизу или сверху) нету буквы (https://github.com/gentaliana/rsclone/issues/141)
+- Исправлено, баги в меню (Проблема c z-index на странице с игрой) (https://github.com/gentaliana/rsclone/issues/135)
+- Исправлена, верстка в странице настроек (https://github.com/gentaliana/rsclone/issues/170)
+- Исправлено. Нельзя вводить букву если рядом (слева или справа или снизу или сверху) нету буквы (https://github.com/gentaliana/rsclone/issues/141)
+- Исправлено, при наведении на таблицу в темной теме не видно букв (https://github.com/gentaliana/rsclone/issues/187)
+- Исправлено. При ожидании слова добавлен лоадер на кнопку Старт (https://github.com/gentaliana/rsclone/issues/189)
 - язык клавитуры не меняется при загрузке с local storage (https://github.com/gentaliana/rsclone/issues/183)
 
 ### Docs

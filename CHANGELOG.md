@@ -74,9 +74,8 @@
 - Исправлено, при наведении на таблицу в темной теме не видно букв (https://github.com/gentaliana/rsclone/issues/187)
 - Исправлено. При ожидании слова добавлен лоадер на кнопку Старт (https://github.com/gentaliana/rsclone/issues/189)
 - язык клавитуры не меняется при загрузке с local storage (https://github.com/gentaliana/rsclone/issues/183)
-- Исправлено. Дизайн страницы аутентификации (https://github.com/gentaliana/rsclone/issues/98)
 - исправлена фоновая картинка (https://github.com/gentaliana/rsclone/issues/191)
-
+- Исправить. При начальной загрузке звук отключен, в isSound приходит undefined. Перед данные инициализационные локал сторэджа не сохраненны (https://github.com/gentaliana/rsclone/issues/201)
 
 ### Docs
 

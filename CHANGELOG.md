@@ -51,6 +51,7 @@
 - Описание слова показывается на маленьком разрешении в всплывающем окне (https://github.com/gentaliana/rsclone/issues/173)
 - Добавлена логика бота на фронте (https://github.com/gentaliana/rsclone/issues/22)
 - Добавлен эндпоинт для получения слова бота (https://github.com/gentaliana/rsclone/issues/22)
+- Добавлен перевод таблицы рейтинга на белорусский (https://github.com/gentaliana/rsclone/issues/174)
 
 ### Fix
 
@@ -63,3 +64,5 @@
 - Исправить баги в меню (Проблема c z-index на странице с игрой) (https://github.com/gentaliana/rsclone/issues/135)
 - Исправлена верстка в странице настроек (https://github.com/gentaliana/rsclone/issues/170)
 - Исправить. Нельзя вводить букву если рядом (слева или справа или снизу или сверху) нету буквы (https://github.com/gentaliana/rsclone/issues/141)
+- Исправить. Страница rating на маленьких разрешениях появляется вертикальный скролл (https://github.com/gentaliana/rsclone/issues/197)
+- Исправить. Raitting, Не работает сортировка исходя из параметров таблицы, на ru и be языках (https://github.com/gentaliana/rsclone/issues/196)

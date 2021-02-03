@@ -1,0 +1,25 @@
+.table__head {
+  font-size: 0.7rem;
+  text-align: center;
+
+  & th:not(:first-child) {
+    cursor: pointer;
+  }
+}
+
+.table__row {
+  padding: 0.4rem !important;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 420px) {
+  .table__head {
+    font-size: 0.7rem;
+  }
+
+  .table__row {
+    padding: 0.2rem !important;
+    font-size: 0.7rem;
+  }
+}

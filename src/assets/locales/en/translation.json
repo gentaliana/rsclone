@@ -82,7 +82,9 @@
     "place": "Place",
     "name": "User Name",
     "score": "Score",
-    "time": "Time"
+    "time": "Time",
+    "minutes": "min.",
+    "seconds": "sec."
   },
   "footer": {
     "by": "by"

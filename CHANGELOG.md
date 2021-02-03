@@ -76,7 +76,7 @@
 - язык клавитуры не меняется при загрузке с local storage (https://github.com/gentaliana/rsclone/issues/183)
 - Исправлено. Дизайн страницы аутентификации (https://github.com/gentaliana/rsclone/issues/98)
 - исправлена фоновая картинка (https://github.com/gentaliana/rsclone/issues/191)
-
+- исправлен рейтинг при изменении темы у зарегистрированного пользователя (https://github.com/gentaliana/rsclone/issues/202)
 
 ### Docs
 

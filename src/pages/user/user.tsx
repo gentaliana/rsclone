@@ -113,7 +113,13 @@ export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
     <div className={themeChange}>
       {loading ? <Loader className="set-game__loader" /> : renderInfo}
       {loading || (
-        <TableWithPaginator data={gameList} pageSize={10} classTable="raitingTable" classPaginator="raitingPaginator" />
+        <TableWithPaginator
+          data={gameList}
+          pageSize={10}
+          classTable="raitingTable"
+          classPaginator="raitingPaginator"
+          isPaginatorNeed
+        />
       )}
     </div>
   );

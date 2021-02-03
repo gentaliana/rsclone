@@ -19,6 +19,19 @@
       }
     }
   }
+
+  & .nav {
+    width: 100%;
+
+    a {
+      color: blue !important;
+      border-radius: 5px;
+    }
+
+    .active {
+      color: rgb(22, 22, 22) !important;
+    }
+  }
 }
 
 .raitingPaginator {

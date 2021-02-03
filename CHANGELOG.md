@@ -54,6 +54,8 @@
 - Добавлен перевод таблицы рейтинга на белорусский (https://github.com/gentaliana/rsclone/issues/174)
 - Добавлена страница пользователя с его настройками и играми (https://github.com/gentaliana/rsclone/issues/57)
 - Добавлены эндпоинты для получения данных пользователя и сохранения игры (https://github.com/gentaliana/rsclone/issues/57)
+- Добавлены эндпоинты для получения топ 10 игр (https://github.com/gentaliana/rsclone/issues/59)
+- Добавлен вывод рейтинга с бэка (https://github.com/gentaliana/rsclone/issues/59)
 
 ### Fix
 
@@ -76,6 +78,8 @@
 - язык клавитуры не меняется при загрузке с local storage (https://github.com/gentaliana/rsclone/issues/183)
 - исправлена фоновая картинка (https://github.com/gentaliana/rsclone/issues/191)
 - Исправить. При начальной загрузке звук отключен, в isSound приходит undefined. Перед данные инициализационные локал сторэджа не сохраненны (https://github.com/gentaliana/rsclone/issues/201)
+- исправлен рейтинг при изменении темы у зарегистрированного пользователя (https://github.com/gentaliana/rsclone/issues/202)
+
 
 ### Docs
 

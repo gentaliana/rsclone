@@ -88,6 +88,7 @@ export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
 
   const themeInitial = useSelector((state: IAppState) => state.settings.currentTheme);
   const themeChange = themeInitial === Theme.light ? 'raiting-light' : 'raiting-dark';
+  const themeChangeUser = themeInitial === Theme.light ? 'user-info__light' : 'user-info__dark';
 
   const { login, score, games } = userInfo;
 
@@ -103,7 +104,7 @@ export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
   }
 
   const renderInfo = userInfo ? (
-    <div className="user-info">
+    <div className={`user-info ${themeChangeUser}`}>
       <span>{`${t('game.player')}: ${login}`}</span>
       <span>{`${t('game.score')}: ${score}`}</span>
     </div>
@@ -113,7 +114,13 @@ export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
     <div className={themeChange}>
       {loading ? <Loader className="set-game__loader" /> : renderInfo}
       {loading || (
-        <TableWithPaginator data={gameList} pageSize={10} classTable="raitingTable" classPaginator="raitingPaginator" />
+        <TableWithPaginator
+          data={gameList}
+          pageSize={10}
+          classTable="raitingTable"
+          classPaginator="raitingPaginator"
+          isPaginatorNeed
+        />
       )}
     </div>
   );

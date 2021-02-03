@@ -364,12 +364,12 @@ export const Game = (): JSX.Element => {
     };
   }, []);
 
-  const finishGame = async (id: string, isBot: boolean, size: number, score: number, time: any, isWin: boolean) => {
-    const req: any = Api.SET_GAME;
+  const finishGame = async (id: string, isBot: boolean, size: number, score: number, time: number, isWin: boolean) => {
+    const { url: gUrl, method: gMethod, body: gBody } = Api.SET_GAME;
     try {
-      await request(req.url, req.method, req.body(id, isBot, size, score, time, isWin));
+      await request(gUrl, gMethod, gBody(id, isBot, size, score, time, isWin));
     } catch (e) {
-      console.log(e.message);
+      showAnimationMsg(e.message, NOTIFY_COLORS.error);
     }
   };
 

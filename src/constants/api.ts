@@ -1,4 +1,4 @@
-import { IAuthBody, IBotBody } from '@types';
+import { IAuthBody, IBotBody, ApiRequestHeaders, IGameData } from '@types';
 
 export const HOST = 'https://rsclone-backend.herokuapp.com';
 export const API_PATH = `${HOST}/api`;
@@ -39,7 +39,7 @@ export const Api = {
   GET_USER_BY_ID: {
     url: (id: string): string => `${API_USER_ENDPOINT}/${id}`,
     method: 'GET',
-    headers: (token: string | null) => ({
+    headers: (token: string | null): ApiRequestHeaders => ({
       authorization: `Bearer ${token}`,
     }),
   },
@@ -47,7 +47,7 @@ export const Api = {
   GET_USER_WITH_GAMES: {
     url: (id: string): string => `${API_USER_ENDPOINT}/${id}/games`,
     method: 'GET',
-    headers: (token: string | null) => ({
+    headers: (token: string | null): ApiRequestHeaders => ({
       authorization: `Bearer ${token}`,
     }),
   },
@@ -55,7 +55,14 @@ export const Api = {
   SET_GAME: {
     url: API_GAME_ENDPOINT,
     method: 'POST',
-    body: (userId: string, isBot: boolean, fieldSize: number, score: number, time: any, isWin: boolean): any => ({
+    body: (
+      userId: string,
+      isBot: boolean,
+      fieldSize: number,
+      score: number,
+      time: number,
+      isWin: boolean,
+    ): IGameData => ({
       userId,
       isBot,
       fieldSize,

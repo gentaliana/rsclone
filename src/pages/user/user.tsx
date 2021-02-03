@@ -1,4 +1,4 @@
-import { TableWithPaginator } from '@components';
+import { Loader, TableWithPaginator } from '@components';
 import { Api, NOTIFY_TYPES, Theme } from '@constants';
 import { useApi, useAuth } from '@hooks';
 import { setNotify } from '@store';
@@ -7,6 +7,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './user.scss';
 
 interface IUserData {
@@ -29,7 +30,7 @@ interface IUser {
 
 export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
   const { token, userId } = useAuth();
-  const { request } = useApi();
+  const { loading, request } = useApi();
   const [userName] = useSelector((state: IAppState) => state.settings.gamerNames);
   const [userInfo, setUserInfo] = useState<IUser>({
     login: userName,
@@ -37,6 +38,7 @@ export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
     score: 0,
     games: [],
   });
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -62,7 +64,7 @@ export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
         setUserInfo(userReq);
       }
     } catch (e) {
-      openModal('Text', e.message, NOTIFY_TYPES.error);
+      openModal(t('notify.error.user'), e.message, NOTIFY_TYPES.error);
     }
   };
 
@@ -100,15 +102,19 @@ export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
     }));
   }
 
+  const renderInfo = userInfo ? (
+    <div className="user-info">
+      <span>{`${t('game.player')}: ${login}`}</span>
+      <span>{`${t('game.score')}: ${score}`}</span>
+    </div>
+  ) : null;
+
   return (
     <div className={themeChange}>
-      {userInfo ? (
-        <div className="user-info">
-          <span>User: {login}</span>
-          <span>Score: {score}</span>
-        </div>
-      ) : null}
-      <TableWithPaginator data={gameList} pageSize={10} classTable="raitingTable" classPaginator="raitingPaginator" />
+      {loading ? <Loader className="set-game__loader" /> : renderInfo}
+      {loading || (
+        <TableWithPaginator data={gameList} pageSize={10} classTable="raitingTable" classPaginator="raitingPaginator" />
+      )}
     </div>
   );
 };

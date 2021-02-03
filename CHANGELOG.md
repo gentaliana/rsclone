@@ -54,6 +54,8 @@
 - Добавлен перевод таблицы рейтинга на белорусский (https://github.com/gentaliana/rsclone/issues/174)
 - Добавлена страница пользователя с его настройками и играми (https://github.com/gentaliana/rsclone/issues/57)
 - Добавлены эндпоинты для получения данных пользователя и сохранения игры (https://github.com/gentaliana/rsclone/issues/57)
+- Добавлены эндпоинты для получения топ 10 игр (https://github.com/gentaliana/rsclone/issues/59)
+- Добавлен вывод рейтинга с бэка (https://github.com/gentaliana/rsclone/issues/59)
 
 ### Fix
 

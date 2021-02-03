@@ -15,9 +15,16 @@ type Props = {
   classTable: string;
   classPaginator: string;
   pageSize: number;
+  isPaginatorNeed: boolean;
 };
 
-export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize }: Props): JSX.Element => {
+export const TableWithPaginator = ({
+  data,
+  classTable,
+  classPaginator,
+  pageSize,
+  isPaginatorNeed,
+}: Props): JSX.Element => {
   const [alfabetName, setAlfabetName] = React.useState<boolean>(true);
   const [bestScore, setBestScore] = React.useState<boolean>(false);
   const [bestTime, setBestTime] = React.useState<boolean>(false);
@@ -109,33 +116,35 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
         </tbody>
       </Table>
 
-      <Pagination className={classPaginator}>
-        <Pagination.Prev
-          onClick={() => {
-            if (currentPage > 1) setCurrentPage(currentPage - 1);
-          }}
-          disabled={currentPage === 1}
-        />
-        {pageNumbers.map((p) => (
-          <Pagination.Item
-            key={p}
-            onClick={(e: React.MouseEvent<HTMLUListElement>) => {
-              if ((e.currentTarget as HTMLElement).nodeName === 'A') {
-                setCurrentPage(Number((e.currentTarget as HTMLElement).innerText));
-              }
+      {isPaginatorNeed && (
+        <Pagination className={classPaginator}>
+          <Pagination.Prev
+            onClick={() => {
+              if (currentPage > 1) setCurrentPage(currentPage - 1);
             }}
-            active={p === currentPage}
-          >
-            {p}
-          </Pagination.Item>
-        ))}
-        <Pagination.Next
-          onClick={() => {
-            if (currentPage < pageNumbers.length) setCurrentPage(currentPage + 1);
-          }}
-          disabled={currentPage === pageNumbers.length}
-        />
-      </Pagination>
+            disabled={currentPage === 1}
+          />
+          {pageNumbers.map((p) => (
+            <Pagination.Item
+              key={p}
+              onClick={(e: React.MouseEvent<HTMLUListElement>) => {
+                if ((e.currentTarget as HTMLElement).nodeName === 'A') {
+                  setCurrentPage(Number((e.currentTarget as HTMLElement).innerText));
+                }
+              }}
+              active={p === currentPage}
+            >
+              {p}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next
+            onClick={() => {
+              if (currentPage < pageNumbers.length) setCurrentPage(currentPage + 1);
+            }}
+            disabled={currentPage === pageNumbers.length}
+          />
+        </Pagination>
+      )}
     </div>
   );
 };

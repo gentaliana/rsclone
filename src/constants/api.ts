@@ -71,4 +71,9 @@ export const Api = {
       isWin,
     }),
   },
+
+  GET_TOP_10_GAMES: {
+    url: `${API_GAME_ENDPOINT}/top/10`,
+    method: 'GET',
+  },
 };

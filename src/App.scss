@@ -50,6 +50,15 @@ body {
   justify-content: center;
 }
 
+input[type='radio'] {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.form-check-label {
+  text-shadow: 1px 1px 2px black;
+}
+
 @media screen and (max-width: 1000px) {
   .players {
     display: flex;
@@ -161,6 +170,14 @@ body {
 
   .modal-buttons {
     width: 250px;
+  }
+
+  input[type='radio'] {
+    transform: scale(1);
+  }
+
+  .form-check-label {
+    font-size: 16px;
   }
 }
 

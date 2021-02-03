@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Table, Pagination } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import './tableWithPaginator.scss';
@@ -22,6 +23,10 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
   const [bestTime, setBestTime] = React.useState<boolean>(false);
   const [state, setState] = React.useState<Array<DataType>>(data);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
+
+  useEffect(() => {
+    setState(data);
+  }, [data]);
 
   const { t } = useTranslation();
   const indexOfLastTodo = currentPage * pageSize;

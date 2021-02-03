@@ -44,6 +44,7 @@
   },
   "game": {
     "start": "Start",
+    "load": "Loading",
     "gameStarted": "Game started",
     "youWon": "You won",
     "youLose": "You lose",
@@ -62,7 +63,10 @@
     "playAgain": "Ready to play again?",
     "return": "No, return to game",
     "yes": "Yes!",
-    "noWords": "No words yet!"
+    "noWords": "No words yet!",
+    "noDesc": "No description for this word",
+    "player": "Player",
+    "score": "Score"
   },
   "settingPage": {
     "soundOn": "sound on",
@@ -120,7 +124,10 @@
   "notify": {
     "error": {
       "login": "Login error!",
-      "register": "Register error!"
+      "register": "Register error!",
+      "wordByLength": "No word of this length found!",
+      "word": "Word not found!",
+      "user": "Information not received!"
     },
     "success": {
       "login": "Login successful!",

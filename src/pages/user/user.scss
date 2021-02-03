@@ -1,4 +1,12 @@
 .user-info {
   display: flex;
   justify-content: space-between;
+
+  &__dark {
+    color: hsl(0, 0%, 100%);
+  }
+
+  &__light {
+    color: hsl(0, 0%, 0%);
+  }
 }

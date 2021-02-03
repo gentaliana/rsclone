@@ -86,9 +86,11 @@
   },
   "raiting": {
     "place": "Место",
-    "name": "Время",
+    "name": "Имя",
     "score": "Счет",
-    "time": "Время"
+    "time": "Время",
+    "minutes": "мин.",
+    "seconds": "сек."
   },
   "footer": {
     "by": "Авторы: "

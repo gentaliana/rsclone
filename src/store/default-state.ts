@@ -35,11 +35,11 @@ export const defaultState: IAppState = {
   settings: {
     lang: JSON.parse(localStorage.getItem('settings') || '{}').lang || DEFAULT_LANG,
     isSoundOn:
-      JSON.parse(localStorage.getItem('settings') || '{}') !== null
+      JSON.parse(localStorage.getItem('settings') || '{}').isSoundOn !== undefined
         ? JSON.parse(localStorage.getItem('settings') || '{}').isSoundOn
         : true,
     isMusicOn:
-      JSON.parse(localStorage.getItem('settings') || '{}') !== null
+      JSON.parse(localStorage.getItem('settings') || '{}').isMusicOn !== undefined
         ? JSON.parse(localStorage.getItem('settings') || '{}').isMusicOn
         : true,
     gamerNames: JSON.parse(localStorage.getItem('settings') || '{}').gamerNames || [

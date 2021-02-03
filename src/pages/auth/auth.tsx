@@ -56,7 +56,7 @@ export const Auth = (): JSX.Element => {
     <div className="auth__wrapper">
       {isAuth ? <Redirect to={routes.USER.replace(':name', auth.userId || '')} /> : null}
       <Tabs defaultActiveKey="login" id="auth-tab">
-        <Tab eventKey="login" title="Login">
+        <Tab eventKey="login" title={t('auth.login')}>
           <TextInput
             placeholder={t('auth.login')}
             classInput="auth__input auth__style"
@@ -76,7 +76,7 @@ export const Auth = (): JSX.Element => {
             </Button>
           </>
         </Tab>
-        <Tab eventKey="reister" title="Register">
+        <Tab eventKey="reister" title={t('auth.register')}>
           <TextInput
             placeholder={t('auth.login')}
             classInput="auth__input auth__style"

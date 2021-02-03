@@ -10,7 +10,7 @@ type AudioProps = {
 
 export const AudioPlayer = ({ format, autoplay, loop, isMute }: AudioProps): JSX.Element => (
   <ReactHowler
-    src="https://zvukipro.com/uploads/files/2019-04/1554746450_12cfb941f3a5f50.mp3"
+    src="https://zvukipro.com/uploads/files/2019-05/1559048585_436d3faaae06e71.mp3"
     playing={autoplay}
     format={format}
     volume={0.7}

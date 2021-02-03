@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { Table, Pagination } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import './tableWithPaginator.scss';
 
 type DataType = {
   id: number;
@@ -14,9 +15,16 @@ type Props = {
   classTable: string;
   classPaginator: string;
   pageSize: number;
+  isPaginatorNeed: boolean;
 };
 
-export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize }: Props): JSX.Element => {
+export const TableWithPaginator = ({
+  data,
+  classTable,
+  classPaginator,
+  pageSize,
+  isPaginatorNeed,
+}: Props): JSX.Element => {
   const [alfabetName, setAlfabetName] = React.useState<boolean>(true);
   const [bestScore, setBestScore] = React.useState<boolean>(false);
   const [bestTime, setBestTime] = React.useState<boolean>(false);
@@ -38,8 +46,8 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
   }
 
   const sortColumn = (param: string) => {
-    switch (param) {
-      case 'User Name' || 'Время': {
+    switch (true) {
+      case param === 'User Name' || param === 'Имя' || param === 'Імя': {
         if (alfabetName) {
           setAlfabetName(false);
           setState(state.sort((a, b) => a.name.localeCompare(b.name)));
@@ -49,7 +57,7 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
         }
         break;
       }
-      case 'Score' || 'Счет': {
+      case param === 'Score' || param === 'Счет' || param === 'Кошт': {
         if (bestScore) {
           setBestScore(false);
           setState(state.sort((a, b) => a.score - b.score));
@@ -59,7 +67,7 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
         }
         break;
       }
-      case 'Time' || 'Время': {
+      case param === 'Time' || param === 'Время' || param === 'Час': {
         if (bestTime) {
           setBestTime(false);
           setState(state.sort((a, b) => a.time - b.time));
@@ -78,15 +86,16 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
   const millisToMinutesAndSeconds = (millis: number) => {
     const minutes = Math.floor(millis / 60000);
     const seconds = Number(((millis % 60000) / 1000).toFixed(0));
-    return `${minutes} minutes : ${seconds < 10 ? 0 : seconds} seconds`;
+    if (minutes === 0) return `${seconds < 10 ? 0 : seconds} ${t('raiting.seconds')}`;
+    return `${minutes} ${t('raiting.minutes')} ${seconds < 10 ? 0 : seconds} ${t('raiting.seconds')}`;
   };
 
   return (
     <div>
-      <Table className={classTable} striped bordered hover>
+      <Table className={classTable} striped bordered hover size="sm">
         <thead>
           <tr
-            style={{ cursor: 'pointer' }}
+            className="table__head"
             onClick={(e: React.MouseEvent<HTMLTableRowElement>) => sortColumn((e.target as HTMLElement).innerText)}
           >
             <th>{t('raiting.place')}</th>
@@ -98,42 +107,44 @@ export const TableWithPaginator = ({ data, classTable, classPaginator, pageSize 
         <tbody>
           {currentTodosInitial.map((r, i) => (
             <tr key={r.id}>
-              <td>{i + 1}</td>
-              <td>{r.name}</td>
-              <td>{r.score}</td>
-              <td>{millisToMinutesAndSeconds(r.time)}</td>
+              <td className="table__row">{i + 1}</td>
+              <td className="table__row">{r.name}</td>
+              <td className="table__row">{r.score}</td>
+              <td className="table__row">{millisToMinutesAndSeconds(r.time)}</td>
             </tr>
           ))}
         </tbody>
       </Table>
 
-      <Pagination className={classPaginator}>
-        <Pagination.Prev
-          onClick={() => {
-            if (currentPage > 1) setCurrentPage(currentPage - 1);
-          }}
-          disabled={currentPage === 1}
-        />
-        {pageNumbers.map((p) => (
-          <Pagination.Item
-            key={p}
-            onClick={(e: React.MouseEvent<HTMLUListElement>) => {
-              if ((e.currentTarget as HTMLElement).nodeName === 'A') {
-                setCurrentPage(Number((e.currentTarget as HTMLElement).innerText));
-              }
+      {isPaginatorNeed && (
+        <Pagination className={classPaginator}>
+          <Pagination.Prev
+            onClick={() => {
+              if (currentPage > 1) setCurrentPage(currentPage - 1);
             }}
-            active={p === currentPage}
-          >
-            {p}
-          </Pagination.Item>
-        ))}
-        <Pagination.Next
-          onClick={() => {
-            if (currentPage < pageNumbers.length) setCurrentPage(currentPage + 1);
-          }}
-          disabled={currentPage === pageNumbers.length}
-        />
-      </Pagination>
+            disabled={currentPage === 1}
+          />
+          {pageNumbers.map((p) => (
+            <Pagination.Item
+              key={p}
+              onClick={(e: React.MouseEvent<HTMLUListElement>) => {
+                if ((e.currentTarget as HTMLElement).nodeName === 'A') {
+                  setCurrentPage(Number((e.currentTarget as HTMLElement).innerText));
+                }
+              }}
+              active={p === currentPage}
+            >
+              {p}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next
+            onClick={() => {
+              if (currentPage < pageNumbers.length) setCurrentPage(currentPage + 1);
+            }}
+            disabled={currentPage === pageNumbers.length}
+          />
+        </Pagination>
+      )}
     </div>
   );
 };

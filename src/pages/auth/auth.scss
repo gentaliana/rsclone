@@ -17,3 +17,33 @@
     min-width: 100px;
   }
 }
+
+.nav {
+  width: 100%;
+
+  a {
+    color: rgb(255, 255, 255) !important;
+    border-radius: 5px;
+  }
+
+  .active {
+    color: rgb(22, 22, 22) !important;
+  }
+}
+
+.nav-tabs {
+  border-bottom: none !important;
+}
+
+.tab-content {
+  width: 100%;
+  margin-top: 20px;
+
+  .active {
+    background: none !important;
+  }
+
+  .auth__button {
+    width: 100%;
+  }
+}

@@ -209,8 +209,6 @@ export const Game = (): JSX.Element => {
       return [t('game.mustContain'), true];
     }
 
-    // eslint-disable-next-line no-debugger
-    debugger;
     if (checkUsedWord(game.player1.playerWords, currWord)) {
       return [t('game.usedWordFirst', { firstGamerName }), true];
     }

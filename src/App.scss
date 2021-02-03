@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap');
+
+html {
+  font-size: 18px;
+}
+
+body {
+  height: 100vh;
+  font-family: 'Heebo', 'Oranienbaum', sans-serif !important;
+}
+
+#root {
+  height: 100%;
+}
+
+.background,
+.background_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.background {
+  z-index: -2;
+  object-fit: cover;
+}
+
+.background_overlay {
+  z-index: -1;
+  background: hsla(0, 0, 0, 0.3);
+}
+
+.wrapper {
+  display: grid;
+  grid-template-areas: 'header' 'main' 'footer';
+  grid-template-rows: 62px 1fr 54px;
+  max-width: 1280px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.field-area .btn {
+  margin-bottom: 10px;
+}
+
+.alert-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.main {
+  display: flex;
+  grid-area: main;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type='radio'] {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.form-check-label {
+  text-shadow: 1px 1px 2px black;
+}
+
+@media screen and (max-width: 1000px) {
+  .players {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .game {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .player-words {
+    display: none;
+  }
+
+  .player__name {
+    cursor: pointer;
+  }
+
+  .empty-words {
+    padding-top: 15px;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .field-area {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 590px) {
+  .player__points {
+    order: 1;
+    min-width: 90%;
+    min-height: 40px;
+  }
+
+  .player__name {
+    font-size: 16px;
+  }
+
+  .time-wrapper {
+    font-size: 15px;
+  }
+
+  .word-field {
+    font-size: 16px;
+  }
+
+  .cell {
+    font-size: 22px;
+  }
+
+  .footer-wrapper,
+  .player__points span {
+    font-size: 16px;
+  }
+
+  .main .players {
+    justify-content: space-around;
+  }
+
+  .about__rulles-one {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .ribbon {
+    display: none;
+  }
+
+  .modal-buttons {
+    width: 250px;
+  }
+
+  .cup,
+  .cat {
+    width: 250px;
+    height: 250px;
+  }
+
+  .modal-content p {
+    font-size: 18px;
+  }
+
+  .footer-wrapper,
+  .player__points span {
+    font-size: 16px;
+  }
+
+  .player__name {
+    font-size: 16px;
+  }
+
+  .cellRow > * + * {
+    margin-left: 7px;
+  }
+
+  .tooltip-inner {
+    min-width: 200px;
+    font-size: 14px;
+  }
+
+  .empty-words {
+    padding-top: 3px;
+  }
+
+  button.btn {
+    font-size: 14px !important;
+  }
+
+  .modal-buttons {
+    width: 250px;
+  }
+
+  input[type='radio'] {
+    transform: scale(1);
+  }
+
+  .form-check-label {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .wrapper {
+    grid-template-rows: 62px 1fr 155px;
+  }
+}

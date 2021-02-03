@@ -1,0 +1,117 @@
+@import '../../constants/variables';
+
+.player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  background-color: hsl(208, 100%, 97%);
+  border-radius: 20px;
+  box-shadow: inset -2px -3px 8px #fff, inset 2px 3px 8px rgba(0, 0, 0, 0.3);
+
+  &-light {
+    color: $dark-game;
+    background-color: $light-game;
+  }
+
+  &-dark {
+    color: $light-game;
+    background-color: $dark-game;
+  }
+
+  &--current {
+    color: red;
+  }
+
+  &--current::before {
+    content: '\2713';
+  }
+}
+
+.player__name {
+  margin: 10px 20px;
+  font-size: 30px;
+}
+
+.player__points {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-width: 250px;
+  min-height: 80px;
+  margin: 10px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.player-words {
+  margin: 5px;
+  border-radius: 20px;
+  box-shadow: inset -2px -3px 8px #fff, inset 2px 3px 8px rgba(0, 0, 0, 0.3);
+
+  &-light {
+    background: #edf0f5;
+  }
+
+  &-dark {
+    color: $primary-color-font-dark;
+    background: hsl(0, 0%, 27%);
+  }
+
+  &--current-light {
+    background-image: linear-gradient(#edf0f5, #edf0f5), radial-gradient(circle at top left, #f00, #acb136);
+    background-clip: content-box, border-box;
+    background-origin: border-box;
+    border: solid 3px transparent;
+  }
+
+  &--current-dark {
+    color: hsl(0, 0%, 100%);
+    background-image: linear-gradient(#2b2b2b, #edf0f5), radial-gradient(circle at top left, #f00, #acb136);
+    background-clip: content-box, border-box;
+    background-origin: border-box;
+    border: solid 3px transparent;
+  }
+}
+
+.player-words ol {
+  padding-top: 15px;
+  padding-left: 35px;
+  margin: 0;
+}
+
+.player-words li {
+  cursor: pointer;
+}
+
+.tooltip {
+  z-index: 3000 !important;
+}
+
+.tooltip-inner {
+  min-width: 400px;
+  max-width: 100%;
+}
+
+button.close {
+  margin-left: 10px;
+}
+
+button.close:focus {
+  margin-left: 10px;
+  outline: none;
+}
+
+.empty-words {
+  padding-top: 15px;
+  text-align: center;
+}
+
+.popover-header {
+  display: flex;
+  align-items: center;
+}
+
+.popover-body li {
+  cursor: pointer;
+}

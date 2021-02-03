@@ -1,0 +1,43 @@
+.raiting {
+  &-light {
+    padding: 15px;
+    color: rgb(0, 0, 0);
+    background-color: white;
+  }
+
+  &-dark {
+    table {
+      color: hsl(0, 0%, 100%) !important;
+
+      tbody {
+        tr {
+          transition: color 0.3s;
+        }
+
+        tr:hover {
+          color: hsl(0, 98%, 51%);
+        }
+      }
+    }
+  }
+
+  & .nav {
+    width: 100%;
+
+    a {
+      color: blue !important;
+      border-radius: 5px;
+    }
+
+    .active {
+      color: rgb(22, 22, 22) !important;
+    }
+  }
+}
+
+.raitingPaginator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}

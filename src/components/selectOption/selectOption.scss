@@ -1,0 +1,11 @@
+.dropdown-toggle {
+  min-width: 100px;
+
+  &-light {
+    background-color: red;
+  }
+
+  &-dark {
+    background-color: white;
+  }
+}

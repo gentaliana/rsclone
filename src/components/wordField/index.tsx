@@ -1,0 +1,1 @@
+export { WordField } from './wordField';

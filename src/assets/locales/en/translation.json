@@ -1,0 +1,138 @@
+{
+  "auth": {
+    "entry": "Login",
+    "login": "Login",
+    "password": "Password",
+    "register": "Register",
+    "confirm": "Repeat password"
+  },
+  "links": {
+    "new-game": "New Game",
+    "rating": "Rating",
+    "settings": "Settings",
+    "about": "About"
+  },
+  "menu": {
+    "home": "Home",
+    "newGame": "New Game",
+    "settings": "Settings",
+    "rating": "Rating",
+    "about": "About",
+    "sound": "Sound",
+    "music": "Music"
+  },
+  "dropdown": {
+    "titles": {
+      "options": "Variants for Display",
+      "language": "Language",
+      "reset": "Reset filters"
+    }
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "close": "Close",
+    "submit": "Submit",
+    "skip": "Skip turn"
+  },
+  "settings": {
+    "field-size": "Field Size",
+    "second-player": "Second Player",
+    "first-word": "First Word",
+    "time": "Time",
+    "bot": "Bot",
+    "human": "Human"
+  },
+  "game": {
+    "start": "Start",
+    "load": "Loading",
+    "gameStarted": "Game started",
+    "youWon": "You won",
+    "youLose": "You lose",
+    "nameWon": "{{winnerName}} won",
+    "usedWordFirst": "{{firstGamerName}} has already used this word in the game!",
+    "usedWordSecond": "{{secondGamerName}} has already used this word in the game!",
+    "usedFirstWord": "The first word cannot be used",
+    "mustContain": "Word must contain entered letter!",
+    "tooShort": "Only one letter selected!",
+    "notChoose": "You did not choose any letter",
+    "notInDictionary": "{{currWord}} not found in the dictionary!",
+    "tryAgain": "Try again",
+    "acceptedFrom": "Accepted from {{curGamerName}} : {{currWord}}",
+    "points": "+ {{points}} points",
+    "enterLetter": "Please, enter the letter",
+    "gameEnded": "Game ended!",
+    "playAgain": "Ready to play again?",
+    "return": "No, return to game",
+    "yes": "Yes!",
+    "noWords": "No words yet!",
+    "noDesc": "No description for this word",
+    "player": "Player",
+    "score": "Score"
+  },
+  "settingPage": {
+    "soundOn": "sound on",
+    "soundOff": "sound off",
+    "firstUser": "First gamer name",
+    "secondUser": "Second gamer name",
+    "theme": "Theme",
+    "language": "Language",
+    "light": "light",
+    "dark": "dark",
+    "save": "save settings",
+    "unsave": "default settings",
+    "maxLength": "Max length is 10 symbols",
+    "enterName": "Please, enter gamer name. Your last name "
+  },
+  "raiting": {
+    "place": "Place",
+    "name": "User Name",
+    "score": "Score",
+    "time": "Time",
+    "minutes": "min.",
+    "seconds": "sec."
+  },
+  "footer": {
+    "by": "by"
+  },
+  "help": {
+    "rulesGame": "Rules of the game:",
+    "listRules": {
+      "one": "The player's task is to compose a new word from existing letters by adding one new one.",
+      "two": "The game starts with a start word, which is randomly selected by the computer.",
+      "tree": "Letters can be selected in any direction, but not diagonally.",
+      "four": "You cannot reuse the word.",
+      "five": "The same cell cannot be used twice in a word.",
+      "six": "The longer the word, the more points: for each letter, one point. When skipping a move, the player does not receive points.",
+      "seven": "The player with the most points wins. The one who cannot come up with a word loses."
+    },
+    "move": {
+      "header": "To make a move:",
+      "one": "Select a cell in the field and insert a new letter into it.",
+      "two": "Create a word by clicking on the letters continuously, in the order they are written. The word must include a new letter.",
+      "tree": "Confirm the word. If a mistake was made, cancel it."
+    },
+    "keyboardMove": {
+      "header": "Keyboard control:",
+      "one": "For the selection of the desired cell use the Up-Down-Right-Left keys from the keyboard.",
+      "two": "Select the desired cell and press the letter either on the keyboard in the layout of the current language or by pressing the Shift key to open the virtual keyboard and select the desired letter using the Tab key.",
+      "tree": "After entering a letter select a letter in a word using the Space key.",
+      "four": "To cancel the entered words and letters use Esc.",
+      "five": "Send selected word  by pressing Enter."
+    },
+    "additionally": "Additionally:",
+    "penalties": "If you do not make a move within the allotted time, the right to move is passed to the opponent. You can also skip a turn without waiting for the allotted time to expire by clicking the Skip turn button. After missing 3 moves, the player is awarded a defeat."
+  },
+  "notify": {
+    "error": {
+      "login": "Login error!",
+      "register": "Register error!",
+      "wordByLength": "No word of this length found!",
+      "word": "Word not found!",
+      "user": "Information not received!"
+    },
+    "success": {
+      "login": "Login successful!",
+      "register": "Register successful!"
+    }
+  }
+}

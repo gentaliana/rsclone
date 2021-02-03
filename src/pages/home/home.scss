@@ -1,0 +1,52 @@
+@import '../../constants/variables';
+
+.home {
+  &__menu {
+    width: 320px;
+    padding: 10px 0;
+    text-align: center;
+    list-style-type: none;
+    border-radius: 36px;
+    transition: background-color 0.3s, color 0.3s;
+
+    &-light {
+      color: hsl(210, 10%, 23%);
+      background-color: hsl(153, 32%, 87%);
+      border-radius: 36px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    &-dark {
+      color: hsl(153, 32%, 87%);
+      background-color: hsl(210, 10%, 23%);
+      border-radius: 36px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    &:hover {
+      color: $secondary-color-dark;
+      background-color: hsl(0, 2%, 53%);
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    font-size: 32px;
+
+    a {
+      border-radius: 35px;
+    }
+
+    a + a {
+      margin-top: 10px;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+  }
+}

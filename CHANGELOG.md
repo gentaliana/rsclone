@@ -56,6 +56,7 @@
 - Добавлены эндпоинты для получения данных пользователя и сохранения игры (https://github.com/gentaliana/rsclone/issues/57)
 - Добавлены эндпоинты для получения топ 10 игр (https://github.com/gentaliana/rsclone/issues/59)
 - Добавлен вывод рейтинга с бэка (https://github.com/gentaliana/rsclone/issues/59)
+- Добавлен запрет на использование первого слова в игре (https://github.com/gentaliana/rsclone/issues/185)
 
 ### Fix
 

@@ -2,7 +2,7 @@ import { TableWithPaginator } from '@components';
 import { Api, NOTIFY_TYPES, Theme } from '@constants';
 import { useApi, useAuth } from '@hooks';
 import { setNotify } from '@store';
-import { IAppState, IGameData } from '@types';
+import { IApiData, IAppState, IGameData } from '@types';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,11 +20,18 @@ type DataType = {
   time: number;
 };
 
+interface IUser {
+  login: string;
+  userId: string;
+  score: number | string;
+  games: IGameData[] | string;
+}
+
 export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
   const { token, userId } = useAuth();
   const { request } = useApi();
   const [userName] = useSelector((state: IAppState) => state.settings.gamerNames);
-  const [userInfo, setUserInfo] = useState({
+  const [userInfo, setUserInfo] = useState<IUser>({
     login: userName,
     userId: '',
     score: 0,
@@ -43,10 +50,16 @@ export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
   const getUserById = async (id: string, authToken: string | null) => {
     const { url, method, headers } = Api.GET_USER_WITH_GAMES;
     try {
-      const user: any = await request(url(id), method, null, headers(authToken));
+      const user: IApiData = await request(url(id), method, null, headers(authToken));
 
       if (user) {
-        setUserInfo(user);
+        const userReq: IUser = {
+          login: user.login,
+          userId: user.userId,
+          score: +user.score,
+          games: user.games,
+        };
+        setUserInfo(userReq);
       }
     } catch (e) {
       openModal('Text', e.message, NOTIFY_TYPES.error);
@@ -76,12 +89,16 @@ export const User = (props: RouteComponentProps<IUserData>): JSX.Element => {
 
   const { login, score, games } = userInfo;
 
-  const gameList: DataType[] = games.map((game: IGameData, i: number) => ({
-    id: i + 1,
-    name: login,
-    score: game.score,
-    time: game.time,
-  }));
+  let gameList: DataType[] = [];
+
+  if (Array.isArray(games)) {
+    gameList = games.map((game: IGameData, i: number) => ({
+      id: i + 1,
+      name: login,
+      score: game.score,
+      time: game.time,
+    }));
+  }
 
   return (
     <div className={themeChange}>

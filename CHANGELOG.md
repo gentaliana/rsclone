@@ -51,6 +51,8 @@
 - Описание слова показывается на маленьком разрешении в всплывающем окне (https://github.com/gentaliana/rsclone/issues/173)
 - Добавлена логика бота на фронте (https://github.com/gentaliana/rsclone/issues/22)
 - Добавлен эндпоинт для получения слова бота (https://github.com/gentaliana/rsclone/issues/22)
+- Добавлена страница пользователя с его настройками и играми (https://github.com/gentaliana/rsclone/issues/57)
+- Добавлены эндпоинты для получения данных пользователя и сохранения игры (https://github.com/gentaliana/rsclone/issues/57)
 
 ### Fix
 

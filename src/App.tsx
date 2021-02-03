@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Home, NotFound, SetGame, Game, Rating, Settings, About, Auth } from '@pages';
+import { Home, NotFound, SetGame, Game, Rating, Settings, About, Auth, User } from '@pages';
 import { Header, Footer, Alerts } from '@components';
 import { routes, Theme } from '@constants';
 import { IAppState } from '@types';
@@ -35,6 +35,7 @@ function App(): JSX.Element {
             <Route path={routes.RATING} component={Rating} />
             <Route path={routes.SETTINGS} component={Settings} />
             <Route path={routes.ABOUT} component={About} />
+            <Route path={routes.USER} component={User} />
             <Route component={NotFound} />
           </Switch>
         </main>

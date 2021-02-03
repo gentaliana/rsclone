@@ -13,7 +13,7 @@ import {
   MIN_DESCRIPTION,
 } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
-import { useKeyPress, useSymbolKeyPress, useApi } from '@hooks';
+import { useKeyPress, useSymbolKeyPress, useApi, useAuth } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import { initCells } from '@utils';
 import { IAppState, IGameState, IWordState } from '@types';
@@ -270,7 +270,7 @@ export const Game = (): JSX.Element => {
       const { url: urlBot, method: methodBot, body } = Api.BOT;
       setIsFreezed(true);
       const used = game.player1.playerWords.concat(game.player2.playerWords).map((el) => el.word);
-      const data = await request(urlBot(language), methodBot, body(cells, used));
+      const data = await request(urlBot(language || lang), methodBot, body(cells, used));
       const newCells = setLetterInCells(data.character.toUpperCase(), Number(data.index));
       resetTimer();
       showAnimationMsg(t('game.points', { points: data.word.length }), NOTIFY_COLORS.info);
@@ -363,6 +363,30 @@ export const Game = (): JSX.Element => {
       setGameIsStop();
     };
   }, []);
+
+  const finishGame = async (id: string, isBot: boolean, size: number, score: number, time: number, isWin: boolean) => {
+    const { url: gUrl, method: gMethod, body: gBody } = Api.SET_GAME;
+    try {
+      await request(gUrl, gMethod, gBody(id, isBot, size, score, time, isWin));
+    } catch (e) {
+      showAnimationMsg(e.message, NOTIFY_COLORS.error);
+    }
+  };
+
+  const { userId } = useAuth();
+
+  useEffect(() => {
+    if (isGameEnded) {
+      const duration = new Date().getTime() - startTime.getTime();
+      let isWin = false;
+      if (game.winnerId === 0) {
+        isWin = true;
+      }
+      if (userId) {
+        finishGame(userId, isBotGame, fieldSize, game.player1.points, duration, isWin);
+      }
+    }
+  }, [isGameEnded, userId]);
 
   return (
     <div className="main-game">

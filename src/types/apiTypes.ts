@@ -20,7 +20,16 @@ export interface IHttpHeaders {
   [key: string]: string;
 }
 
-export type ApiRequestBody = IAuthBody | IBotBody | string;
+export interface IGameData {
+  userId: string;
+  isBot: boolean;
+  fieldSize: number;
+  score: number;
+  time: number;
+  isWin: boolean;
+}
+
+export type ApiRequestBody = IAuthBody | IBotBody | IGameData | string;
 
 export type ApiRequestHeaders = IHttpHeaders;
 

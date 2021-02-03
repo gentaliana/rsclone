@@ -16,3 +16,4 @@ export * from './modal';
 export * from './animatedText';
 export * from './audioPlayer';
 export * from './sound';
+export * from './Loader';

@@ -6,4 +6,5 @@ export const routes = {
   SETTINGS: '/settings',
   RATING: '/rating',
   ABOUT: '/about',
+  USER: '/user/:name?',
 };
